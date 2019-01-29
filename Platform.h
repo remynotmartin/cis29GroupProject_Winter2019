@@ -2,8 +2,8 @@
 // Created by Heather Hyunkyung Koo on 1/13/19.
 //
 
-#ifndef WINDOW_TUTORIAL_PLATFORM_H
-#define WINDOW_TUTORIAL_PLATFORM_H
+#ifndef SFML_JUMPING_PLATFORM_H
+#define SFML_JUMPING_PLATFORM_H
 
 #include <SFML/Graphics.hpp>
 #include "Collider.h"
@@ -30,6 +30,4 @@ void Platform::Draw(sf::RenderWindow &window) {
     window.draw(body);
 }
 
-
-
-#endif //WINDOW_TUTORIAL_PLATFORM_H
+#endif //SFML_JUMPING_PLATFORM_H

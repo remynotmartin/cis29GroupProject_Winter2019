@@ -1,9 +1,9 @@
 //
-// Created by Heather Hyunkyung Koo on 1/7/19.
+// Created by Heather Hyunkyung Koo on 1/13/19.
 //
 
-#ifndef WINDOW_TUTORIAL_ANIMATION_H
-#define WINDOW_TUTORIAL_ANIMATION_H
+#ifndef SFML_JUMPING_ANIMATION_H
+#define SFML_JUMPING_ANIMATION_H
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -64,4 +64,4 @@ void Animation::Update(int row, float deltaTime, bool faceRight) {
 }
 
 
-#endif //WINDOW_TUTORIAL_ANIMATION_H
+#endif //SFML_JUMPING_ANIMATION_H

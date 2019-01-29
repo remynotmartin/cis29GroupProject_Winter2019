@@ -2,9 +2,8 @@
 // Created by Heather Hyunkyung Koo on 1/13/19.
 //
 
-#ifndef WINDOW_TUTORIAL_COLLISION_H
-#define WINDOW_TUTORIAL_COLLISION_H
-
+#ifndef SFML_JUMPING_COLLIDER_H
+#define SFML_JUMPING_COLLIDER_H
 #include <SFML/Graphics.hpp>
 #include <math.h>
 
@@ -14,7 +13,7 @@ public:
 
     void Move(float dx, float dy) { body.move(dx, dy);}
 
-    bool CheckCollision(Collider& other, float push);
+    bool CheckCollision(Collider& other, sf::Vector2f& direction, float push);
     sf::Vector2f GetPosition() { return body.getPosition(); }
     sf::Vector2f GetHalfSize() { return body.getSize()/2.0f;}
 
@@ -26,7 +25,7 @@ Collider::Collider(sf::RectangleShape &body) : body(body)
 {
 }
 
-bool Collider::CheckCollision(Collider &other, float push) {
+bool Collider::CheckCollision(Collider &other, sf::Vector2f& direction, float push) {
     sf::Vector2f otherPosition = other.GetPosition();
     sf::Vector2f otherHalfSize = other.GetHalfSize();
     sf::Vector2f thisPosition = GetPosition();
@@ -43,17 +42,29 @@ bool Collider::CheckCollision(Collider &other, float push) {
             if (deltaX > 0.0f) {
                 Move(intersectX * (1.0f - push), 0.0f);
                 other.Move(-intersectX * push, 0.0f);
+
+                direction.x = 1.0f;
+                direction.y = 0.0f;
             } else {
                 Move(-intersectX * (1.0f - push), 0.0f);
                 other.Move(intersectX * push, 0.0f);
+
+                direction.x = -1.0f;
+                direction.y = 0.0f;
             }
         } else {
             if (deltaY > 0.0f) {
                 Move(0.0f, intersectY * (1.0f - push));
                 other.Move(0.0f, -intersectY * push);
+
+                direction.x = 0.0f;
+                direction.y = 1.0f;
             } else {
                 Move(0.0f, -intersectY * (1.0f - push));
                 other.Move(0.0f, intersectY * push);
+
+                direction.x = 0.0f;
+                direction.y = -1.0f;
             }
         }
         return true;
@@ -62,5 +73,4 @@ bool Collider::CheckCollision(Collider &other, float push) {
     return false;
 }
 
-
-#endif //WINDOW_TUTORIAL_COLLISION_H
+#endif //SFML_JUMPING_COLLIDER_H
