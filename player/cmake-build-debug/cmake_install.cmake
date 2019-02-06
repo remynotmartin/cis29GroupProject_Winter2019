@@ -1,4 +1,4 @@
-# Install script for directory: /Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player
+# Install script for directory: /Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/player
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/player/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

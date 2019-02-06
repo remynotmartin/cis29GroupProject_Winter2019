@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/main.cpp" "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/cmake-build-debug/CMakeFiles/player.dir/main.cpp.o"
+  "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/player/main.cpp" "/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/player/cmake-build-debug/CMakeFiles/player.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
