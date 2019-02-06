@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/Animation.h
+SFML/Graphics.hpp
+-
+SFML/Window.hpp
+-
+
+/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/main.cpp
+SFML/Graphics.hpp
+-
+iostream
+-
+player.h
+/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/player.h
+
+/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/player.h
+SFML/Graphics.hpp
+-
+Animation.h
+/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/player/Animation.h
+
