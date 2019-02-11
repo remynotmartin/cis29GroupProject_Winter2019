@@ -1,6 +1,7 @@
 #pragma once
 #include "fxx/actors/brick.h"
 #include "fxx/actors/player.h"
+#include "fxx/props/tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -30,7 +31,6 @@ private:
 	const unsigned int HEIGHT = 416;
 	const std::string TITLE = "Hello, world!";
 
-	const unsigned int TILE_WIDTH = 32;
 	const float FALL_ACCELERATION = 128.0f;
 
 	sf::Clock clock;
@@ -43,8 +43,14 @@ private:
 	std::vector<fxx::actors::drawable *> drawables;
 	std::vector<fxx::actors::mobile *> mobiles;
 
+	std::vector<fxx::props::tile> tiles;
 	std::vector<fxx::actors::brick> bricks;
 	std::vector<fxx::actors::player> players;
+
+	std::vector<sf::Texture> textures;
+
+	void set_up_level();
+	void set_up_players();
 
 	void direct();
 	void direct(float delta_time);

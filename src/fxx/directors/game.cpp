@@ -1,41 +1,21 @@
 #include "fxx/directors/game.h"
 #include "fxx/hands/animation.h"
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
+#include <algorithm>
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 
 
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
 
-	const float HEIGHT_IN_TILES = HEIGHT / TILE_WIDTH;
-	const float WIDTH_IN_TILES = WIDTH / TILE_WIDTH;
+	textures.resize(5);
 
-	sf::Texture brick_texture;
-	brick_texture.loadFromFile("share/textures/gutstiles.png");
-	sf::Sprite brick_sprite;
-	brick_sprite.setTexture(brick_texture);
-	brick_sprite.setTextureRect(sf::IntRect(138, 36, 32, 32));
-
-	for (int j = 0; j < 256; j++) {
-		bricks.emplace_back(j * TILE_WIDTH, (HEIGHT_IN_TILES - 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, brick_sprite);
-	}
-
-	for (int j = 0; j < 256; j++) {
-		actors.push_back(&bricks[j]);
-		collidables.push_back(&bricks[j]);
-		drawables.push_back(&bricks[j]);
-	}
-
-	sf::Texture player_texture;
-	player_texture.loadFromFile("share/textures/blues.png");
-	fxx::hands::animation player_run_animation(&player_texture, 6, 1.0f / 10.0f);
-
-	players.emplace_back(0.0f, (HEIGHT_IN_TILES - 3) * TILE_WIDTH, 48.0f, 48.0f, player_run_animation);
-	actors.push_back(&players[0]);
-	collidables.push_back(&players[0]);
-	drawables.push_back(&players[0]);
-	mobiles.push_back(&players[0]);
+	set_up_level();
+	set_up_players();
 
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -47,6 +27,107 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 		} else if (active_activity == activity::GAME_OVER) {
 
 		}
+	}
+}
+
+
+void fxx::directors::game::set_up_level() {
+	const unsigned int TILE_WIDTH = 32;
+
+	textures.emplace_back();
+	textures.back().loadFromFile("share/textures/gutstiles.png");
+
+	std::vector<sf::Sprite> tileset;
+	sf::Sprite tile;
+
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 5; j++) {
+			tile.setTexture(textures.back());
+			tile.setTextureRect(sf::IntRect(j * (TILE_WIDTH + 2) + 1, i * (TILE_WIDTH + 2) + 1, TILE_WIDTH, TILE_WIDTH));
+			tileset.push_back(tile);
+		}
+	}
+
+	std::ifstream fin("share/levels/guts", std::ios::binary | std::ios::in);
+
+	if (!fin) {
+		std::cerr << "unable to open file" << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
+
+	unsigned char room_index;
+	unsigned char width;
+	unsigned char height;
+
+	fin.read(reinterpret_cast<char *>(&room_index), 1);
+	fin.read(reinterpret_cast<char *>(&width), 1);
+	fin.read(reinterpret_cast<char *>(&height), 1);
+
+	std::vector<bool> is_solid = {
+		0, 1, 1, 1, 1,
+		0, 0, 0, 0, 1,
+		0, 0, 0, 0, 1,
+		0, 0, 0, 0, 1,
+		1, 1, 0, 0, 1,
+		0, 0, 0, 0, 0,
+		1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1
+	};
+
+	int i = 0;
+	int j = 0;
+	unsigned char count;
+	unsigned char type;
+
+	while (!fin.eof()) {
+		fin.read(reinterpret_cast<char *>(&count), 1);
+		fin.read(reinterpret_cast<char *>(&type), 1);
+
+		while (count--) {
+			tileset[type].setPosition(j * TILE_WIDTH, i * TILE_WIDTH);
+
+			if (is_solid[type]) {
+				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
+			} else {
+				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
+			}
+
+			j++;
+
+			if (j == width) {
+				j = 0;
+				i++;
+			}
+		}
+	}
+
+	for (auto & tile : tiles) {
+		drawables.push_back(&tile);
+	}
+
+	for (auto & brick : bricks) {
+		collidables.push_back(&brick);
+		drawables.push_back(&brick);
+	}
+}
+
+
+void fxx::directors::game::set_up_players() {
+	const unsigned int PLAYER_WIDTH = 46;
+	const unsigned int PLAYER_HEIGHT = 48;
+
+	textures.emplace_back();
+	textures.back().loadFromFile("share/textures/blues.png");
+
+	fxx::hands::animation run_animation(&textures.back(), 6, 1.0f / 10.0f);
+	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
+	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
+
+	for (auto & player : players) {
+		actors.push_back(&player);
+		collidables.push_back(&player);
+		drawables.push_back(&player);
+		mobiles.push_back(&player);
 	}
 }
 
