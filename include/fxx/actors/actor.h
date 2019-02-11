@@ -16,5 +16,5 @@ protected:
 public:
 	actor(float x, float y);
 
-	virtual void act(float delta_time);
+	virtual void act(float delta_time) = 0;
 };

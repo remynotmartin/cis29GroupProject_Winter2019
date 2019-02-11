@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), dummy(0.0f, 0.0f) {
+fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
 
 	while (window.isOpen()) {
