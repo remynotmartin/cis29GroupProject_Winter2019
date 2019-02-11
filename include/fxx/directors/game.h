@@ -50,5 +50,6 @@ private:
 	void direct(float delta_time);
 	void handle_event(sf::Event event);
 	void handle_key_press(sf::Keyboard::Key key);
+	void handle_key_release(sf::Keyboard::Key key);
 	void draw();
 };

@@ -18,4 +18,15 @@ public:
 
 	virtual void act(float delta_time) override;
 	virtual void collide(fxx::actors::collidable & that) override;
+
+	void cut_jump();
+	void jump();
+	void run();
+
+private:
+	const float JUMP_VELOCITY = -128.0f;
+	const float RUN_VELOCITY = 64.0f;
+	const float FULL_JUMP_TIME = 1.0f;
+
+	float jump_time;
 };

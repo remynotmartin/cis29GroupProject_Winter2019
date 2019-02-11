@@ -32,7 +32,7 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	player_sprite.setTexture(player_texture);
 	player_sprite.setTextureRect(sf::IntRect(204 + 44, 22, -44, 48));
 
-	players.emplace_back(0.0f, 0.0f, 48.0f, 48.0f, player_sprite);
+	players.emplace_back(0.0f, (HEIGHT_IN_TILES - 3) * TILE_WIDTH, 48.0f, 48.0f, player_sprite);
 	actors.push_back(&players[0]);
 	collidables.push_back(&players[0]);
 	drawables.push_back(&players[0]);
@@ -75,6 +75,10 @@ void fxx::directors::game::direct() {
 
 
 void fxx::directors::game::direct(float delta_time) {
+	for (auto & player : players) {
+		player.run();
+	}
+
 	for (auto mobile : mobiles) {
 		mobile->accelerate(0, FALL_ACCELERATION);
 	}
@@ -109,6 +113,8 @@ void fxx::directors::game::handle_event(sf::Event event) {
 		window.close();
 	} else if (event.type == sf::Event::KeyPressed) {
 		handle_key_press(event.key.code);
+	} else if (event.type == sf::Event::KeyReleased) {
+		handle_key_release(event.key.code);
 	}
 }
 
@@ -116,7 +122,18 @@ void fxx::directors::game::handle_event(sf::Event event) {
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::LControl) {
 		std::cout << "left control pressed" << std::endl;
+		players[0].jump();
 	} else if (key == sf::Keyboard::RControl) {
 		std::cout << "right control pressed" << std::endl;
+	}
+}
+
+
+void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
+	if (key == sf::Keyboard::LControl) {
+		std::cout << "left control released" << std::endl;
+		players[0].cut_jump();
+	} else if (key == sf::Keyboard::RControl) {
+		std::cout << "right control released" << std::endl;
 	}
 }

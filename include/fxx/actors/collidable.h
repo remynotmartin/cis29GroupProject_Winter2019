@@ -20,4 +20,9 @@ protected:
 
 	bool clips(const fxx::actors::collidable & that) const;
 	void unclip(const fxx::actors::collidable & that);
+
+	bool clips_top(const fxx::actors::collidable & that) const;
+	bool clips_right(const fxx::actors::collidable & that) const;
+	bool clips_bottom(const fxx::actors::collidable & that) const;
+	bool clips_left(const fxx::actors::collidable & that) const;
 };

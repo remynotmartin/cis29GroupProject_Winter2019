@@ -25,3 +25,20 @@ void fxx::actors::collidable::unclip(const fxx::actors::collidable & that) {
 		position.x = that.position.x + that.size.x;
 	}
 }
+
+
+bool fxx::actors::collidable::clips_top(const fxx::actors::collidable & that) const {
+	return position.y < that.position.y;
+}
+
+bool fxx::actors::collidable::clips_right(const fxx::actors::collidable & that) const {
+	return position.x > that.position.x;
+}
+
+bool fxx::actors::collidable::clips_bottom(const fxx::actors::collidable & that) const {
+	return position.y > that.position.y;
+}
+
+bool fxx::actors::collidable::clips_left(const fxx::actors::collidable & that) const {
+	return position.x < that.position.x;
+}
