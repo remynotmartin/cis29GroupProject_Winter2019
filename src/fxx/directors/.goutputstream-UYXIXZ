@@ -1,5 +1,4 @@
 #include "fxx/directors/game.h"
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
 
@@ -7,34 +6,8 @@
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
 
-	const float HEIGHT_IN_TILES = HEIGHT / TILE_WIDTH;
-	const float WIDTH_IN_TILES = WIDTH / TILE_WIDTH;
-
-	sf::Texture brick_texture;
-	brick_texture.loadFromFile("share/textures/gutstiles.png");
-	sf::Sprite brick_sprite;
-	brick_sprite.setTexture(brick_texture);
-	brick_sprite.setTextureRect(sf::IntRect(138, 36, 32, 32));
-
-	for (int j = 0; j < 256; j++) {
-		bricks.emplace_back(j * TILE_WIDTH, (HEIGHT_IN_TILES - 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, brick_sprite);
-	}
-
-	for (int j = 0; j < 256; j++) {
-		actors.push_back(&bricks[j]);
-		collidables.push_back(&bricks[j]);
-		drawables.push_back(&bricks[j]);
-	}
-
-	sf::Texture player_texture;
-	player_texture.loadFromFile("share/textures/blues.png");
-	sf::Sprite player_sprite;
-	player_sprite.setTexture(player_texture);
-	player_sprite.setTextureRect(sf::IntRect(204 + 44, 22, -44, 48));
-
-	players.emplace_back(0.0f, 0.0f, 48.0f, 48.0f, player_sprite);
+	players.emplace_back(0.0f, 0.0f);
 	actors.push_back(&players[0]);
-	collidables.push_back(&players[0]);
 	drawables.push_back(&players[0]);
 	mobiles.push_back(&players[0]);
 
@@ -81,14 +54,6 @@ void fxx::directors::game::direct(float delta_time) {
 
 	for (auto actor : actors) {
 		actor->act(delta_time);
-	}
-
-	for (auto a : collidables) {
-		for (auto b : collidables) {
-			if (a != b) {
-				a->collide(*b);
-			}
-		}
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "fxx/actors/brick.h"
 #include "fxx/actors/player.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -29,6 +30,7 @@ private:
 	const unsigned int HEIGHT = 416;
 	const std::string TITLE = "Hello, world!";
 
+	const unsigned int TILE_WIDTH = 32;
 	const float FALL_ACCELERATION = 128.0f;
 
 	sf::Clock clock;
@@ -37,9 +39,11 @@ private:
 	activity active_activity;
 
 	std::vector<fxx::actors::actor *> actors;
+	std::vector<fxx::actors::collidable *> collidables;
 	std::vector<fxx::actors::drawable *> drawables;
 	std::vector<fxx::actors::mobile *> mobiles;
 
+	std::vector<fxx::actors::brick> bricks;
 	std::vector<fxx::actors::player> players;
 
 	void direct();
