@@ -6,6 +6,7 @@ fxx::actors::player::player(float x, float y, float width, float height,  const 
 }
 
 void fxx::actors::player::act(float delta_time) {
+	jump_time += delta_time;
 	run_animation.play(delta_time);
 	mobile::act(delta_time);
 }
