@@ -1,3 +1,7 @@
+# elementary save state residue thing-a-ma-doodles
+*.cpp~
+*.h~
+
 # Prerequisites
 *.d
 

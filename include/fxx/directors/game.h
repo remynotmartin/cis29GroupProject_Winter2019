@@ -17,11 +17,6 @@ public:
 	game();
 
 private:
-	const float FRAME_RATE = 10.0f;
-	const unsigned int WIDTH = 512;
-	const unsigned int HEIGHT = 416;
-	const std::string TITLE = "Hello, world!";
-
 	enum class activity {
 		TITLE,
 		GAME,
@@ -29,12 +24,21 @@ private:
 		GAME_OVER
 	};
 
+	const float FRAME_RATE = 20.0f;
+	const unsigned int WIDTH = 512;
+	const unsigned int HEIGHT = 416;
+	const std::string TITLE = "Hello, world!";
+
+	const float FALL_ACCELERATION = 128.0f;
+
 	sf::Clock clock;
 	sf::RenderWindow window;
 
 	activity active_activity;
 
+	std::vector<fxx::actors::actor *> actors;
 	std::vector<fxx::actors::drawable *> drawables;
+	std::vector<fxx::actors::mobile *> mobiles;
 
 	std::vector<fxx::actors::player> players;
 

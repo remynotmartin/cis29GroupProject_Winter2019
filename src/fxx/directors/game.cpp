@@ -5,8 +5,11 @@
 
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
+
 	players.emplace_back(0.0f, 0.0f);
+	actors.push_back(&players[0]);
 	drawables.push_back(&players[0]);
+	mobiles.push_back(&players[0]);
 
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -45,7 +48,13 @@ void fxx::directors::game::direct() {
 
 
 void fxx::directors::game::direct(float delta_time) {
+	for (auto mobile : mobiles) {
+		mobile->accelerate(0, FALL_ACCELERATION);
+	}
 
+	for (auto actor : actors) {
+		actor->act(delta_time);
+	}
 }
 
 
