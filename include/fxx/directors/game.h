@@ -1,4 +1,5 @@
 #pragma once
+#include "fxx/actors/player.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -32,6 +33,10 @@ private:
 	sf::RenderWindow window;
 
 	activity active_activity;
+
+	std::vector<fxx::actors::drawable *> drawables;
+
+	std::vector<fxx::actors::player> players;
 
 	void direct();
 	void direct(float delta_time);

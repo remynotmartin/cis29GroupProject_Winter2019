@@ -5,6 +5,8 @@
 
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
+	players.emplace_back(0.0f, 0.0f);
+	drawables.push_back(&players[0]);
 
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -49,6 +51,11 @@ void fxx::directors::game::direct(float delta_time) {
 
 void fxx::directors::game::draw() {
 	window.clear(sf::Color::White);
+
+	for (auto drawable : drawables) {
+		drawable->draw(window);
+	}
+
 	window.display();
 }
 

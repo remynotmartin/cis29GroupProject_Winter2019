@@ -10,11 +10,11 @@ namespace fxx {
 
 
 class fxx::actors::actor {
-protected:
-	sf::Vector2f position;
-
 public:
 	actor(float x, float y);
 
 	virtual void act(float delta_time) = 0;
+
+protected:
+	sf::Vector2f position;
 };
