@@ -1,4 +1,5 @@
 #include "fxx/directors/game.h"
+#include "fxx/hands/animation.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
@@ -28,11 +29,9 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 
 	sf::Texture player_texture;
 	player_texture.loadFromFile("share/textures/blues.png");
-	sf::Sprite player_sprite;
-	player_sprite.setTexture(player_texture);
-	player_sprite.setTextureRect(sf::IntRect(204 + 44, 22, -44, 48));
+	fxx::hands::animation player_run_animation(&player_texture, 6, 1.0f / 10.0f);
 
-	players.emplace_back(0.0f, (HEIGHT_IN_TILES - 3) * TILE_WIDTH, 48.0f, 48.0f, player_sprite);
+	players.emplace_back(0.0f, (HEIGHT_IN_TILES - 3) * TILE_WIDTH, 48.0f, 48.0f, player_run_animation);
 	actors.push_back(&players[0]);
 	collidables.push_back(&players[0]);
 	drawables.push_back(&players[0]);
