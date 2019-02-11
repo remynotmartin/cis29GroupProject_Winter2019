@@ -1,4 +1,5 @@
 #pragma once
+#include "fxx/actors/actor.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -38,4 +39,6 @@ private:
 	void handle_event(sf::Event event);
 	void handle_key_press(sf::Keyboard::Key key);
 	void draw();
+
+	fxx::actors::actor dummy;
 };
