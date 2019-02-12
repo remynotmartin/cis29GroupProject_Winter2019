@@ -28,7 +28,7 @@ public:
 private:
 	const float JUMP_VELOCITY = -128.0f;
 	const float RUN_VELOCITY = 64.0f;
-	const float FULL_JUMP_TIME = 0.5f;
+	const float FULL_JUMP_TIME = 0.33f;
 
 	float jump_time;
 

@@ -1,4 +1,5 @@
 #include "fxx/actors/player.h"
+#include <iostream>
 
 
 fxx::actors::player::player(float x, float y, float width, float height,  const fxx::hands::animation & run_animation) : actor(x, y), collidable(x, y, width, height), drawable(x, y), mobile(x, y), jump_time(0.0f), run_animation(run_animation) {
@@ -14,7 +15,7 @@ void fxx::actors::player::act(float delta_time) {
 
 void fxx::actors::player::collide(fxx::actors::collidable & that) {
 	if (clips(that)) {
-		if (clips_top(that)) {
+		if (clip_dir(that).y > 0.0f) {
 			jump_time = 0.0f;
 		}
 
