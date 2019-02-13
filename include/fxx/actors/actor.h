@@ -1,6 +1,7 @@
-#pragma once
-#include <SFML/System/Vector2.hpp>
+#ifndef FXX_ACTORS_ACTOR_H
+#define FXX_ACTORS_ACTOR_H
 
+#include <SFML/System/Vector2.hpp>
 
 namespace fxx {
 	namespace actors {
@@ -18,3 +19,5 @@ public:
 protected:
 	sf::Vector2f position;
 };
+
+#endif

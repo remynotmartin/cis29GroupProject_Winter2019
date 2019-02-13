@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FXX_PROPS_TILE_H
+#define FXX_PROPS_TILE_H
 #include "fxx/actors/drawable.h"
 #include <SFML/Graphics/Texture.hpp>
 
@@ -16,3 +17,5 @@ public:
 
 	virtual void act(float delta_time) override;
 };
+
+#endif

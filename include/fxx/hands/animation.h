@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FXX_HANDS_ANIMATION_H
+#define FXX_HANDS_ANIMATION_H
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <cstddef>
@@ -24,3 +25,5 @@ private:
 	float frame_time;
 	const float SWITCH_INTERVAL;
 };
+
+#endif

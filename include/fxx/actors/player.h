@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FXX_ACTORS_PLAYER_H
+#define FXX_ACTORS_PLAYER_H
+
 #include "fxx/actors/collidable.h"
 #include "fxx/actors/drawable.h"
 #include "fxx/actors/mobile.h"
@@ -11,7 +13,6 @@ namespace fxx {
 		class player;
 	}
 }
-
 
 class fxx::actors::player : public fxx::actors::collidable, public fxx::actors::drawable, public fxx::actors::mobile {
 public:
@@ -34,3 +35,5 @@ private:
 
 	fxx::hands::animation run_animation;
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FXX_ACTORS_BRICK_H
+#define FXX_ACTORS_BRICK_H
+
 #include "fxx/actors/collidable.h"
 #include "fxx/actors/drawable.h"
 #include <SFML/Graphics/Texture.hpp>
@@ -18,3 +20,5 @@ public:
 	virtual void act(float delta_time) override;
 	virtual void collide(fxx::actors::collidable & that) override;
 };
+
+#endif

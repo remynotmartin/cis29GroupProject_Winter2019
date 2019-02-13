@@ -1,11 +1,12 @@
-#pragma once
+#ifndef FXX_DIRECTORS_GAME_H
+#define FXX_DIRECTORS_GAME_H
+
 #include "fxx/actors/brick.h"
 #include "fxx/actors/player.h"
 #include "fxx/props/tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-
 
 namespace fxx {
 	namespace directors {
@@ -59,3 +60,5 @@ private:
 	void handle_key_release(sf::Keyboard::Key key);
 	void draw();
 };
+
+#endif

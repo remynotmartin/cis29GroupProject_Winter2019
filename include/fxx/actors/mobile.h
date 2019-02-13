@@ -1,13 +1,13 @@
-#pragma once
-#include "fxx/actors/actor.h"
+#ifndef FXX_ACTORS_MOBILE_H
+#define FXX_ACTORS_MOBILE_H
 
+#include "fxx/actors/actor.h"
 
 namespace fxx {
 	namespace actors {
 		class mobile;
 	}
 }
-
 
 class fxx::actors::mobile : virtual public fxx::actors::actor {
 public:
@@ -23,3 +23,5 @@ protected:
 
 	virtual void move(float delta_time);
 };
+
+#endif
