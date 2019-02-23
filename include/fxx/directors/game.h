@@ -27,7 +27,7 @@ private:
 		GAME_OVER
 	};
 
-	const float FRAME_RATE = 20.0f;
+	const float FRAME_RATE = 60.0f;
 	const unsigned int WIDTH = 512;
 	const unsigned int HEIGHT = 416;
 	const std::string TITLE = "Hello, world!";

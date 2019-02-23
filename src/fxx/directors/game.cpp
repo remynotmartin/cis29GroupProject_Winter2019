@@ -43,7 +43,8 @@ void fxx::directors::game::set_up_level() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 5; j++) {
 			tile.setTexture(textures.back());
-			tile.setTextureRect(sf::IntRect(j * (TILE_WIDTH + 2) + 2, i * (TILE_WIDTH + 2) + 2, TILE_WIDTH, TILE_WIDTH));
+			tile.setTextureRect(sf::IntRect(j * (TILE_WIDTH + 2) + 2,
+								   	i * (TILE_WIDTH + 2) + 2, TILE_WIDTH, TILE_WIDTH));
 			tileset.push_back(tile);
 		}
 	}
@@ -87,9 +88,11 @@ void fxx::directors::game::set_up_level() {
 			tileset[type].setPosition(j * TILE_WIDTH, i * TILE_WIDTH);
 
 			if (is_solid[type]) {
-				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
+				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH,
+							   	TILE_WIDTH, tileset[type]);
 			} else {
-				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
+				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH,
+							   	TILE_WIDTH, tileset[type]);
 			}
 
 			j++;
@@ -169,7 +172,8 @@ void fxx::directors::game::direct(float delta_time) {
 
 	for (auto a : collidables) {
 		for (auto b : collidables) {
-			if (a != b && !((a == &players[0] && b == &players[1]) || (b == &players[0] && a == &players[1]))) {
+			if (a != b && !((a == &players[0] && b == &players[1]) ||
+								  (b == &players[0] && a == &players[1]))) {
 				a->collide(*b);
 			}
 		}
@@ -184,6 +188,11 @@ void fxx::directors::game::draw() {
 		drawable->draw(window);
 	}
 
+	sf::Vector2f viewSize(static_cast<float>(WIDTH), static_cast<float>(HEIGHT));
+
+	sf::View view1(players[0].where(), viewSize);
+	
+	window.setView(view1);
 	window.display();
 }
 

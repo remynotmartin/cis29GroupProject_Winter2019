@@ -14,9 +14,11 @@ namespace fxx {
 	}
 }
 
-class fxx::actors::player : public fxx::actors::collidable, public fxx::actors::drawable, public fxx::actors::mobile {
+class fxx::actors::player : public fxx::actors::collidable,
+	   	public fxx::actors::drawable, public fxx::actors::mobile {
 public:
-	player(float x, float y, float width, float height, const fxx::hands::animation & run_animation);
+	player(float x, float y, float width, float height,
+					const fxx::hands::animation & run_animation);
 
 	virtual void act(float delta_time) override;
 	virtual void collide(fxx::actors::collidable & that) override;

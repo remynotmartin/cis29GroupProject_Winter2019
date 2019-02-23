@@ -2,7 +2,8 @@
 #include <cmath>
 
 
-fxx::actors::collidable::collidable(float x, float y, float width, float height) : actor(x, y), size(width, height) {
+fxx::actors::collidable::collidable(float x, float y, float width, float height) :
+	   	actor(x, y), size(width, height) {
 
 }
 

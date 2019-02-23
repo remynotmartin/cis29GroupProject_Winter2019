@@ -1,7 +1,9 @@
 #include "fxx/hands/animation.h"
 
 
-fxx::hands::animation::animation(sf::Texture * texture, std::size_t images_count, float switch_interval) : active_frame_index(0), frame_time(0.0f), SWITCH_INTERVAL(switch_interval) {
+fxx::hands::animation::animation(sf::Texture * texture, std::size_t images_count,
+			   	float switch_interval) :
+	   	active_frame_index(0), frame_time(0.0f), SWITCH_INTERVAL(switch_interval) {
 	unsigned int frame_width = texture->getSize().x / images_count;
 	unsigned int frame_height = texture->getSize().y;
 
