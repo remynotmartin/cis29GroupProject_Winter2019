@@ -3,7 +3,7 @@ CFLAGS		 = -std=c++14 -Wall
 EXE			 = ./bin/megaDan.out
 LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window
 DEEPSRC		 = ./src/fxx/
-DEPENDENCIES = ./src/obj/main.o $(DEEPSRC)*/obj/*.o 
+DEPENDENCIES = ./src/obj/main.o ./src/fxx/actors/obj/actor.o ./src/fxx/actors/obj/brick.o ./src/fxx/actors/obj/collidable.o ./src/fxx/actors/obj/drawable.o ./src/fxx/actors/obj/mobile.o ./src/fxx/directors/obj/game.o ./src/fxx/hands/obj/animation.o ./src/fxx/props/obj/tile.o
 INCLUDE		 = ./include
 
 
