@@ -191,8 +191,10 @@ void fxx::directors::game::draw() {
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
 
 	sf::View view1(players[0].where(), viewSize);
+	sf::View view2(players[1].where(), viewSize);
 	
-	window.setView(view1);
+	//window.setView(view1); // Follow Player 1
+	window.setView(view2); // Follow Player 2
 	window.display();
 }
 
