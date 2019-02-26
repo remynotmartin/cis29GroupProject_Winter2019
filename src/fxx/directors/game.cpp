@@ -188,7 +188,7 @@ void fxx::directors::game::draw() {
 		drawable->draw(window);
 	}
 
-	sf::Vector2f viewSize(static_cast<float>(WIDTH), static_cast<float>(HEIGHT));
+	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
 
 	sf::View view1(players[0].where(), viewSize);
 	
