@@ -192,7 +192,7 @@ void fxx::directors::game::draw() {
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     // There needs to be a y-axis minimum and maximum.
     
-    float yLock = 240.0f;
+    float yLock = 230.0f;
 
     sf::Vector2f trackP1(players[0].where().x, yLock);
     sf::Vector2f trackP2(players[1].where().x, yLock);
