@@ -126,11 +126,12 @@ void fxx::directors::game::set_up_players() {
 	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
 	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
 
+    // Range-based For Loop
 	for (auto & player : players) {
-		actors.push_back(&player);
+		     actors.push_back(&player);
 		collidables.push_back(&player);
-		drawables.push_back(&player);
-		mobiles.push_back(&player);
+		  drawables.push_back(&player);
+		    mobiles.push_back(&player);
 	}
 }
 
@@ -173,7 +174,7 @@ void fxx::directors::game::direct(float delta_time) {
 	for (auto a : collidables) {
 		for (auto b : collidables) {
 			if (a != b && !((a == &players[0] && b == &players[1]) ||
-								  (b == &players[0] && a == &players[1]))) {
+						    (b == &players[0] && a == &players[1]))) {
 				a->collide(*b);
 			}
 		}
@@ -189,13 +190,29 @@ void fxx::directors::game::draw() {
 	}
 
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
+    // There needs to be a y-axis minimum and maximum.
+    
+    float yLock = 240.0f;
 
-	sf::View view1(players[0].where(), viewSize);
-	sf::View view2(players[1].where(), viewSize);
+    sf::Vector2f trackP1(players[0].where().x, yLock);
+    sf::Vector2f trackP2(players[1].where().x, yLock);
+
+	//sf::View view1(players[0].where(), viewSize);
+	//sf::View view2(players[1].where(), viewSize);
+	sf::View view1(trackP1, viewSize);
+	sf::View view2(trackP2, viewSize);
+
+    view1.zoom(1.0);
+    view2.zoom(1.0);
+
+    //view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
+    //view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
 	
-	//window.setView(view1); // Follow Player 1
-	window.setView(view2); // Follow Player 2
+	window.setView(view1); // Follow Player 1
 	window.display();
+	
+    //window.setView(view2); // Follow Player 2
+	//window.display();
 }
 
 

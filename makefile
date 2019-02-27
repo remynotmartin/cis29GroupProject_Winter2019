@@ -10,7 +10,7 @@ SRCDIRECTORS = ./src/fxx/directors/
 SRCHANDS     = ./src/fxx/hands/
 SRCPROPS     = ./src/fxx/props/
 
-.PHONY : clean
+.PHONY : clean all
 
 $(EXE) : $(DEPENDENCIES)
 #	$(CC) $(CFLAGS) $(DEPENDENCIES) -o $(EXE) $(LINKSMFL) # OMFG, TYPO like Mr. Bentley. SFML, not SMFL LOL
@@ -38,7 +38,7 @@ $(SRCACTORS)obj/mobile.o : $(SRCACTORS)mobile.cpp
 $(SRCACTORS)obj/player.o : $(SRCACTORS)player.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)player.cpp -o $(SRCACTORS)obj/player.o
 
-$(SRCDIRECTORS)obj/game.o : $(SRCDIRECTORS)game.cpp
+$(SRCDIRECTORS)obj/game.o : $(SRCDIRECTORS)game.cpp $(INCLUDE)/fxx/directors/game.h
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCDIRECTORS)game.cpp -o $(SRCDIRECTORS)obj/game.o
 
 $(SRCHANDS)obj/animation.o : $(SRCHANDS)animation.cpp
@@ -52,3 +52,4 @@ clean :
 	@rm -f $(DEEPSRC)*/obj/*.o
 	@rm -f ./bin/megaDan.out
 
+all : clean $(EXE)
