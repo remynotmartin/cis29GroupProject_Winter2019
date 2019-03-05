@@ -191,22 +191,35 @@ void fxx::directors::game::draw() {
 
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     
-    float yLock = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
-          xLock = 200.0f,  // To keep the left-hand void of the world out of view
+    float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
+          xLeftLock  = 225.0f, // To keep the left-hand  void of the world out of view
+          xRightLock = 4000.0f, // To keep the right-hand void of the world out of view
           x1, x2,
           y1, y2;
-     
-    if (players[0].where().x < xLock) {
-        x1 = xLock;
+    
+    // Start of game, prevents left-hand void from entering view
+    if      (players[0].where().x < xLeftLock) {
+        x1 = xLeftLock;
         y1 = yLock;
     }
+    // Right-Edge of map reached
+    else if (players[0].where().x >= xRightLock) {
+        x1 = xRightLock;
+        y1 = yLock;
+    }
+    // While the game is running
     else {
         x1 = players[0].where().x;
         y1 = yLock;
     }
-    
-    if (players[1].where().x < xLock) {
-        x2 = xLock;
+
+    // Do the same checks for player2 view
+    if      (players[1].where().x < xLeftLock) {
+        x2 = xLeftLock;
+        y2 = yLock;
+    }
+    else if (players[1].where().x >= xRightLock) {
+        x2 = xRightLock;
         y2 = yLock;
     }
     else {
@@ -216,16 +229,14 @@ void fxx::directors::game::draw() {
     
     sf::Vector2f trackP1(x1, y1),
                  trackP2(x2, y2);
-    
 
-	//sf::View view1(players[0].where(), viewSize);
-	//sf::View view2(players[1].where(), viewSize);
 	sf::View view1(trackP1, viewSize);
 	sf::View view2(trackP2, viewSize);
 
     view1.zoom(0.875f);
     view2.zoom(0.875f);
 
+    // Will be useful for split-screen!
     //view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
     //view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
 	
