@@ -35,7 +35,7 @@ $(SRCACTORS)obj/drawable.o : $(SRCACTORS)drawable.cpp
 $(SRCACTORS)obj/mobile.o : $(SRCACTORS)mobile.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)mobile.cpp -o $(SRCACTORS)obj/mobile.o
 
-$(SRCACTORS)obj/player.o : $(SRCACTORS)player.cpp
+$(SRCACTORS)obj/player.o : $(SRCACTORS)player.cpp $(INCLUDE)/fxx/actors/player.h
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)player.cpp -o $(SRCACTORS)obj/player.o
 
 $(SRCDIRECTORS)obj/game.o : $(SRCDIRECTORS)game.cpp $(INCLUDE)/fxx/directors/game.h

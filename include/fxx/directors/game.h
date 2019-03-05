@@ -27,12 +27,12 @@ private:
 		GAME_OVER
 	};
 
-	const float        FRAME_RATE = 60.0f;
+	const float        FRAME_RATE = 120.0f;
 	const unsigned int WIDTH      = 512;    // Adjustments will result in scaling
 	const unsigned int HEIGHT     = 512;    // Adjustments will result in scaling
 	const std::string  TITLE      = "Annyeong, world!";
 
-	const float FALL_ACCELERATION = 128.0f;
+	const float FALL_ACCELERATION = 200.0f; // Dan OG-spec: 128.0f
 
 	sf::Clock clock;
 	sf::RenderWindow window;

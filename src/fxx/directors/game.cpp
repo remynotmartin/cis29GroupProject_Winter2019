@@ -35,6 +35,7 @@ void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
 
 	textures.emplace_back();
+    // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
 
 	std::vector<sf::Sprite> tileset;
@@ -116,7 +117,7 @@ void fxx::directors::game::set_up_level() {
 
 
 void fxx::directors::game::set_up_players() {
-	const unsigned int PLAYER_WIDTH = 46;
+	const unsigned int PLAYER_WIDTH  = 46;
 	const unsigned int PLAYER_HEIGHT = 48;
 
 	textures.emplace_back();
@@ -140,8 +141,8 @@ void fxx::directors::game::direct() {
 	const float DRAW_INTERVAL = 1.0f / FRAME_RATE;
 	sf::Event event;
 
-	float delta_draw_time = 0;
-	float delta_direct_time = 0;
+	float   delta_draw_time = 0.0f;
+	float delta_direct_time = 0.0f;
 
 	do {
 		delta_direct_time = clock.restart().asSeconds();
@@ -193,7 +194,7 @@ void fxx::directors::game::draw() {
     
     float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
           xLeftLock  = 225.0f, // To keep the left-hand  void of the world out of view
-          xRightLock = 4000.0f, // To keep the right-hand void of the world out of view
+          xRightLock = 4880.0f, // To keep the right-hand void of the world out of view
           x1, x2,
           y1, y2;
     
@@ -227,11 +228,12 @@ void fxx::directors::game::draw() {
         y2 = yLock;
     }
     
+    // Load these vectors with the appropriate values
     sf::Vector2f trackP1(x1, y1),
                  trackP2(x2, y2);
 
-	sf::View view1(trackP1, viewSize);
-	sf::View view2(trackP2, viewSize);
+	sf::View view1(trackP1, viewSize),
+	         view2(trackP2, viewSize);
 
     view1.zoom(0.875f);
     view2.zoom(0.875f);
