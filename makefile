@@ -10,7 +10,7 @@ SRCDIRECTORS = ./src/fxx/directors/
 SRCHANDS     = ./src/fxx/hands/
 SRCPROPS     = ./src/fxx/props/
 
-.PHONY : clean all
+.PHONY : clean all run
 
 $(EXE) : $(DEPENDENCIES)
 #	$(CC) $(CFLAGS) $(DEPENDENCIES) -o $(EXE) $(LINKSMFL) # OMFG, TYPO like Mr. Bentley. SFML, not SMFL LOL
@@ -53,3 +53,6 @@ clean :
 	@rm -f ./bin/megaDan.out
 
 all : clean $(EXE)
+
+run : $(EXE)
+	@./bin/megaDan.out #run the program

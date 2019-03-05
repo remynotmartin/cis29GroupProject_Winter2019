@@ -88,11 +88,11 @@ void fxx::directors::game::set_up_level() {
 			tileset[type].setPosition(j * TILE_WIDTH, i * TILE_WIDTH);
 
 			if (is_solid[type]) {
-				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH,
-							   	TILE_WIDTH, tileset[type]);
-			} else {
-				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH,
-							   	TILE_WIDTH, tileset[type]);
+				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
+							   	
+			}
+            else {
+				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
 			}
 
 			j++;
@@ -190,20 +190,41 @@ void fxx::directors::game::draw() {
 	}
 
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-    // There needs to be a y-axis minimum and maximum.
     
-    float yLock = 230.0f;
-
-    sf::Vector2f trackP1(players[0].where().x, yLock);
-    sf::Vector2f trackP2(players[1].where().x, yLock);
+    float yLock = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
+          xLock = 200.0f,  // To keep the left-hand void of the world out of view
+          x1, x2,
+          y1, y2;
+     
+    if (players[0].where().x < xLock) {
+        x1 = xLock;
+        y1 = yLock;
+    }
+    else {
+        x1 = players[0].where().x;
+        y1 = yLock;
+    }
+    
+    if (players[1].where().x < xLock) {
+        x2 = xLock;
+        y2 = yLock;
+    }
+    else {
+        x2 = players[1].where().x;
+        y2 = yLock;
+    }
+    
+    sf::Vector2f trackP1(x1, y1),
+                 trackP2(x2, y2);
+    
 
 	//sf::View view1(players[0].where(), viewSize);
 	//sf::View view2(players[1].where(), viewSize);
 	sf::View view1(trackP1, viewSize);
 	sf::View view2(trackP2, viewSize);
 
-    view1.zoom(1.0);
-    view2.zoom(1.0);
+    view1.zoom(0.875f);
+    view2.zoom(0.875f);
 
     //view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
     //view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
