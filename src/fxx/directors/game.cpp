@@ -185,11 +185,6 @@ void fxx::directors::game::direct(float delta_time) {
 
 void fxx::directors::game::draw() {
 	window.clear(sf::Color::White);
-
-	for (auto drawable : drawables) {
-		drawable->draw(window);
-	}
-
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     
     float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
@@ -228,25 +223,31 @@ void fxx::directors::game::draw() {
         y2 = yLock;
     }
     
-    // Load these vectors with the appropriate values
+    // Load these vector2fs with the appropriate values
     sf::Vector2f trackP1(x1, y1),
                  trackP2(x2, y2);
 
 	sf::View view1(trackP1, viewSize),
 	         view2(trackP2, viewSize);
 
+    std::vector<sf::View*> views;
+    views.push_back(&view1);
+    views.push_back(&view2);
+
     view1.zoom(0.875f);
     view2.zoom(0.875f);
 
     // Will be useful for split-screen!
-    //view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
-    //view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+    view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
+    view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
 	
-	window.setView(view1); // Follow Player 1
+    for (auto & view : views) {
+        window.setView(*view);
+	    for (auto drawable : drawables) {
+		    drawable->draw(window);
+	    }
+    }
 	window.display();
-	
-    //window.setView(view2); // Follow Player 2
-	//window.display();
 }
 
 
