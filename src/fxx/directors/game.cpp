@@ -238,7 +238,7 @@ void fxx::directors::game::draw() {
     view2.zoom(0.875f);
 
     // Defines proportions for each player viewport
-    // Parametres ( x-offset, y-offset, width, height )
+    // Parametres ( x-coordinate, y-coordinate, width, height )
     view1.setViewport(sf::FloatRect(-0.5f, 0.5f, 2.0f, 0.5f));
     view2.setViewport(sf::FloatRect(-0.5f, 0.0f, 2.0f, 0.5f));
 	
