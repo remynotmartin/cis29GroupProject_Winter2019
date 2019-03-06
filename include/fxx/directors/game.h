@@ -28,8 +28,8 @@ private:
 	};
 
 	const float        FRAME_RATE = 120.0f;
-	const unsigned int WIDTH      = 512;    // Adjustments will result in scaling
-	const unsigned int HEIGHT     = 512;    // Adjustments will result in scaling
+	const unsigned int WIDTH      = 512;     // Original: 512 
+	const unsigned int HEIGHT     = 1024;    // Original: 512
 	const std::string  TITLE      = "Annyeong, world!";
 
 	const float FALL_ACCELERATION = 200.0f; // Dan OG-spec: 128.0f

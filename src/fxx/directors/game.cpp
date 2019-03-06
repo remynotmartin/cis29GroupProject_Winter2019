@@ -237,9 +237,10 @@ void fxx::directors::game::draw() {
     view1.zoom(0.875f);
     view2.zoom(0.875f);
 
-    // Will be useful for split-screen!
-    view1.setViewport(sf::FloatRect(0.0f, 0.0f, 0.5f, 1.0f));
-    view2.setViewport(sf::FloatRect(0.5f, 0.0f, 0.5f, 1.0f));
+    // Defines proportions for each player viewport
+    // Parametres ( x-offset, y-offset, width, height )
+    view1.setViewport(sf::FloatRect(-0.5f, 0.5f, 2.0f, 0.5f));
+    view2.setViewport(sf::FloatRect(-0.5f, 0.0f, 2.0f, 0.5f));
 	
     for (auto & view : views) {
         window.setView(*view);
