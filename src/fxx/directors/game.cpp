@@ -12,7 +12,7 @@
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 	active_activity = activity::GAME;
 
-	textures.resize(5);
+	textures.resize(6);
 
 	set_up_level();
 	set_up_players();
@@ -122,10 +122,13 @@ void fxx::directors::game::set_up_players() {
 
 	textures.emplace_back();
 	textures.back().loadFromFile("share/textures/blues.png");
-
-	fxx::hands::animation run_animation(&textures.back(), 6, 1.0f / 10.0f);
-	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
-	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation);
+	fxx::hands::animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
+	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
+	
+    textures.emplace_back();
+	textures.back().loadFromFile("share/textures/greens.png");
+	fxx::hands::animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
+	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
 
     // Range-based For Loop
 	for (auto & player : players) {
