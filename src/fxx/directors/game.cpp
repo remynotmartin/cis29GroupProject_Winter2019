@@ -3,7 +3,6 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Audio.hpp>
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -18,17 +17,6 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 
 	set_up_level();
 	set_up_players();
-
-
-
-    // Sound effects
-    sf::SoundBuffer backgroundBuffer;
-    backgroundBuffer.loadFromFile("share/textures/sky_sky_sky.wav");
-    sf::Sound backgroundSound;
-    backgroundSound.setBuffer(backgroundBuffer);
-
-    backgroundSound.play();
-
 
     while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -49,6 +37,13 @@ void fxx::directors::game::set_up_level() {
 	textures.emplace_back();
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
+	// Background music
+	bool a = bg_music.openFromFile("share/textures/sky_sky_sky.wav");
+	//std::cout << a << std::endl;
+	jump_sound.openFromFile("share/textures/jump.wav");
+	//jumpBuffer.loadFromFile("share/textures/jump.wav");
+	//jumpSound.setBuffer(jumpBuffer);
+	bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -281,6 +276,9 @@ void fxx::directors::game::handle_event(sf::Event event) {
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::LControl) {
 		std::cout << "left control pressed" << std::endl;
+		jump_sound.stop();
+		jump_sound.play();
+		//jumpSound.play();
 		players[0].jump();
 	} else if (key == sf::Keyboard::RControl) {
 		std::cout << "right control pressed" << std::endl;
