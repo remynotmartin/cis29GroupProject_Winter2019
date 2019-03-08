@@ -11,14 +11,26 @@
 
 
 fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
-	active_activity = activity::GAME;
+
+    active_activity = activity::GAME;
 
 	textures.resize(6);
 
 	set_up_level();
 	set_up_players();
 
-	while (window.isOpen()) {
+
+
+    // Sound effects
+    sf::SoundBuffer backgroundBuffer;
+    backgroundBuffer.loadFromFile("share/textures/sky_sky_sky.wav");
+    sf::Sound backgroundSound;
+    backgroundSound.setBuffer(backgroundBuffer);
+
+    backgroundSound.play();
+
+
+    while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
 
 		} else if (active_activity == activity::GAME) {
@@ -34,16 +46,6 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 
 void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
-
-	// Sound effects
-	sf::SoundBuffer backgroundBuffer;
-	backgroundBuffer.loadFromFile("share/textures/sky_sky_sky.wav");
-	sf::Sound backgroundMusic;
-	backgroundMusic.setBuffer(backgroundBuffer);
-
-	backgroundMusic.play();
-
-
 	textures.emplace_back();
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
