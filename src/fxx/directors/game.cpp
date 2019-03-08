@@ -37,7 +37,7 @@ void fxx::directors::game::set_up_level() {
 
 	// Sound effects
 	sf::SoundBuffer backgroundBuffer;
-	backgroundBuffer.loadFromFile("sky_sky_sky.wav");
+	backgroundBuffer.loadFromFile("share/textures/sky_sky_sky.wav");
 	sf::Sound backgroundMusic;
 	backgroundMusic.setBuffer(backgroundBuffer);
 
