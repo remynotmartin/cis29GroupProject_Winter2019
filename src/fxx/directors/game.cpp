@@ -3,6 +3,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Audio.hpp>
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -33,6 +34,15 @@ fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
 
 void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
+
+	// Sound effects
+	sf::SoundBuffer backgroundBuffer;
+	backgroundBuffer.loadFromFile("sky_sky_sky.wav");
+	sf::Sound backgroundMusic;
+	backgroundMusic.setBuffer(backgroundBuffer);
+
+	backgroundMusic.play();
+
 
 	textures.emplace_back();
     // Load tileset from sprite map
