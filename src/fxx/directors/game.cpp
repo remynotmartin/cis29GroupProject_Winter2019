@@ -267,22 +267,22 @@ void fxx::directors::game::handle_event(sf::Event event) {
 
 
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
-	if (key == sf::Keyboard::LControl) {
-		std::cout << "left control pressed" << std::endl;
+	if (key == sf::Keyboard::Z) {
+		std::cout << "'Z' key pressed" << std::endl;
 		players[0].jump();
-	} else if (key == sf::Keyboard::RControl) {
-		std::cout << "right control pressed" << std::endl;
+	} else if (key == sf::Keyboard::M) {
+		std::cout << "'M' key pressed" << std::endl;
 		players[1].jump();
 	}
 }
 
 
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
-	if (key == sf::Keyboard::LControl) {
-		std::cout << "left control released" << std::endl;
+	if (key == sf::Keyboard::Z) {
+		std::cout << "'Z' key released" << std::endl;
 		players[0].cut_jump();
-	} else if (key == sf::Keyboard::RControl) {
-		std::cout << "right control released" << std::endl;
+	} else if (key == sf::Keyboard::M) {
+		std::cout << "'M' key released" << std::endl;
 		players[1].cut_jump();
 	}
 }
