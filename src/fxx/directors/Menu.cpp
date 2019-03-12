@@ -6,7 +6,7 @@
 //constructor
 fxx::directors::Menu::Menu(const unsigned int w, const unsigned int h) : width(w), height(h)
 {
-    if (!font.loadFromFile("share/resources/arial.ttf"))
+    if (!font.loadFromFile("share/resources/04b03.ttf"))
     {
         throw "Failed to load a font file\n";
     }
