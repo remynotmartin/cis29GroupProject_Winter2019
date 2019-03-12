@@ -38,7 +38,7 @@ void fxx::directors::game::set_up_level() {
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
 	// Background music
-	bool a = bg_music.openFromFile("share/textures/sky_sky_sky.wav");
+	bg_music.openFromFile("share/textures/sky_sky_sky.wav");
 	//std::cout << a << std::endl;
 	jump_sound.openFromFile("share/textures/jump.wav");
 	//jumpBuffer.loadFromFile("share/textures/jump.wav");
