@@ -20,8 +20,8 @@ $(EXE) : $(DEPENDENCIES)
 ./src/obj/main.o : ./src/main.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/main.cpp -o ./src/obj/main.o
 
-./src/fxx/directors/obj/menu.o : ./src/fxx/directors/Menu.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/fxx/directors/Menu.cpp -o ./src/fxx/directors/obj/menu.o
+./src/fxx/directors/obj/menu.o : ./src/fxx/directors/menu.cpp
+	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/fxx/directors/menu.cpp -o ./src/fxx/directors/obj/menu.o
 
 $(SRCACTORS)obj/actor.o : $(SRCACTORS)actor.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)actor.cpp -o $(SRCACTORS)obj/actor.o

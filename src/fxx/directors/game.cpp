@@ -9,17 +9,20 @@
 #include <iostream>
 
 
-fxx::directors::game::game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE) {
-	active_activity = activity::GAME;
+fxx::directors::game::game()
+		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
+	active_activity = activity::TITLE;
 
 	textures.resize(6);
 
 	set_up_level();
 	set_up_players();
 
+	menu.makeMenu();
+
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
-
+			run_menu();
 		} else if (active_activity == activity::GAME) {
 			direct();
 		} else if (active_activity == activity::PAUSE) {
@@ -90,7 +93,7 @@ void fxx::directors::game::set_up_level() {
 
 			if (is_solid[type]) {
 				bricks.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
-							   	
+
 			}
             else {
 				tiles.emplace_back(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, tileset[type]);
@@ -124,7 +127,7 @@ void fxx::directors::game::set_up_players() {
 	textures.back().loadFromFile("share/textures/blues.png");
 	fxx::hands::animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
-	
+
     textures.emplace_back();
 	textures.back().loadFromFile("share/textures/greens.png");
 	fxx::hands::animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
@@ -189,13 +192,13 @@ void fxx::directors::game::direct(float delta_time) {
 void fxx::directors::game::draw() {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-    
+
     float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
           xLeftLock  = 225.0f, // To keep the left-hand  void of the world out of view
           xRightLock = 4880.0f, // To keep the right-hand void of the world out of view
           x1, x2,
           y1, y2;
-    
+
     // Start of game, prevents left-hand void from entering view
     if      (players[0].where().x < xLeftLock) {
         x1 = xLeftLock;
@@ -225,7 +228,7 @@ void fxx::directors::game::draw() {
         x2 = players[1].where().x;
         y2 = yLock;
     }
-    
+
     // Load these vector2fs with the appropriate values
     sf::Vector2f trackP1(x1, y1),
                  trackP2(x2, y2);
@@ -244,7 +247,7 @@ void fxx::directors::game::draw() {
     // Parametres ( x-coordinate, y-coordinate, width, height )
     view1.setViewport(sf::FloatRect(-0.5f, 0.5f, 2.0f, 0.5f));
     view2.setViewport(sf::FloatRect(-0.5f, 0.0f, 2.0f, 0.5f));
-	
+
     for (auto & view : views) {
         window.setView(*view);
 	    for (auto drawable : drawables) {
@@ -285,4 +288,58 @@ void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 		std::cout << "'M' key released" << std::endl;
 		players[1].cut_jump();
 	}
+}
+
+void fxx::directors::game::run_menu() {
+	menu.draw(window);
+	window.display();
+
+    sf::Event evnt;
+    while (window.pollEvent(evnt)) {
+        switch (evnt.type)
+        {
+            case sf::Event::KeyReleased:
+
+            switch (evnt.key.code)
+            {
+                case sf::Keyboard::Up:
+                    menu.MoveUp();
+                    break;
+                case sf::Keyboard::Down:
+                    menu.MoveDown();
+                    break;
+                case sf::Keyboard::Return:
+                    switch (menu.getSelectedIdx())
+                    {
+                        case 0 :
+                            if (menu.getState() == Menu::MAIN_MENU)
+                            {
+                                std::cout << "play button is selected, start the game here\n";
+                                active_activity = activity::GAME;
+								clock.restart();
+                            }
+                            if (menu.getState() == Menu::HOW_TO_PLAY)
+                                menu.makeMenu();
+                            break;
+                        case 1 :
+                            if (menu.getState() == Menu::MAIN_MENU)
+                                menu.goToHowToPlay(window);
+                            else if (menu.getState() == Menu::HOW_TO_PLAY)
+                                std::cout << "start playing game \n" ;
+                            break;
+                        case 2:
+                            std::cout << "display scores is selected, show the list of scores\n";
+                            break;
+                        case 3 :
+                            window.close();
+                            break;
+                    }
+                default:
+                    ;
+            }
+            default:
+                ;
+
+        }
+    }
 }

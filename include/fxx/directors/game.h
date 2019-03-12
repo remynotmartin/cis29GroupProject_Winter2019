@@ -3,6 +3,7 @@
 
 #include "fxx/actors/brick.h"
 #include "fxx/actors/player.h"
+#include "fxx/directors/Menu.h"
 #include "fxx/props/tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -28,7 +29,7 @@ private:
 	};
 
 	const float        FRAME_RATE = 120.0f;
-	const unsigned int WIDTH      = 512;     // Original: 512 
+	const unsigned int WIDTH      = 512;     // Original: 512
 	const unsigned int HEIGHT     = 1024;    // Original: 512
 	const std::string  TITLE      = "Ready? Go!";
 
@@ -36,6 +37,8 @@ private:
 
 	sf::Clock clock;
 	sf::RenderWindow window;
+
+	Menu menu;
 
 	activity active_activity;
 
@@ -59,6 +62,8 @@ private:
 	void handle_key_press(sf::Keyboard::Key key);
 	void handle_key_release(sf::Keyboard::Key key);
 	void draw();
+
+    void run_menu();
 };
 
 #endif
