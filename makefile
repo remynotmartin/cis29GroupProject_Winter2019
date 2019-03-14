@@ -3,7 +3,7 @@ CFLAGS		 = -std=c++14 -Wall
 EXE			 = ./bin/megaDan.out
 LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
 DEEPSRC		 = ./src/fxx/
-DEPENDENCIES = ./src/obj/main.o $(SRCACTORS)obj/actor.o $(SRCACTORS)obj/brick.o $(SRCACTORS)obj/collidable.o $(SRCACTORS)obj/drawable.o $(SRCACTORS)obj/mobile.o $(SRCACTORS)obj/player.o ./src/fxx/directors/obj/game.o ./src/fxx/hands/obj/animation.o ./src/fxx/props/obj/tile.o
+DEPENDENCIES = ./src/obj/main.o $(SRCACTORS)obj/actor.o $(SRCACTORS)obj/brick.o $(SRCACTORS)obj/collidable.o $(SRCACTORS)obj/drawable.o $(SRCACTORS)obj/mobile.o $(SRCACTORS)obj/player.o ./src/fxx/directors/obj/game.o ./src/fxx/hands/obj/animation.o ./src/fxx/props/obj/tile.o ./src/fxx/directors/obj/menu.o
 INCLUDE		 = ./include
 SRCACTORS    = ./src/fxx/actors/
 SRCDIRECTORS = ./src/fxx/directors/
@@ -19,6 +19,9 @@ $(EXE) : $(DEPENDENCIES)
 
 ./src/obj/main.o : ./src/main.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/main.cpp -o ./src/obj/main.o
+
+./src/fxx/directors/obj/menu.o : ./src/fxx/directors/Menu.cpp
+	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/fxx/directors/Menu.cpp -o ./src/fxx/directors/obj/menu.o
 
 $(SRCACTORS)obj/actor.o : $(SRCACTORS)actor.cpp
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)actor.cpp -o $(SRCACTORS)obj/actor.o
