@@ -1,5 +1,5 @@
 CC			 = g++
-CFLAGS		 = -std=c++14 -Wall
+CFLAGS		 = -std=c++14 -Wall -Wextra -pedantic
 EXE			 = ./bin/megaDan.out
 LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window
 DEEPSRC		 = ./src/fxx/

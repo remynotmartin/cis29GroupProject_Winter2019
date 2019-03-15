@@ -1,4 +1,4 @@
-//menu.h
+//Menu.h
 
 #ifndef Menu_h
 #define Menu_h
