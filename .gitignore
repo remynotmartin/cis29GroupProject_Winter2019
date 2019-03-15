@@ -37,3 +37,6 @@
 
 # Vim Swap Files
 *.swp
+
+# xml
+*.xml

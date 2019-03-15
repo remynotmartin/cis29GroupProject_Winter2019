@@ -8,7 +8,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include <SFML/Audio.hpp>
 
 namespace fxx {
 	namespace directors {
@@ -53,12 +52,6 @@ private:
 	std::vector<fxx::actors::player> players;
 
 	std::vector<sf::Texture> textures;
-	sf::Music bg_music;
-	sf::Music menu_music;
-	sf::Music jump_sound;
-	//sf::SoundBuffer jumpBuffer;
-	//sf::Sound jumpSound;
-
 
 	void set_up_level();
 	void set_up_players();

@@ -1,7 +1,7 @@
 CC			 = g++
 CFLAGS		 = -std=c++14 -Wall -Wextra -pedantic
 EXE			 = ./bin/megaDan.out
-LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window
+LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
 DEEPSRC		 = ./src/fxx/
 DEPENDENCIES = ./src/obj/main.o $(SRCACTORS)obj/actor.o $(SRCACTORS)obj/brick.o $(SRCACTORS)obj/collidable.o $(SRCACTORS)obj/drawable.o $(SRCACTORS)obj/mobile.o $(SRCACTORS)obj/player.o ./src/fxx/directors/obj/game.o ./src/fxx/hands/obj/animation.o ./src/fxx/props/obj/tile.o ./src/fxx/directors/obj/menu.o
 INCLUDE		 = ./include

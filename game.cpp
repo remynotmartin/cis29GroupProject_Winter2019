@@ -36,19 +36,10 @@ fxx::directors::game::game()
 
 void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
+
 	textures.emplace_back();
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
-	// Background music
-	bg_music.openFromFile("share/textures/play_music.ogg");
-	// Menu music
-	menu_music.openFromFile("share/textures/menu_music.ogg");
-	//std::cout << a << std::endl;
-	jump_sound.openFromFile("share/textures/jump.wav");
-	//jumpBuffer.loadFromFile("share/textures/jump.wav");
-	//jumpSound.setBuffer(jumpBuffer);
-    menu_music.play();
-	//bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -281,13 +272,9 @@ void fxx::directors::game::handle_event(sf::Event event) {
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key pressed" << std::endl;
-		jump_sound.stop();
-		jump_sound.play();
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-        jump_sound.stop();
-        jump_sound.play();
 		players[1].jump();
 	}
 }
@@ -327,9 +314,6 @@ void fxx::directors::game::run_menu() {
                         case 0 :
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
-                                std::cout << "play button is selected, start the game here\n";
-                                menu_music.stop();
-                                bg_music.play();
                                 active_activity = activity::GAME;
 								clock.restart();
                             }
@@ -340,7 +324,10 @@ void fxx::directors::game::run_menu() {
                             if (menu.getState() == Menu::MAIN_MENU)
                                 menu.goToHowToPlay(window);
                             else if (menu.getState() == Menu::HOW_TO_PLAY)
-                                std::cout << "start playing game \n" ;
+                            {
+                                active_activity = activity::GAME;
+                                clock.restart();
+                            }
                             break;
                         case 2:
                             std::cout << "display scores is selected, show the list of scores\n";
