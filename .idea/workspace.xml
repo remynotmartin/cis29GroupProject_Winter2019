@@ -116,8 +116,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fxx/directors/game.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="41" column="23" lean-forward="true" selection-start-line="41" selection-start-column="23" selection-end-line="46" selection-end-column="55" />
+            <state relative-caret-position="-12">
+              <caret line="21" selection-start-line="21" selection-end-line="22" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -311,12 +311,12 @@
       <workItem from="1552079964337" duration="1126000" />
       <workItem from="1552413066735" duration="528000" />
       <workItem from="1552604031564" duration="604000" />
-      <workItem from="1552678174169" duration="1734000" />
+      <workItem from="1552678174169" duration="2440000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11694000" />
+    <option name="totallyTimeSpent" value="12400000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="826" extended-state="0" />
@@ -334,7 +334,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="Messages" order="8" visible="true" weight="0.32921347" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32970026" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" />
@@ -441,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fxx/directors/game.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="41" column="23" lean-forward="true" selection-start-line="41" selection-start-column="23" selection-end-line="46" selection-end-column="55" />
+        <state relative-caret-position="-12">
+          <caret line="21" selection-start-line="21" selection-end-line="22" selection-end-column="29" />
         </state>
       </provider>
     </entry>
