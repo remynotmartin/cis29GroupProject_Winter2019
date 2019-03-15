@@ -20,13 +20,10 @@ void fxx::directors::Menu::draw(sf::RenderWindow &window) {
 
     window.clear(sf::Color(0, 0, 0));
     if (state == MAIN_MENU) {
-        std::cout << "MAIN_MENU\n";
         for (int i = 0; i < NUMBER_OF_ITEMS ; ++i) {
             window.draw(menu[i]);
         }
     } else if (state == HOW_TO_PLAY) {
-
-        std::cout << "HOW_TO_PLAY\n";
 
         for (int i = 0; i < 2 ; ++i) {
             window.draw(menu[i]);
@@ -49,17 +46,17 @@ void fxx::directors::Menu::displayHowToPlay(sf::RenderWindow &window)
 void fxx::directors::Menu::MoveUp() {
 
     if (selectedIdx - 1 >= 0) {
-        menu[selectedIdx].setColor(sf::Color::White);
+        menu[selectedIdx].setFillColor(sf::Color::White);
         selectedIdx--;
-        menu[selectedIdx].setColor(sf::Color::Red);
+        menu[selectedIdx].setFillColor(sf::Color::Red);
     }
 }
 
 //going down
 void fxx::directors::Menu::MoveDown() {
-    menu[selectedIdx].setColor(sf::Color::White);
+    menu[selectedIdx].setFillColor(sf::Color::White);
     selectedIdx = (selectedIdx + 1) % NUMBER_OF_ITEMS;
-    menu[selectedIdx].setColor(sf::Color::Red);
+    menu[selectedIdx].setFillColor(sf::Color::Red);
 }
 
 //return selected index
@@ -72,22 +69,22 @@ void fxx::directors::Menu::makeMenu()
     state = MAIN_MENU;
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
-    menu[0].setColor(sf::Color::White);
+    menu[0].setFillColor(sf::Color::Red);
     menu[0].setString("Play");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 1));
     menu[1].setFont(font);
     menu[1].setCharacterSize(40);
-    menu[1].setColor(sf::Color::White);
+    menu[1].setFillColor(sf::Color::White);
     menu[1].setString("How to play");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 2));
     menu[2].setFont(font);
     menu[2].setCharacterSize(40);
-    menu[2].setColor(sf::Color::White);
+    menu[2].setFillColor(sf::Color::White);
     menu[2].setString("Scores");
     menu[2].setPosition(sf::Vector2f((width/2) - (menu[2].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 3));
     menu[3].setFont(font);
     menu[3].setCharacterSize(40);
-    menu[3].setColor(sf::Color::White);
+    menu[3].setFillColor(sf::Color::White);
     menu[3].setString("Exit");
     menu[3].setPosition(sf::Vector2f((width/2) - (menu[3].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 4));
 }
@@ -103,12 +100,12 @@ void fxx::directors::Menu::goToHowToPlay(sf::RenderWindow &window) {
 
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
-    menu[0].setColor(sf::Color::White);
+    menu[0].setFillColor(sf::Color::Red);
     menu[0].setString("go back to main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 1));
     menu[1].setFont(font);
     menu[1].setCharacterSize(40);
-    menu[1].setColor(sf::Color::White);
+    menu[1].setFillColor(sf::Color::White);
     menu[1].setString("start the game");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 2));
 }

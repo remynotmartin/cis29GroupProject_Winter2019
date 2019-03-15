@@ -59,7 +59,6 @@ private:
 	//sf::SoundBuffer jumpBuffer;
 	//sf::Sound jumpSound;
 
-
 	void set_up_level();
 	void set_up_players();
 

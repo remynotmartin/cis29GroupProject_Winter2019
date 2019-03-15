@@ -281,8 +281,8 @@ void fxx::directors::game::handle_event(sf::Event event) {
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key pressed" << std::endl;
-		jump_sound.stop();
-		jump_sound.play();
+        jump_sound.stop();
+        jump_sound.play();
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
@@ -327,6 +327,7 @@ void fxx::directors::game::run_menu() {
                         case 0 :
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
+
                                 std::cout << "play button is selected, start the game here\n";
                                 menu_music.stop();
                                 bg_music.play();
@@ -340,7 +341,10 @@ void fxx::directors::game::run_menu() {
                             if (menu.getState() == Menu::MAIN_MENU)
                                 menu.goToHowToPlay(window);
                             else if (menu.getState() == Menu::HOW_TO_PLAY)
-                                std::cout << "start playing game \n" ;
+                            {
+                                active_activity = activity::GAME;
+                                clock.restart();
+                            }
                             break;
                         case 2:
                             std::cout << "display scores is selected, show the list of scores\n";
