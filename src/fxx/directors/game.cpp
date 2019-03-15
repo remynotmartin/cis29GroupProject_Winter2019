@@ -40,12 +40,15 @@ void fxx::directors::game::set_up_level() {
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
 	// Background music
-	bg_music.openFromFile("share/textures/sky_sky_sky.wav");
+	bg_music.openFromFile("share/textures/play_music.ogg");
+	// Menu music
+	menu_music.openFromFile("share/textures/menu_music.ogg");
 	//std::cout << a << std::endl;
 	jump_sound.openFromFile("share/textures/jump.wav");
 	//jumpBuffer.loadFromFile("share/textures/jump.wav");
 	//jumpSound.setBuffer(jumpBuffer);
-	bg_music.play();
+    menu_music.play();
+	//bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -283,6 +286,8 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
+        jump_sound.stop();
+        jump_sound.play();
 		players[1].jump();
 	}
 }
@@ -323,6 +328,8 @@ void fxx::directors::game::run_menu() {
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
                                 std::cout << "play button is selected, start the game here\n";
+                                menu_music.stop();
+                                bg_music.play();
                                 active_activity = activity::GAME;
 								clock.restart();
                             }

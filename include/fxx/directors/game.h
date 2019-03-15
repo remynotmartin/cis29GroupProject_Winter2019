@@ -54,6 +54,7 @@ private:
 
 	std::vector<sf::Texture> textures;
 	sf::Music bg_music;
+	sf::Music menu_music;
 	sf::Music jump_sound;
 	//sf::SoundBuffer jumpBuffer;
 	//sf::Sound jumpSound;
