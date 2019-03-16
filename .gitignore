@@ -40,3 +40,8 @@
 
 # xml
 *.xml
+
+# Ignoring CLion local system-specific dependencies
+player/*
+CMakeLists.txt
+cmake-build-debug/*
