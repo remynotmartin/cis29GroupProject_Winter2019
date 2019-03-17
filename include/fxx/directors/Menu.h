@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio/SoundBuffer.hpp"
+#include "SFML/Audio/Sound.hpp"
 
 #define NUMBER_OF_ITEMS 4
 
@@ -24,12 +26,14 @@ public:
     };
     
 private:
-    int selectedIdx;
-    sf::Font font;
-    sf::Text menu[NUMBER_OF_ITEMS];
+    int                selectedIdx;
+    sf::Font           font;
+    sf::Text           menu[NUMBER_OF_ITEMS];
+    sf::SoundBuffer    toneBuffer;
+    sf::Sound          menuTone;
     const unsigned int width;
     const unsigned int height;
-    State state;
+    State              state;
     
 public:
     
@@ -41,7 +45,8 @@ public:
     void MoveDown();
     int getSelectedIdx();
     void goToHowToPlay(sf::RenderWindow &window);
-    void makeMenu() ;
+    void makeMenu();
+    void playMenuTone();
 };
 
 #endif /* Menu_h */

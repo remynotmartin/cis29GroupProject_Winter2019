@@ -64,11 +64,13 @@ void fxx::directors::game::set_up_level() {
 		}
 	}
 
-	std::ifstream fin("share/levels/guts", std::ios::binary | std::ios::in);
+    const char* const gutsPath = "share/levels/guts";
 
-	if (!fin) {
-		std::cerr << "unable to open file" << std::endl;
-		std::exit(EXIT_FAILURE);
+	std::ifstream fin(gutsPath, std::ios::binary | std::ios::in);
+
+	if (!fin.is_open()) {
+		std::cerr << "Unable to open file: " << gutsPath << std::endl;
+		std::exit(1);
 	}
 
 	unsigned char room_index;
@@ -76,8 +78,8 @@ void fxx::directors::game::set_up_level() {
 	unsigned char height;
 
 	fin.read(reinterpret_cast<char *>(&room_index), 1);
-	fin.read(reinterpret_cast<char *>(&width), 1);
-	fin.read(reinterpret_cast<char *>(&height), 1);
+	fin.read(reinterpret_cast<char *>(&width),      1);
+	fin.read(reinterpret_cast<char *>(&height),     1);
 
 	std::vector<bool> is_solid = {
 		0, 1, 1, 1, 1,
@@ -203,10 +205,10 @@ void fxx::directors::game::direct(float delta_time) {
 void fxx::directors::game::draw() {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-
-    float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
-          xLeftLock  = 225.0f, // To keep the left-hand  void of the world out of view
-          xRightLock = 4880.0f, // To keep the right-hand void of the world out of view
+          
+    float yLock      = 230.0f,  // lock Y to hide void top & bottom
+          xLeftLock  = 225.0f,  // keep  left-hand void out of view
+          xRightLock = 4880.0f, // keep right-hand void out of view
           x1, x2,
           y1, y2;
 
@@ -325,9 +327,11 @@ void fxx::directors::game::run_menu() {
             {
                 case sf::Keyboard::Up:
                     menu.MoveUp();
+                    menu.playMenuTone();
                     break;
                 case sf::Keyboard::Down:
                     menu.MoveDown();
+                    menu.playMenuTone();
                     break;
                 case sf::Keyboard::Return:
                     switch (menu.getSelectedIdx())
@@ -335,29 +339,36 @@ void fxx::directors::game::run_menu() {
                         case 0 :
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
-
+                                menu.playMenuTone();
                                 std::cout << "play button is selected, start the game here\n";
                                 menu_music.stop();
                                 bg_music.play();
                                 active_activity = activity::GAME;
 								clock.restart();
                             }
-                            if (menu.getState() == Menu::HOW_TO_PLAY)
+                            if (menu.getState() == Menu::HOW_TO_PLAY) {
+                                menu.playMenuTone();
                                 menu.makeMenu();
+                            }
                             break;
                         case 1 :
-                            if (menu.getState() == Menu::MAIN_MENU)
+                            if (menu.getState() == Menu::MAIN_MENU) {
+                                menu.playMenuTone();
                                 menu.goToHowToPlay(window);
+                            }
                             else if (menu.getState() == Menu::HOW_TO_PLAY)
-                            {
+                            {    
+                                menu.playMenuTone();
                                 active_activity = activity::GAME;
                                 clock.restart();
                             }
                             break;
                         case 2:
+                            menu.playMenuTone();
                             std::cout << "display scores is selected, show the list of scores\n";
                             break;
                         case 3 :
+                            menu.playMenuTone();
                             window.close();
                             break;
                     }

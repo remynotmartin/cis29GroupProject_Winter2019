@@ -17,6 +17,8 @@ fxx::directors::Menu::Menu(const unsigned int w, const unsigned int h) : width(w
         std::cerr << "Path to file is: " << blockyFont << std::endl;
         std::cerr << "Please check path and filename." << std::endl;
     }
+    toneBuffer.loadFromFile("share/soundEffects/menuBeep.ogg");
+    menuTone.setBuffer(toneBuffer);
 
     selectedIdx = 0;
 }
@@ -114,4 +116,9 @@ void fxx::directors::Menu::goToHowToPlay(sf::RenderWindow &window) {
     menu[1].setFillColor(sf::Color::White);
     menu[1].setString("Start the Game");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 2));
+}
+
+void fxx::directors::Menu::playMenuTone() {
+    std::cout << "Playing menu tone\n";
+    menuTone.play();
 }

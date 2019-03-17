@@ -19,6 +19,12 @@ Because we could.
 .B "nullptr"
 (C++11)
 Because we should!
+.PP
+.B "Range-based for loop"
+(C++11)
+.PP
+   Line 150 in
+.I "game.cpp"
 .NH
 STL Containers
 .PP
