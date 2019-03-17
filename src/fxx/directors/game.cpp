@@ -41,13 +41,15 @@ void fxx::directors::game::set_up_level() {
 	textures.back().loadFromFile("share/textures/gutstiles.png");
 	// Background music
 	bg_music.openFromFile("share/textures/play_music.ogg");
+	bg_music.setLoop(true);
 	// Menu music
 	menu_music.openFromFile("share/textures/menu_music.ogg");
 	//std::cout << a << std::endl;
-	jump_sound.openFromFile("share/textures/jump.wav");
+	jump_sound.openFromFile("share/textures/jump.ogg");
 	//jumpBuffer.loadFromFile("share/textures/jump.wav");
 	//jumpSound.setBuffer(jumpBuffer);
     menu_music.play();
+    menu_music.setLoop(true);
 	//bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
@@ -62,11 +64,13 @@ void fxx::directors::game::set_up_level() {
 		}
 	}
 
-	std::ifstream fin("share/levels/guts", std::ios::binary | std::ios::in);
+    const char* const gutsPath = "share/levels/guts";
 
-	if (!fin) {
-		std::cerr << "unable to open file" << std::endl;
-		std::exit(EXIT_FAILURE);
+	std::ifstream fin(gutsPath, std::ios::binary | std::ios::in);
+
+	if (!fin.is_open()) {
+		std::cerr << "Unable to open file: " << gutsPath << std::endl;
+		std::exit(1);
 	}
 
 	unsigned char room_index;
@@ -74,8 +78,8 @@ void fxx::directors::game::set_up_level() {
 	unsigned char height;
 
 	fin.read(reinterpret_cast<char *>(&room_index), 1);
-	fin.read(reinterpret_cast<char *>(&width), 1);
-	fin.read(reinterpret_cast<char *>(&height), 1);
+	fin.read(reinterpret_cast<char *>(&width),      1);
+	fin.read(reinterpret_cast<char *>(&height),     1);
 
 	std::vector<bool> is_solid = {
 		0, 1, 1, 1, 1,
@@ -201,10 +205,10 @@ void fxx::directors::game::direct(float delta_time) {
 void fxx::directors::game::draw() {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-
-    float yLock      = 230.0f, // Keep Y locked at a constant value to hide world top and bottom
-          xLeftLock  = 225.0f, // To keep the left-hand  void of the world out of view
-          xRightLock = 4880.0f, // To keep the right-hand void of the world out of view
+          
+    float yLock      = 230.0f,  // lock Y to hide void top & bottom
+          xLeftLock  = 225.0f,  // keep  left-hand void out of view
+          xRightLock = 4880.0f, // keep right-hand void out of view
           x1, x2,
           y1, y2;
 
@@ -280,14 +284,18 @@ void fxx::directors::game::handle_event(sf::Event event) {
 
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
+
 		std::cout << "'Z' key pressed" << std::endl;
-        jump_sound.stop();
-        jump_sound.play();
+        std::cout << sf::Music::Playing << std::endl;
+        if (jump_sound.getStatus() != sf::Music::Playing) {
+			jump_sound.play();
+        }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-        jump_sound.stop();
-        jump_sound.play();
+		if (jump_sound.getStatus() != sf::Music::Playing) {
+			jump_sound.play();
+		}
 		players[1].jump();
 	}
 }
@@ -296,9 +304,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key released" << std::endl;
+		jump_sound.stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key released" << std::endl;
+		jump_sound.stop();
 		players[1].cut_jump();
 	}
 }
@@ -317,9 +327,11 @@ void fxx::directors::game::run_menu() {
             {
                 case sf::Keyboard::Up:
                     menu.MoveUp();
+                    menu.playMenuTone();
                     break;
                 case sf::Keyboard::Down:
                     menu.MoveDown();
+                    menu.playMenuTone();
                     break;
                 case sf::Keyboard::Return:
                     switch (menu.getSelectedIdx())
@@ -327,29 +339,36 @@ void fxx::directors::game::run_menu() {
                         case 0 :
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
-
+                                menu.playMenuTone();
                                 std::cout << "play button is selected, start the game here\n";
                                 menu_music.stop();
                                 bg_music.play();
                                 active_activity = activity::GAME;
 								clock.restart();
                             }
-                            if (menu.getState() == Menu::HOW_TO_PLAY)
+                            if (menu.getState() == Menu::HOW_TO_PLAY) {
+                                menu.playMenuTone();
                                 menu.makeMenu();
+                            }
                             break;
                         case 1 :
-                            if (menu.getState() == Menu::MAIN_MENU)
+                            if (menu.getState() == Menu::MAIN_MENU) {
+                                menu.playMenuTone();
                                 menu.goToHowToPlay(window);
+                            }
                             else if (menu.getState() == Menu::HOW_TO_PLAY)
-                            {
+                            {    
+                                menu.playMenuTone();
                                 active_activity = activity::GAME;
                                 clock.restart();
                             }
                             break;
                         case 2:
+                            menu.playMenuTone();
                             std::cout << "display scores is selected, show the list of scores\n";
                             break;
                         case 3 :
+                            menu.playMenuTone();
                             window.close();
                             break;
                     }

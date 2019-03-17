@@ -3,15 +3,24 @@
 #include "fxx/directors/Menu.h"
 #include <iostream>
 
+const char* const blockyFont = "share/resources/04b03.ttf";
+
 //constructor
 fxx::directors::Menu::Menu(const unsigned int w, const unsigned int h) : width(w), height(h)
 {
-    if (!font.loadFromFile("share/resources/04b03.ttf"))
-    {
-        throw "Failed to load a font file\n";
+    try {
+        if (!font.loadFromFile(blockyFont))
+            throw "Failed to load a font file!";
     }
-    selectedIdx = 0;
+    catch (const char* msg) {
+        std::cerr << msg << std::endl;
+        std::cerr << "Path to file is: " << blockyFont << std::endl;
+        std::cerr << "Please check path and filename." << std::endl;
+    }
+    toneBuffer.loadFromFile("share/soundEffects/menuBeep.ogg");
+    menuTone.setBuffer(toneBuffer);
 
+    selectedIdx = 0;
 }
 
 
@@ -24,7 +33,6 @@ void fxx::directors::Menu::draw(sf::RenderWindow &window) {
             window.draw(menu[i]);
         }
     } else if (state == HOW_TO_PLAY) {
-
         for (int i = 0; i < 2 ; ++i) {
             window.draw(menu[i]);
         }
@@ -36,7 +44,7 @@ void fxx::directors::Menu::displayHowToPlay(sf::RenderWindow &window)
     sf::Text text;
     text.setFont(font);
     sf::Text credits("Made by: name1, name2, name3, name4", font, 20);
-    text.setString("How to play the game page\nThis will be updated later\n");
+    text.setString("Player 1 Jump: 'Z'\n Player 2 Jump: 'M'\n");
     text.setCharacterSize(16);
     text.setFillColor(sf::Color::White);
 }
@@ -75,7 +83,7 @@ void fxx::directors::Menu::makeMenu()
     menu[1].setFont(font);
     menu[1].setCharacterSize(40);
     menu[1].setFillColor(sf::Color::White);
-    menu[1].setString("How to play");
+    menu[1].setString("How to Play");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 2));
     menu[2].setFont(font);
     menu[2].setCharacterSize(40);
@@ -93,7 +101,7 @@ void fxx::directors::Menu::goToHowToPlay(sf::RenderWindow &window) {
     state = HOW_TO_PLAY;
     sf::Text text;
     text.setFont(font);
-    text.setString("How to play the game page\nThis will be updated later\n");
+    text.setString("Player 1 Jump: 'Z'\n Player 2 Jump: 'M'\n");
     text.setCharacterSize(16);
     text.setFillColor(sf::Color::White);
     window.draw(text);
@@ -101,11 +109,16 @@ void fxx::directors::Menu::goToHowToPlay(sf::RenderWindow &window) {
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
     menu[0].setFillColor(sf::Color::Red);
-    menu[0].setString("go back to main");
+    menu[0].setString("Back to Main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 1));
     menu[1].setFont(font);
     menu[1].setCharacterSize(40);
     menu[1].setFillColor(sf::Color::White);
-    menu[1].setString("start the game");
+    menu[1].setString("Start the Game");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / (NUMBER_OF_ITEMS + 1) * 2));
+}
+
+void fxx::directors::Menu::playMenuTone() {
+    std::cout << "Playing menu tone\n";
+    menuTone.play();
 }

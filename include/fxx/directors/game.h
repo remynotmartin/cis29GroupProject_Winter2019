@@ -16,7 +16,6 @@ namespace fxx {
 	}
 }
 
-
 class fxx::directors::game {
 public:
 	game();
