@@ -9,16 +9,36 @@ Use of C++11 (and later) features
 .PP
 As of yet, we have used:
 .PP
+.B "inline"
+(C++17)
+.PP
+    The
+.I "clip_rect"
+function in the Collidable class is noted with this keyword.
+.PP
 .B "auto"
 (C++11)
-Because we could.
+.PP
+    Certainly saves a good deal of typing, at the expense of clarity.
+An example appears at the start of the
+.I "clip_dir"
+function definition in the file
+.I "Collidable.cpp",
+where the local variables
+.I "isect"
+and 
+.I "center"
+are declared and initialized.
 .PP
 .B "enum class"
 (C++11)
 .PP
+    Used in the Game class for the various game states.
+.PP
 .B "nullptr"
 (C++11)
-Because we should!
+.PP
+    Provides a type-safe value to assign to unused pointers.
 .PP
 .B "Range-based for loop"
 (C++11)
@@ -52,10 +72,10 @@ namespace.
 .NH
 Exception Handling
 .PP
-A rather elementary example, but exception handling can be seen a
-constructor of the menu class. The code which attempts to open a font
-file is encompassed in a try block, which upon failure will throw a
-C-string error message which is immediately caught by the following catch 
-block. At this point in development, this is not believed to be a 
-catastrophic error, so the program continues on after displaying an 
-error message for the engineers.
+A rather elementary example,
+but exception handling can be seen in the constructor of the menu class.
+The code which attempts to open a font file is encompassed in a try block,
+which upon failure will throw a C-string error message which is then
+caught by the following catch block. At this point in development,
+this is not believed to be a catastrophic error, so the program continues
+on after displaying an error message to be noted by the engineers.
