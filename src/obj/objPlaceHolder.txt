@@ -1,0 +1,1 @@
+This file is simply mean to hold the place of this object folder, so that when the repository is cloned on a fresh installation of Linux, this obj folder will exist so that make can use it to store the main.o object file. 

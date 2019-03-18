@@ -1,0 +1,1 @@
+This file is meant to hold the place of the bin folder when this repo is freshly cloned, so that make can use this folder to store the megadan.out executable file.
