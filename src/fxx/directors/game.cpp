@@ -340,13 +340,12 @@ void fxx::directors::game::run_menu() {
                             if (menu.getState() == Menu::MAIN_MENU)
                             {
                                 menu.playMenuTone();
-                                std::cout << "play button is selected, start the game here\n";
                                 menu_music.stop();
                                 bg_music.play();
                                 active_activity = activity::GAME;
 								clock.restart();
                             }
-                            if (menu.getState() == Menu::HOW_TO_PLAY) {
+                            if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
                                 menu.playMenuTone();
                                 menu.makeMenu();
                             }
@@ -354,9 +353,9 @@ void fxx::directors::game::run_menu() {
                         case 1 :
                             if (menu.getState() == Menu::MAIN_MENU) {
                                 menu.playMenuTone();
-                                menu.goToHowToPlay(window);
+                                menu.goToHowToPlay();
                             }
-                            else if (menu.getState() == Menu::HOW_TO_PLAY)
+                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES)
                             {    
                                 menu.playMenuTone();
                                 active_activity = activity::GAME;
@@ -365,7 +364,7 @@ void fxx::directors::game::run_menu() {
                             break;
                         case 2:
                             menu.playMenuTone();
-                            std::cout << "display scores is selected, show the list of scores\n";
+                            menu.displayScores();
                             break;
                         case 3 :
                             menu.playMenuTone();
