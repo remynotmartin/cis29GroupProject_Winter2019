@@ -1,5 +1,4 @@
 //Menu.h
-
 #ifndef Menu_h
 #define Menu_h
 
@@ -9,7 +8,7 @@
 #include "SFML/Audio/Sound.hpp"
 #include "SFML/Graphics.hpp"
 
-#define NUMBER_OF_ITEMS 4
+#define NUMBER_OF_ITEMS 5
 
 
 namespace fxx {
@@ -24,7 +23,8 @@ public:
     enum State {
         MAIN_MENU,
         HOW_TO_PLAY,
-        SHOW_SCORES
+        SHOW_SCORES,
+        GET_NAME
     };
     
 private:
@@ -37,6 +37,7 @@ private:
     const unsigned int width;
     const unsigned int height;
     State              state;
+
     
 public:
     
@@ -50,6 +51,7 @@ public:
     void makeMenu() ;
     void playMenuTone();
     void displayScores();
+    void askName();
     std::string getInstruction();
     std::string getScores();
 };

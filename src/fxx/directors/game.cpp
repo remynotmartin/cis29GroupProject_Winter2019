@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
+#include <string>
 #include <iostream>
 
 
@@ -19,6 +20,10 @@ fxx::directors::game::game()
 	set_up_players();
 
 	menu.makeMenu();
+    p1name = " ";
+    p2name = " ";
+    flag = true;
+    flag2 = true;
 
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -278,7 +283,8 @@ void fxx::directors::game::handle_event(sf::Event event) {
 		handle_key_press(event.key.code);
 	} else if (event.type == sf::Event::KeyReleased) {
 		handle_key_release(event.key.code);
-	}
+    }
+
 }
 
 
@@ -321,6 +327,48 @@ void fxx::directors::game::run_menu() {
     while (window.pollEvent(evnt)) {
         switch (evnt.type)
         {
+            case sf::Event::TextEntered:
+                 if (flag) {
+                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
+                        if (evnt.text.unicode != 8 ) {
+                            p1name += static_cast<char>(evnt.text.unicode);
+                            //std::cout << "p1name: [" << p1name << "]" << std::endl;
+                            //std::cout << static_cast<char>(evnt.text.unicode);
+                        } else if (evnt.text.unicode == '\n') {
+                            flag = false;
+                            sf::Text textname;
+                            textname.setString(p1name);
+                            textname.setFillColor(sf::Color::White);
+                            textname.setPosition(0, 20);
+                            window.draw(textname);
+                            std::cout << "****************user entered name is " << p1name << std::endl;
+                        } else { // if they delete
+                            p1name = p1name.substr(0, p1name.length() - 1);
+                        }
+                    }
+                    
+                }
+                
+                if (flag2) {
+                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
+                        if (evnt.text.unicode != 8 ) {
+                            p2name += static_cast<char>(evnt.text.unicode);
+                            //std::cout << static_cast<char>(evnt.text.unicode);
+                        } else if (static_cast<char>(evnt.text.unicode) == '\n') {
+                            flag2 = false;
+                            sf::Text textname2;
+                            textname2.setString(p1name);
+                            textname2.setPosition(0, 40);
+                            textname2.setFillColor(sf::Color::White);
+                            window.draw(textname2);
+                            std::cout << "user entered name is " << p2name << std::endl;
+                        } else { // if they delete
+                            p2name = p2name.substr(0, p2name.length() - 1);
+                        }
+                    }
+                    
+                }
+               
             case sf::Event::KeyReleased:
 
             switch (evnt.key.code)
@@ -337,13 +385,12 @@ void fxx::directors::game::run_menu() {
                     switch (menu.getSelectedIdx())
                     {
                         case 0 :
-                            if (menu.getState() == Menu::MAIN_MENU)
-                            {
+                            if (menu.getState() == Menu::MAIN_MENU) {
                                 menu.playMenuTone();
                                 menu_music.stop();
                                 bg_music.play();
                                 active_activity = activity::GAME;
-								clock.restart();
+                                clock.restart();
                             }
                             if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
                                 menu.playMenuTone();
@@ -366,7 +413,10 @@ void fxx::directors::game::run_menu() {
                             menu.playMenuTone();
                             menu.displayScores();
                             break;
-                        case 3 :
+                        case 3:
+                            menu.askName();
+                            break;
+                        case 4 :
                             menu.playMenuTone();
                             window.close();
                             break;

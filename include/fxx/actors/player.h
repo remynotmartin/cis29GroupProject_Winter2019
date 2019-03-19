@@ -23,7 +23,11 @@ public:
 	virtual void act(float delta_time) override;
 	virtual void collide(fxx::actors::collidable & that) override;
 	virtual void draw(sf::RenderTarget & target) override;
-
+    //int getScore() const {return score;}
+    //string getName() const {return name;}
+    //void setScore(int s) {score = s;}
+    //void setName(string n) {name =n;}
+            
 	void cut_jump();
 	void jump();
 	void run();
@@ -32,6 +36,8 @@ private:
 	const float JUMP_VELOCITY = -200.0f; // Dan OG-Spec: -128.0f
 	const float RUN_VELOCITY = 128.0f; // Dan OG-Spec: 64.0f
 	const float FULL_JUMP_TIME = 0.33f;
+    //int score;
+    //string name;
 
 	float jump_time;
 

@@ -45,6 +45,8 @@ void fxx::directors::Menu::draw(sf::RenderWindow &window) {
             window.draw(text);
             window.draw(menu[i]);
         }
+    } else if (state == GET_NAME) {
+        window.draw(text);
     }
 }
 
@@ -96,9 +98,26 @@ void fxx::directors::Menu::makeMenu() {
     menu[3].setFont(font);
     menu[3].setCharacterSize(40);
     menu[3].setFillColor(sf::Color::White);
-    menu[3].setString("Exit");
+    menu[3].setString("Input Name");
     menu[3].setPosition(sf::Vector2f((width/2) - (menu[3].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 4));
+    menu[4].setFont(font);
+    menu[4].setCharacterSize(40);
+    menu[4].setFillColor(sf::Color::White);
+    menu[4].setString("Exit");
+    menu[4].setPosition(sf::Vector2f((width/2) - (menu[4].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 5));
 }
+
+//ask player name before game starts
+void fxx::directors::Menu::askName() {
+    state = GET_NAME;
+    
+    text.setFont(font);
+    text.setString("Please enter your name: ");
+    text.setCharacterSize(20);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(sf::Vector2f( 0.0f  , 0.0f));
+}
+
 
 // display instruction in how to play
 void fxx::directors::Menu::goToHowToPlay() {

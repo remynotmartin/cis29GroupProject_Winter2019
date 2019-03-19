@@ -1,7 +1,4 @@
-1.Turn it off, like a light switch
-2.just go click
-3.It's a cool little Mormon trick
-4.We do it all the time
-5.When you are feeling certain feels that just don't feel right
-6.treat those pesky feeling like a reading light
-7.And turn them off like a light switch, just go flick
+How to Play
+It's a two player game.
+You can jump by pressing m(player1) or z(player2)
+Whoever reaches to the end first, wins the game. 
