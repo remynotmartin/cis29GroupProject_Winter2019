@@ -48,12 +48,13 @@ void fxx::directors::game::set_up_level() {
     // Load tileset from sprite map
 	textures.back().loadFromFile("share/textures/gutstiles.png");
 	// Background music
-	bg_music.openFromFile("share/textures/play_music.ogg");
+	bg_music.openFromFile("share/soundEffects/play_music.ogg");
 	bg_music.setLoop(true);
 	// Menu music
-	menu_music.openFromFile("share/textures/menu_music.ogg");
+	menu_music.openFromFile("share/soundEffects/menu_music.ogg");
 	//std::cout << a << std::endl;
-	jump_sound.openFromFile("share/textures/jump.ogg");
+	jump_sound_player1.openFromFile("share/soundEffects/jump.ogg");
+	jump_sound_player2.openFromFile("share/soundEffects/jump.ogg");
 	//jumpBuffer.loadFromFile("share/textures/jump.wav");
 	//jumpSound.setBuffer(jumpBuffer);
     menu_music.play();
@@ -306,14 +307,14 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 		std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
-        if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+        if (jump_sound_player1.getStatus() != sf::Music::Playing) {
+			jump_sound_player1.play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-		if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+		if (jump_sound_player2.getStatus() != sf::Music::Playing) {
+			jump_sound_player2.play();
 		}
 		players[1].jump();
 	}
@@ -323,11 +324,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key released" << std::endl;
-		jump_sound.stop();
+		jump_sound_player1.stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key released" << std::endl;
-		jump_sound.stop();
+		jump_sound_player2.stop();
 		players[1].cut_jump();
 	}
 }
