@@ -47,7 +47,11 @@ void fxx::directors::Menu::draw(sf::RenderWindow &window) {
         }
     } else if (state == GET_NAME) {
         window.draw(text);
+        window.draw(textname);
+        window.draw(textname2);
+        window.draw(menu[0]);
     }
+        
 }
 
 
@@ -66,6 +70,8 @@ void fxx::directors::Menu::MoveDown() {
     menu[selectedIdx].setFillColor(sf::Color::White);
     if (state == MAIN_MENU)
         selectedIdx = (selectedIdx + 1) % NUMBER_OF_ITEMS;
+    else if (state == GET_NAME)
+        selectedIdx = 1;
     else
         selectedIdx = (selectedIdx + 1) % 2; 
 
@@ -108,14 +114,34 @@ void fxx::directors::Menu::makeMenu() {
 }
 
 //ask player name before game starts
-void fxx::directors::Menu::askName() {
+//void fxx::directors::Menu::askName() {
+void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     state = GET_NAME;
-    
+    //text
     text.setFont(font);
     text.setString("Please enter your name: ");
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( 0.0f  , 0.0f));
+    text.setPosition(sf::Vector2f(0.0f  , 0.0f));
+    
+    std::cout << "DEBUG in menu [" << p1name << "]" << std::endl;
+    textname.setString(p1name);
+    textname.setCharacterSize(15);
+    textname.setFillColor(sf::Color::White);
+    textname.setPosition(20, 20);
+
+    std::cout << "DEBUG in menu p2name is [" << p2name << "]" << std::endl;
+    textname2.setString(p2name);
+    textname2.setCharacterSize(15);
+    textname2.setFillColor(sf::Color::White);
+    textname2.setPosition(40, 20);
+
+    
+    menu[0].setFont(font);
+    menu[0].setCharacterSize(40);
+    menu[0].setFillColor(sf::Color::White);
+    menu[0].setString("Start the Game");
+    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
 }
 
 
@@ -128,21 +154,21 @@ void fxx::directors::Menu::goToHowToPlay() {
     instruction = getInstruction();
     text.setFont(font);
     text.setString(instruction.c_str());
-    text.setCharacterSize(16);
+    text.setCharacterSize(25);
     text.setFillColor(sf::Color::White);
     text.setPosition(0.0f, 0.0f);
     
     //menu
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
-    menu[0].setFillColor(sf::Color::Red);
+    menu[0].setFillColor(sf::Color::White);
     menu[0].setString("go back to main");
-    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));//, height / (NUMBER_OF_ITEMS + 1) * 1));
+    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
     menu[1].setFont(font);
     menu[1].setCharacterSize(40);
     menu[1].setFillColor(sf::Color::White);
     menu[1].setString("start the game");
-    menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / 10 * 9 ));//, height / (NUMBER_OF_ITEMS + 1) * 1));)// height / (NUMBER_OF_ITEMS + 1) * 2));
+    menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / 10 * 9 ));
 }
 
 // read a instruction to create one long string to display
@@ -154,6 +180,7 @@ std::string fxx::directors::Menu::getInstruction() {
         std::cout << "error opening instruction file in print instruction()\n";
         exit(101);
     }
+    
     while (getline(fin, line)) {
         text += line += '\n';
     }
@@ -172,16 +199,16 @@ void fxx::directors::Menu::displayScores() {
     text.setString(scores.c_str());
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( 0.0f  , 0.0f));
+    text.setPosition(sf::Vector2f(0.0f , 0.0f));
     
     // menu
     menu[0].setFont(font);
-    menu[0].setCharacterSize(30);
-    menu[0].setFillColor(sf::Color::Red);
+    menu[0].setCharacterSize(40);
+    menu[0].setFillColor(sf::Color::White);
     menu[0].setString("go back to main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
     menu[1].setFont(font);
-    menu[1].setCharacterSize(30);
+    menu[1].setCharacterSize(40);
     menu[1].setFillColor(sf::Color::White);
     menu[1].setString("start the game");
     menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / 10 * 9 ));

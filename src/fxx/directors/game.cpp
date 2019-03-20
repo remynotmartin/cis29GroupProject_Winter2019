@@ -20,10 +20,12 @@ fxx::directors::game::game()
 	set_up_players();
 
 	menu.makeMenu();
-    p1name = " ";
-    p2name = " ";
+    p1name = "";
+    p2name = "";
     flag = true;
     flag2 = true;
+    debugFlag = false;
+    debugFlag2 = false;
             
 
     
@@ -168,10 +170,14 @@ void fxx::directors::game::direct() {
 	const float DRAW_INTERVAL = 1.0f / FRAME_RATE;
     sf::Event event;
     
+    // for time display
     sf::Text time_text;
     time_text.setCharacterSize(20);
     time_text.setFillColor(sf::Color::White);
     time_text.setPosition(80.0f, 20.0f);
+    
+    
+    
 	float   delta_draw_time = 0.0f;
 	float delta_direct_time = 0.0f;
 
@@ -188,8 +194,9 @@ void fxx::directors::game::direct() {
 
     sf::Time elapsed = clock.getElapsedTime();
     std::cout << "time " << elapsed.asSeconds() << std::endl;
-    time_text.setString(sf::String("Time: "+std::to_string(elapsed.asSeconds())));
-	std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
+    time_text.setString(sf::String("Time: " + std::to_string(elapsed.asSeconds())));
+	
+    std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
 	draw(time_text);
     //draw();
 }
@@ -223,7 +230,7 @@ void fxx::directors::game::draw(sf::Text& text) {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     
-    window.draw(text);
+    
     float yLock      = 230.0f,  // lock Y to hide void top & bottom
           xLeftLock  = 225.0f,  // keep  left-hand void out of view
           xRightLock = 4880.0f, // keep right-hand void out of view
@@ -279,12 +286,14 @@ void fxx::directors::game::draw(sf::Text& text) {
     view1.setViewport(sf::FloatRect(-0.5f, 0.5f, 2.0f, 0.5f));
     view2.setViewport(sf::FloatRect(-0.5f, 0.0f, 2.0f, 0.5f));
 
+    window.draw(text); /////////////
     for (auto & view : views) {
         window.setView(*view);
 	    for (auto drawable : drawables) {
 		    drawable->draw(window);
 	    }
     }
+    gameFinished = false; ////////
 	window.display();
 }
 
@@ -337,51 +346,37 @@ void fxx::directors::game::run_menu() {
 	window.display();
 
     sf::Event evnt;
-   
     while (window.pollEvent(evnt)) {
+        
         switch (evnt.type)
         {
             case sf::Event::TextEntered:
-                 if (flag) {
-                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
-                        if (evnt.text.unicode != 8 ) {
-                            p1name += static_cast<char>(evnt.text.unicode);
-                            //std::cout << "p1name: [" << p1name << "]" << std::endl;
-                            std::cout << static_cast<char>(evnt.text.unicode) << std::endl;
-                        } else if (evnt.text.unicode == 12) {
-                            flag = false;
-                            sf::Text textname;
-                            textname.setString(p1name);
-                            textname.setFillColor(sf::Color::White);
-                            textname.setPosition(0, 20);
-                            window.draw(textname);
-                            std::cout << "****************user entered name is " << p1name << std::endl;
-                        } else { // if they delete
-                            p1name = p1name.substr(0, p1name.length() - 1);
-                        }
-                    }
-                    
+                if (flag && debugFlag) {
+                     if (evnt.text.unicode == 8) { // delete
+                         if (p1name.length() > 0)
+                             p1name = p1name.substr(0, p1name.length() - 1);
+                     } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                         flag = false;
+                         std::cout << "DEBUG****************user entered name is [" << p1name << "]" <<  std::endl;
+                     } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
+                         p1name += static_cast<char>(evnt.text.unicode);
+                     }
                 }
-                
-                if (flag2) {
-                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
-                        if (evnt.text.unicode != 8 ) {
-                            p2name += static_cast<char>(evnt.text.unicode);
-                            //std::cout << static_cast<char>(evnt.text.unicode);
-                        } else if (static_cast<char>(evnt.text.unicode) == '\n') {
-                            flag2 = false;
-                            sf::Text textname2;
-                            textname2.setString(p1name);
-                            textname2.setPosition(0, 40);
-                            textname2.setFillColor(sf::Color::White);
-                            window.draw(textname2);
-                            std::cout << "user entered name is " << p2name << std::endl;
-                        } else { // if they delete
+            
+                else if (flag2 && debugFlag) {
+                    std::cout << "DEBUG " << evnt.text.unicode << std::endl;
+                    if (evnt.text.unicode == 8) { // delete
+                        if (p2name.length() > 0)
                             p2name = p2name.substr(0, p2name.length() - 1);
-                        }
+                    } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                        flag2 = false;
+                        std::cout << "DEBUG user entered name is [" << p2name << "]" <<  std::endl;
+                    } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
+                        p2name += static_cast<char>(evnt.text.unicode);
+                        std::cout << p2name << std::endl;
                     }
-                    
                 }
+                debugFlag = true;
                
             case sf::Event::KeyReleased:
 
@@ -416,7 +411,7 @@ void fxx::directors::game::run_menu() {
                                 menu.playMenuTone();
                                 menu.goToHowToPlay();
                             }
-                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES)
+                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES || menu.getState() == Menu::GET_NAME)
                             {    
                                 menu.playMenuTone();
                                 active_activity = activity::GAME;
@@ -427,8 +422,27 @@ void fxx::directors::game::run_menu() {
                             menu.playMenuTone();
                             menu.displayScores();
                             break;
-                        case 3:
-                            menu.askName();
+                        case 3:/*
+                            if(!flag && !flag2)
+                            {
+                                std::cout << "DEBUG inside of the case3 " << std::endl;
+                                std::cout << "DEBUG NAMES ARE: " << p1name << std::endl;
+                                sf::Text textname;
+                                textname.setString(p1name.c_str());
+                                textname.setCharacterSize(15);
+                                textname.setFillColor(sf::Color::White);
+                                textname.setPosition(20, 20);
+                                //window.draw(textname);
+                                
+                                sf::Text textname2;
+                                std::cout << p2name << std::endl;
+                                textname.setString(p2name.c_str());
+                                textname.setCharacterSize(15);
+                                textname.setFillColor(sf::Color::White);
+                                textname.setPosition(40, 20);
+                                //window.draw(textname2);
+                            }*/
+                            menu.askName(p1name, p2name);
                             break;
                         case 4 :
                             menu.playMenuTone();
