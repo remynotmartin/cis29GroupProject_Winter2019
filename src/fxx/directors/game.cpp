@@ -8,7 +8,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-
+#include <stdexcept>
 
 fxx::directors::game::game()
 		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
@@ -48,19 +48,24 @@ void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
     // Load tileset from sprite map
-	textures.back().loadFromFile("share/textures/gutstiles.png");
+	if (!textures.back().loadFromFile("share/textures/gutstiles.png")) {
+        throw(std::runtime_error("background tile image file not found"));
+	}
 	// Background music
-	bg_music.openFromFile("share/textures/play_music.ogg");
+	if (!bg_music.openFromFile("share/soundEffects/play_music.ogg")) {
+        throw(std::runtime_error("background music file not found"));
+	}
 	bg_music.setLoop(true);
 	// Menu music
-	menu_music.openFromFile("share/textures/menu_music.ogg");
-	//std::cout << a << std::endl;
-	jump_sound.openFromFile("share/textures/jump.ogg");
-	//jumpBuffer.loadFromFile("share/textures/jump.wav");
-	//jumpSound.setBuffer(jumpBuffer);
+	if (!menu_music.openFromFile("share/soundEffects/menu_music.ogg")) {
+		throw(std::runtime_error("menu music file not found"));
+	}
+	if (!jump_sound_player1.openFromFile("share/soundEffects/jump.ogg")) {
+        throw(std::runtime_error("jump sound file not found"));
+	}
+	jump_sound_player2.openFromFile("share/soundEffects/jump.ogg");
     menu_music.play();
     menu_music.setLoop(true);
-	//bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -147,12 +152,16 @@ void fxx::directors::game::set_up_players() {
 	const unsigned int PLAYER_HEIGHT = 48;
 
 	textures.emplace_back();
-	textures.back().loadFromFile("share/textures/blues.png");
+	if (!textures.back().loadFromFile("share/textures/blues.png")) {
+        throw(std::runtime_error("first character image file not found"));
+	}
 	fxx::hands::animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
 
     textures.emplace_back();
-	textures.back().loadFromFile("share/textures/greens.png");
+	if (!textures.back().loadFromFile("share/textures/greens.png")) {
+        throw(std::runtime_error("second character image file not found"));
+	}
 	fxx::hands::animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
 
@@ -315,14 +324,14 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 		std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
-        if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+        if (jump_sound_player1.getStatus() != sf::Music::Playing) {
+			jump_sound_player1.play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-		if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+		if (jump_sound_player2.getStatus() != sf::Music::Playing) {
+			jump_sound_player2.play();
 		}
 		players[1].jump();
 	}
@@ -332,11 +341,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key released" << std::endl;
-		jump_sound.stop();
+		jump_sound_player1.stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key released" << std::endl;
-		jump_sound.stop();
+		jump_sound_player2.stop();
 		players[1].cut_jump();
 	}
 }
