@@ -52,14 +52,10 @@ void fxx::directors::game::set_up_level() {
 	bg_music.setLoop(true);
 	// Menu music
 	menu_music.openFromFile("share/soundEffects/menu_music.ogg");
-	//std::cout << a << std::endl;
 	jump_sound_player1.openFromFile("share/soundEffects/jump.ogg");
 	jump_sound_player2.openFromFile("share/soundEffects/jump.ogg");
-	//jumpBuffer.loadFromFile("share/textures/jump.wav");
-	//jumpSound.setBuffer(jumpBuffer);
     menu_music.play();
     menu_music.setLoop(true);
-	//bg_music.play();
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;

@@ -60,9 +60,6 @@ private:
 	sf::Music jump_sound_player1;
 	sf::Music jump_sound_player2;
 
-	//sf::SoundBuffer jumpBuffer;
-	//sf::Sound jumpSound;
-
 	void set_up_level();
 	void set_up_players();
 
