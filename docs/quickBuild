@@ -1,0 +1,7 @@
+#!/bin/bash
+
+groff -ms projectReqs.ms -T pdf > projectReqs.pdf
+
+echo projectReqs.pdf created!
+
+zathura projectReqs.pdf

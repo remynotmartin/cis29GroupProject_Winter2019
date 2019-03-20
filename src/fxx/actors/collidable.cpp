@@ -14,7 +14,7 @@ bool fxx::actors::collidable::clips(const fxx::actors::collidable & that) const 
 
 
 void fxx::actors::collidable::unclip(const fxx::actors::collidable & that) {
-	auto isect = clip_rect(that);
+	auto isect  = clip_rect(that);
 	auto center = that.position + that.size / 2.0f;
 
 	if (isect.width == 0.0f && isect.height == 0.0f) {

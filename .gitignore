@@ -37,3 +37,13 @@
 
 # Vim Swap Files
 *.swp
+
+# xml
+*.xml
+
+# Ignoring CLion local system-specific dependencies
+player/*
+CMakeLists.txt
+cmake-build-debug/*
+
+*.DS_Store

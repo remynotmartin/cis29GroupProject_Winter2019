@@ -1,3 +1,0 @@
-/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/hyunkyungkoo/Dropbox/Hyunkyung/DeAnza/Winter2019/CIS29_AdvC++/Group Project/cis29GroupProject_Winter2019/cmake-build-debug/CMakeFiles/cis29GroupProject_Winter2019.dir

@@ -23,7 +23,7 @@ protected:
 	bool clips(const fxx::actors::collidable & that) const;
 	void unclip(const fxx::actors::collidable & that);
 
-	sf::Vector2f clip_dir(const fxx::actors::collidable & that) const;
+	sf::Vector2f  clip_dir(const fxx::actors::collidable & that) const;
 	sf::FloatRect clip_rect(const fxx::actors::collidable & that) const;
 };
 
