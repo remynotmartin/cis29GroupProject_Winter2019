@@ -24,7 +24,10 @@ fxx::directors::game::game()
     p2name = " ";
     flag = true;
     flag2 = true;
+            
 
+    
+            
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
 			run_menu();
@@ -163,11 +166,16 @@ void fxx::directors::game::set_up_players() {
 
 void fxx::directors::game::direct() {
 	const float DRAW_INTERVAL = 1.0f / FRAME_RATE;
-	sf::Event event;
-
+    sf::Event event;
+    
+    sf::Text time_text;
+    time_text.setCharacterSize(20);
+    time_text.setFillColor(sf::Color::White);
+    time_text.setPosition(80.0f, 20.0f);
 	float   delta_draw_time = 0.0f;
 	float delta_direct_time = 0.0f;
 
+    
 	do {
 		delta_direct_time = clock.restart().asSeconds();
 		direct(delta_direct_time);
@@ -178,8 +186,12 @@ void fxx::directors::game::direct() {
 		handle_event(event);
 	}
 
-	std::cout << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
-	draw();
+    sf::Time elapsed = clock.getElapsedTime();
+    std::cout << "time " << elapsed.asSeconds() << std::endl;
+    time_text.setString(sf::String("Time: "+std::to_string(elapsed.asSeconds())));
+	std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
+	draw(time_text);
+    //draw();
 }
 
 
@@ -206,11 +218,12 @@ void fxx::directors::game::direct(float delta_time) {
 	}
 }
 
-
-void fxx::directors::game::draw() {
+//void fxx::directors::game::draw()
+void fxx::directors::game::draw(sf::Text& text) {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-          
+    
+    window.draw(text);
     float yLock      = 230.0f,  // lock Y to hide void top & bottom
           xLeftLock  = 225.0f,  // keep  left-hand void out of view
           xRightLock = 4880.0f, // keep right-hand void out of view
@@ -324,6 +337,7 @@ void fxx::directors::game::run_menu() {
 	window.display();
 
     sf::Event evnt;
+   
     while (window.pollEvent(evnt)) {
         switch (evnt.type)
         {
@@ -333,8 +347,8 @@ void fxx::directors::game::run_menu() {
                         if (evnt.text.unicode != 8 ) {
                             p1name += static_cast<char>(evnt.text.unicode);
                             //std::cout << "p1name: [" << p1name << "]" << std::endl;
-                            //std::cout << static_cast<char>(evnt.text.unicode);
-                        } else if (evnt.text.unicode == '\n') {
+                            std::cout << static_cast<char>(evnt.text.unicode) << std::endl;
+                        } else if (evnt.text.unicode == 12) {
                             flag = false;
                             sf::Text textname;
                             textname.setString(p1name);
@@ -390,7 +404,7 @@ void fxx::directors::game::run_menu() {
                                 menu_music.stop();
                                 bg_music.play();
                                 active_activity = activity::GAME;
-                                clock.restart();
+                                clock.restart();////
                             }
                             if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
                                 menu.playMenuTone();

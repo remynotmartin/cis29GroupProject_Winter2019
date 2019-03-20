@@ -69,7 +69,8 @@ private:
 	void handle_event(sf::Event event);
 	void handle_key_press(sf::Keyboard::Key key);
 	void handle_key_release(sf::Keyboard::Key key);
-	void draw();
+	//void draw();
+    void draw(sf::Text& text);
     bool flag;
     bool flag2;
     void run_menu();
