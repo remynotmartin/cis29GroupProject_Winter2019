@@ -31,6 +31,8 @@ private:
     int                selectedIdx;
     sf::Font           font;
     sf::Text           text;
+    sf::Text           textname;
+    sf::Text           textname2;
     sf::SoundBuffer    toneBuffer;
     sf::Sound          menuTone;
     sf::Text           menu[NUMBER_OF_ITEMS];
@@ -51,7 +53,9 @@ public:
     void makeMenu() ;
     void playMenuTone();
     void displayScores();
-    void askName();
+    //void askName();
+    void askName(std::string, std::string);
+
     std::string getInstruction();
     std::string getScores();
 };
