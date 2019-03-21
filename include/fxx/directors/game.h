@@ -71,8 +71,6 @@ private:
     void draw(sf::Text& text);
     bool flag;
     bool flag2;
-    bool debugFlag;
-    bool debugFlag2; 
     void run_menu();
     bool gameFinished;
     

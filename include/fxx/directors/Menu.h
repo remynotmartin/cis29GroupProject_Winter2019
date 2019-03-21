@@ -53,7 +53,6 @@ public:
     void makeMenu() ;
     void playMenuTone();
     void displayScores();
-    //void askName();
     void askName(std::string, std::string);
 
     std::string getInstruction();

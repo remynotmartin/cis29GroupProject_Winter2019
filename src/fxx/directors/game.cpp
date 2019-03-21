@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <ctime>
 
 fxx::directors::game::game()
 		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
@@ -24,8 +25,6 @@ fxx::directors::game::game()
     p2name = "";
     flag = true;
     flag2 = true;
-    debugFlag = false;
-    debugFlag2 = false;
             
 
 	while (window.isOpen()) {
@@ -358,109 +357,83 @@ void fxx::directors::game::run_menu() {
         switch (evnt.type)
         {
             case sf::Event::TextEntered:
-                if (flag && debugFlag) {
+                
+                if ((menu.getState() == Menu::GET_NAME) && flag ) {
                      if (evnt.text.unicode == 8) { // delete
                          if (p1name.length() > 0)
                              p1name = p1name.substr(0, p1name.length() - 1);
                      } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
                          flag = false;
-                         std::cout << "DEBUG****************user entered name is [" << p1name << "]" <<  std::endl;
                      } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
                          p1name += static_cast<char>(evnt.text.unicode);
                      }
-                }
-            
-                else if (flag2 && debugFlag) {
-                    std::cout << "DEBUG " << evnt.text.unicode << std::endl;
+                } else if ((menu.getState() == Menu::GET_NAME) && flag2) {
                     if (evnt.text.unicode == 8) { // delete
                         if (p2name.length() > 0)
                             p2name = p2name.substr(0, p2name.length() - 1);
                     } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
                         flag2 = false;
-                        std::cout << "DEBUG user entered name is [" << p2name << "]" <<  std::endl;
                     } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
                         p2name += static_cast<char>(evnt.text.unicode);
-                        std::cout << p2name << std::endl;
                     }
                 }
-                debugFlag = true;
-               
             case sf::Event::KeyReleased:
 
-            switch (evnt.key.code)
-            {
-                case sf::Keyboard::Up:
-                    menu.MoveUp();
-                    menu.playMenuTone();
-                    break;
-                case sf::Keyboard::Down:
-                    menu.MoveDown();
-                    menu.playMenuTone();
-                    break;
-                case sf::Keyboard::Return:
-                    switch (menu.getSelectedIdx())
-                    {
-                        case 0 :
-                            if (menu.getState() == Menu::MAIN_MENU) {
+                switch (evnt.key.code)
+                {
+                    case sf::Keyboard::Up:
+                        menu.MoveUp();
+                        menu.playMenuTone();
+                        break;
+                    case sf::Keyboard::Down:
+                        menu.MoveDown();
+                        menu.playMenuTone();
+                        break;
+                    case sf::Keyboard::Return:
+                        switch (menu.getSelectedIdx())
+                        {
+                            case 0 :
+                                if (menu.getState() == Menu::MAIN_MENU) {
+                                    menu.playMenuTone();
+                                    soundMap["menu"].stop();
+                                    soundMap["background"].play();
+                                    active_activity = activity::GAME;
+                                    clock.restart();
+                                } else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
+                                    menu.playMenuTone();
+                                    menu.makeMenu();
+                                }  else if (menu.getState() == Menu::GET_NAME) {
+                                    menu.playMenuTone();
+                                    active_activity = activity::GAME;
+                                    soundMap["menu"].stop();
+                                    soundMap["background"].play();
+                                    clock.restart();
+                                }
+                                break;
+                            case 1 :
+                                if (menu.getState() == Menu::MAIN_MENU) {
+                                    menu.playMenuTone();
+                                    menu.goToHowToPlay();
+                                }
+                                break;
+                            case 2:
                                 menu.playMenuTone();
-                                soundMap["menu"].stop();
-                                soundMap["background"].play();
-                                active_activity = activity::GAME;
-                                clock.restart();
-                            }
-                            if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
-                                menu.playMenuTone();
-                                menu.makeMenu();
-                            }
-                            break;
-                        case 1 :
-                            if (menu.getState() == Menu::MAIN_MENU) {
-                                menu.playMenuTone();
-                                menu.goToHowToPlay();
-                            }
-                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES || menu.getState() == Menu::GET_NAME)
-                            {    
-                                menu.playMenuTone();
-                                active_activity = activity::GAME;
-                                clock.restart();
-                            }
-                            break;
-                        case 2:
-                            menu.playMenuTone();
-                            menu.displayScores();
-                            break;
-                        case 3:/*
-                            if(!flag && !flag2)
-                            {
-                                std::cout << "DEBUG inside of the case3 " << std::endl;
-                                std::cout << "DEBUG NAMES ARE: " << p1name << std::endl;
-                                sf::Text textname;
-                                textname.setString(p1name.c_str());
-                                textname.setCharacterSize(15);
-                                textname.setFillColor(sf::Color::White);
-                                textname.setPosition(20, 20);
-                                //window.draw(textname);
+                                menu.displayScores();
+                                break;
+                            case 3:
+                                menu.askName(p1name, p2name);
                                 
-                                sf::Text textname2;
-                                std::cout << p2name << std::endl;
-                                textname.setString(p2name.c_str());
-                                textname.setCharacterSize(15);
-                                textname.setFillColor(sf::Color::White);
-                                textname.setPosition(40, 20);
-                                //window.draw(textname2);
-                            }*/
-                            menu.askName(p1name, p2name);
-                            break;
-                        case 4 :
-                            menu.playMenuTone();
-                            window.close();
-                            break;
-                    }
+                                break;
+                            case 4 :
+                                menu.playMenuTone();
+                                window.close();
+                                break;
+                        }
+                    default:
+                        ;
+                }
                 default:
                     ;
-            }
-            default:
-                ;
 
         }
     }
