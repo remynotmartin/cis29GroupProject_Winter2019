@@ -11,6 +11,7 @@
 #include <SFML/Audio.hpp>
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 namespace fxx {
 	namespace directors {
