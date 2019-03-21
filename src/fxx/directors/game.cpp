@@ -199,10 +199,10 @@ void fxx::directors::game::direct() {
 	}
 
     sf::Time elapsed = clock.getElapsedTime();
-    std::cout << "time " << elapsed.asSeconds() << std::endl;
+    //std::cout << "time " << elapsed.asSeconds() << std::endl;
     time_text.setString(sf::String("Time: " + std::to_string(elapsed.asSeconds())));
 	
-    std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
+    //std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
 	draw(time_text);
     //draw();
 }
@@ -319,14 +319,14 @@ void fxx::directors::game::handle_event(sf::Event event) {
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 
-		std::cout << "'Z' key pressed" << std::endl;
+		//std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
 			soundMap["jump1"].play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
-		std::cout << "'M' key pressed" << std::endl;
+		//std::cout << "'M' key pressed" << std::endl;
 		if (soundMap["jump2"].getStatus() != sf::Music::Playing) {
 			soundMap["jump2"].play();
 		}
@@ -337,11 +337,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-		std::cout << "'Z' key released" << std::endl;
+		//std::cout << "'Z' key released" << std::endl;
 		soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
-		std::cout << "'M' key released" << std::endl;
+		//std::cout << "'M' key released" << std::endl;
 		soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
@@ -358,24 +358,31 @@ void fxx::directors::game::run_menu() {
         {
             case sf::Event::TextEntered:
                 
-                if ((menu.getState() == Menu::GET_NAME) && flag ) {
+                if ( flag && (menu.getState() == Menu::GET_NAME)) {
                      if (evnt.text.unicode == 8) { // delete
                          if (p1name.length() > 0)
                              p1name = p1name.substr(0, p1name.length() - 1);
                      } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                         if (p1name.length() == 0)
+                             p1name = "no name";
                          flag = false;
                      } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
                          p1name += static_cast<char>(evnt.text.unicode);
                      }
-                } else if ((menu.getState() == Menu::GET_NAME) && flag2) {
+           
+                   
+                } else if ( flag2 && (menu.getState() == Menu::GET_NAME) ) {
                     if (evnt.text.unicode == 8) { // delete
                         if (p2name.length() > 0)
                             p2name = p2name.substr(0, p2name.length() - 1);
                     } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                        if (p2name.length() == 0)
+                            p2name = "no name";
                         flag2 = false;
                     } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
                         p2name += static_cast<char>(evnt.text.unicode);
                     }
+
                 }
             case sf::Event::KeyReleased:
 
@@ -417,16 +424,19 @@ void fxx::directors::game::run_menu() {
                                 }
                                 break;
                             case 2:
-                                menu.playMenuTone();
-                                menu.displayScores();
+                                if (menu.getState() == Menu::MAIN_MENU) {
+                                    menu.playMenuTone();
+                                    menu.displayScores();
+                                }
                                 break;
                             case 3:
                                 menu.askName(p1name, p2name);
-                                
                                 break;
                             case 4 :
+                                if (menu.getState() == Menu::MAIN_MENU) {
                                 menu.playMenuTone();
                                 window.close();
+                                }
                                 break;
                         }
                     default:

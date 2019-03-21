@@ -54,6 +54,7 @@ public:
     void playMenuTone();
     void displayScores();
     void askName(std::string, std::string);
+    void writeToFile(std::string, std::string);
 
     std::string getInstruction();
     std::string getScores();
