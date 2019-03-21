@@ -23,8 +23,8 @@ fxx::directors::game::game()
 	menu.makeMenu();
     p1name = "";
     p2name = "";
-    flag = true;
-    flag2 = true;
+    flag   = true;
+    flag2  = true;
             
 
 	while (window.isOpen()) {
@@ -41,7 +41,7 @@ fxx::directors::game::game()
 }
 
 
-void fxx::directors::game::set_up_level() {
+void fxx::directors::game::set_up_level( {
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
     // Load tileset from sprite map
@@ -57,10 +57,13 @@ void fxx::directors::game::set_up_level() {
 	if (!soundMap["menu"].openFromFile("share/soundEffects/menu_music.ogg")) {
 		throw(std::runtime_error("menu music file not found"));
 	}
-	if (!soundMap["jump1"].openFromFile("share/soundEffects/jump.ogg")) {
-        throw(std::runtime_error("jump sound file not found"));
+	if (!soundMap["jump1"].openFromFile("share/soundEffects/jumpA.ogg")) {
+        throw(std::runtime_error("jumpA.ogg sound file not found"));
 	}
-	soundMap["jump2"].openFromFile("share/soundEffects/jump.ogg");
+    if (!soundMap["jump2"].openFromFile("share/soundEffects/jump2.ogg")) {
+        throw(std::runtime_error("jump2.ogg sound file not found"));
+    }
+	
 	soundMap["menu"].play();
 	soundMap["menu"].setLoop(true);
 
@@ -221,8 +224,7 @@ void fxx::directors::game::direct(float delta_time) {
 
 	for (auto a : collidables) {
 		for (auto b : collidables) {
-			if (a != b && !((a == &players[0] && b == &players[1]) ||
-						    (b == &players[0] && a == &players[1]))) {
+			if (a != b && !((a == &players[0] && b == &players[1]) || (b == &players[0] && a == &players[1]))) {
 				a->collide(*b);
 			}
 		}
@@ -233,7 +235,6 @@ void fxx::directors::game::direct(float delta_time) {
 void fxx::directors::game::draw(sf::Text& text) {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-    
     
     float yLock      = 230.0f;  // lock Y to hide void top & bottom
     float xLeftLock  = 225.0f;  // keep  left-hand void out of view
@@ -272,11 +273,11 @@ void fxx::directors::game::draw(sf::Text& text) {
     }
 
     // Load these vector2fs with the appropriate values
-    sf::Vector2f trackP1(x1, y1),
-                 trackP2(x2, y2);
+    sf::Vector2f trackP1(x1, y1);
+    sf::Vector2f trackP2(x2, y2);
 
-	sf::View view1(trackP1, viewSize),
-	         view2(trackP2, viewSize);
+	sf::View view1(trackP1, viewSize);
+    sf::View view2(trackP2, viewSize);
 
     std::vector<sf::View*> views;
     views.push_back(&view1);
@@ -336,10 +337,8 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-		//soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
-		//soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }
@@ -360,10 +359,8 @@ void fxx::directors::game::handle_mouse_click(sf::Mouse::Button button) {
 
 void fxx::directors::game::handle_mouse_release(sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
-		//soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (button == sf::Mouse::Right) {
-		//soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }
@@ -384,7 +381,9 @@ void fxx::directors::game::run_menu() {
                      if (evnt.text.unicode == 8) { // delete
                          if (p1name.length() > 0)
                              p1name = p1name.substr(0, p1name.length() - 1);
-                     } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                     }
+                     // When the player presses the ENTER key
+                     else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
                          if (p1name.length() == 0)
                              p1name = "no name";
                          flag = false;
