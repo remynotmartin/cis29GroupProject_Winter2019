@@ -1,61 +1,87 @@
-CC			 = g++
-CFLAGS		 = -std=c++14 -Wall -Wextra -pedantic
-EXE			 = ./bin/megaDan.out
-LINKSFML	 = -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
-DEEPSRC		 = ./src/fxx/
-DEPENDENCIES = ./src/obj/main.o $(SRCACTORS)obj/actor.o $(SRCACTORS)obj/brick.o $(SRCACTORS)obj/collidable.o $(SRCACTORS)obj/drawable.o $(SRCACTORS)obj/mobile.o $(SRCACTORS)obj/player.o ./src/fxx/directors/obj/game.o ./src/fxx/hands/obj/animation.o ./src/fxx/props/obj/tile.o ./src/fxx/directors/obj/menu.o
-INCLUDE		 = ./include
-SRCACTORS    = ./src/fxx/actors/
-SRCDIRECTORS = ./src/fxx/directors/
-SRCHANDS     = ./src/fxx/hands/
-SRCPROPS     = ./src/fxx/props/
+CC		 = g++
+CFLAGS	 = -std=c++14 -Wall -Wextra -pedantic
+INCLUDE	 = ./include/
+COMPILE	 = $(CC) $(CFLAGS) -I$(INCLUDE) -c # Included this macro to shorted some lines
+BUILD	 = $(CC) $(CFLAGS) -I$(INCLUDE)    # Included this macro to shorted some lines
+EXE		 = ./bin/megaDan.out
+LINKSFML = -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
+LINKSTT  = -L$(LIBDIR) -lactors
+DSRC	 = ./src/fxx/
+
+LIBSRC   = ./libsrc/
+LIBDIR   = ./lib/
+STTLIB   = $(LIBDIR)libactors.a
+
+ACTINC	 = $(INCLUDE)fxx/actors/
+DRCINC   = $(INCLUDE)fxx/directors/
+HNDINC   = $(INCLUDE)fxx/hands/
+PRPINC   = $(INCLUDE)fxx/props/
+
+ACTSRC   = $(LIBSRC)actors/
+DRCSRC	 = $(DSRC)directors/
+HNDSRC   = $(DSRC)hands/
+PRPSRC   = $(DSRC)props/
+
+LIBOBJ	 = $(ACTSRC)obj/
+DRCOBJ	 = $(DSRC)directors/obj/
+HNDOBJ	 = $(DSRC)hands/obj/
+PRPOBJ	 = $(DSRC)props/obj/
+SRCOBJ   = ./src/obj/
+
+EXEDEPS	 = $(SRCOBJ)main.o $(DRCOBJ)game.o $(DRCOBJ)menu.o $(HNDOBJ)animation.o $(PRPOBJ)tile.o
+LIBDEP   = $(LIBOBJ)actor.o $(LIBOBJ)brick.o $(LIBOBJ)collidable.o $(LIBOBJ)drawable.o $(LIBOBJ)mobile.o $(LIBOBJ)player.o
 
 .PHONY : clean all run
 
-$(EXE) : $(DEPENDENCIES)
-#	$(CC) $(CFLAGS) $(DEPENDENCIES) -o $(EXE) $(LINKSMFL) # OMFG, TYPO like Mr. Bentley. SFML, not SMFL LOL
-	@$(CC) $(CFLAGS) $(DEPENDENCIES) -o $(EXE) $(LINKSFML)
+# Rule to create the primary executable, './bin/megaDan.out'
+$(EXE) : $(EXEDEPS) $(STTLIB) 
+	$(BUILD) $(EXEDEPS) $(LINKSFML) $(LINKSTT) -o $(EXE)
 	@echo './bin/megaDan.out' is built!
 
-./src/obj/main.o : ./src/main.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/main.cpp -o ./src/obj/main.o
+# Rule to create the static library
+$(STTLIB) : $(LIBDEP)
+	ar r $(STTLIB) $(LIBDEP)
 
-./src/fxx/directors/obj/menu.o : ./src/fxx/directors/Menu.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c ./src/fxx/directors/Menu.cpp -o ./src/fxx/directors/obj/menu.o
+$(LIBOBJ)actor.o : $(ACTSRC)actor.cpp
+	$(COMPILE) $(ACTSRC)actor.cpp -o $(LIBOBJ)actor.o
 
-$(SRCACTORS)obj/actor.o : $(SRCACTORS)actor.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)actor.cpp -o $(SRCACTORS)obj/actor.o
+$(LIBOBJ)brick.o : $(ACTSRC)brick.cpp
+	$(COMPILE) $(ACTSRC)brick.cpp -o $(LIBOBJ)brick.o
 
-$(SRCACTORS)obj/brick.o : $(SRCACTORS)brick.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)brick.cpp -o $(SRCACTORS)obj/brick.o
+$(LIBOBJ)collidable.o : $(ACTSRC)collidable.cpp
+	$(COMPILE) $(ACTSRC)collidable.cpp -o $(LIBOBJ)collidable.o
 
-$(SRCACTORS)obj/collidable.o : $(SRCACTORS)collidable.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)collidable.cpp -o $(SRCACTORS)obj/collidable.o
+$(LIBOBJ)drawable.o : $(ACTSRC)drawable.cpp
+	$(COMPILE) $(ACTSRC)drawable.cpp -o $(LIBOBJ)drawable.o
 
-$(SRCACTORS)obj/drawable.o : $(SRCACTORS)drawable.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)drawable.cpp -o $(SRCACTORS)obj/drawable.o
+$(LIBOBJ)mobile.o : $(ACTSRC)mobile.cpp
+	$(COMPILE) $(ACTSRC)mobile.cpp -o $(LIBOBJ)mobile.o
 
-$(SRCACTORS)obj/mobile.o : $(SRCACTORS)mobile.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)mobile.cpp -o $(SRCACTORS)obj/mobile.o
+$(LIBOBJ)player.o : $(ACTSRC)player.cpp
+	$(COMPILE) $(ACTSRC)player.cpp -o $(LIBOBJ)player.o
 
-$(SRCACTORS)obj/player.o : $(SRCACTORS)player.cpp $(INCLUDE)/fxx/actors/player.h
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCACTORS)player.cpp -o $(SRCACTORS)obj/player.o
+$(SRCOBJ)main.o : ./src/main.cpp
+	$(COMPILE) ./src/main.cpp -o $(SRCOBJ)main.o
 
-$(SRCDIRECTORS)obj/game.o : $(SRCDIRECTORS)game.cpp $(INCLUDE)/fxx/directors/game.h
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCDIRECTORS)game.cpp -o $(SRCDIRECTORS)obj/game.o
+$(DRCOBJ)menu.o : $(DRCSRC)Menu.cpp $(DRCINC)Menu.h
+	$(COMPILE) $(DRCSRC)Menu.cpp -o $(DRCOBJ)menu.o
 
-$(SRCHANDS)obj/animation.o : $(SRCHANDS)animation.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCHANDS)animation.cpp -o $(SRCHANDS)obj/animation.o
+$(DRCOBJ)game.o : $(DRCSRC)game.cpp $(DRCINC)game.h
+	$(COMPILE) $(DRCSRC)game.cpp -o $(DRCOBJ)game.o
 
-$(SRCPROPS)obj/tile.o : $(SRCPROPS)tile.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $(SRCPROPS)tile.cpp -o $(SRCPROPS)obj/tile.o
+$(HNDOBJ)animation.o : $(HNDSRC)animation.cpp $(HNDINC)animation.h
+	$(COMPILE) $(HNDSRC)animation.cpp -o $(HNDOBJ)animation.o
+
+$(PRPOBJ)tile.o : $(PRPSRC)tile.cpp $(PRPINC)tile.h
+	$(COMPILE) $(PRPSRC)tile.cpp -o $(PRPOBJ)tile.o
 
 clean :
-	@rm -f ./src/obj/main.o
-	@rm -f $(DEEPSRC)*/obj/*.o
-	@rm -f ./bin/megaDan.out
+	@rm -f $(SRCOBJ)main.o
+	@rm -f $(DSRC)*/obj/*.o
+	@rm -f $(STTLIB)
+	@rm -f $(EXE)
 
 all : clean $(EXE)
 
 run : $(EXE)
-	@./bin/megaDan.out #run the program
+	@$(EXE) #run the program
