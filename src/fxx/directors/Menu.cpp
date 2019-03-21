@@ -118,17 +118,17 @@ void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     text.setFillColor(sf::Color::White);
     text.setPosition(sf::Vector2f(0.0f  , 0.0f));
     
-    std::cout << "DEBUG in menu [" << p1name << "]" << std::endl;
+    textname.setFont(font);
     textname.setString(p1name);
-    textname.setCharacterSize(15);
-    textname.setFillColor(sf::Color::White);
+    textname.setCharacterSize(20);
+    textname.setFillColor(sf::Color::Green);
     textname.setPosition(20, 20);
 
-    std::cout << "DEBUG in menu p2name is [" << p2name << "]" << std::endl;
+    textname2.setFont(font);
     textname2.setString(p2name);
-    textname2.setCharacterSize(15);
-    textname2.setFillColor(sf::Color::White);
-    textname2.setPosition(40, 20);
+    textname2.setCharacterSize(20);
+    textname2.setFillColor(sf::Color::Green);
+    textname2.setPosition(20, 40);
 
     
     menu[0].setFont(font);
