@@ -9,6 +9,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
+#include <unordered_map>
+#include <string>
 
 namespace fxx {
 	namespace directors {
@@ -55,11 +57,7 @@ private:
 	std::vector<fxx::actors::player> players;
 
 	std::vector<sf::Texture> textures;
-	sf::Music bg_music;
-	sf::Music menu_music;
-	sf::Music jump_sound;
-	//sf::SoundBuffer jumpBuffer;
-	//sf::Sound jumpSound;
+	std::unordered_map<std::string, sf::Music> soundMap;
 
 	void set_up_level();
 	void set_up_players();
@@ -69,10 +67,12 @@ private:
 	void handle_event(sf::Event event);
 	void handle_key_press(sf::Keyboard::Key key);
 	void handle_key_release(sf::Keyboard::Key key);
-	void draw();
+	//void draw();
+    void draw(sf::Text& text);
     bool flag;
     bool flag2;
     void run_menu();
+    bool gameFinished;
     
 public:
     std::string getP1Name() {return p1name;}

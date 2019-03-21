@@ -8,7 +8,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-
+#include <stdexcept>
+#include <ctime>
 
 fxx::directors::game::game()
 		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
@@ -20,10 +21,11 @@ fxx::directors::game::game()
 	set_up_players();
 
 	menu.makeMenu();
-    p1name = " ";
-    p2name = " ";
+    p1name = "";
+    p2name = "";
     flag = true;
     flag2 = true;
+            
 
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
@@ -43,19 +45,24 @@ void fxx::directors::game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
     // Load tileset from sprite map
-	textures.back().loadFromFile("share/textures/gutstiles.png");
+	if (!textures.back().loadFromFile("share/textures/gutstiles.png")) {
+        throw(std::runtime_error("background tile image file not found"));
+	}
 	// Background music
-	bg_music.openFromFile("share/textures/play_music.ogg");
-	bg_music.setLoop(true);
+	if (!soundMap["background"].openFromFile("share/soundEffects/play_music.ogg")) {
+        throw(std::runtime_error("background music file not found"));
+	}
+	soundMap["background"].setLoop(true);
 	// Menu music
-	menu_music.openFromFile("share/textures/menu_music.ogg");
-	//std::cout << a << std::endl;
-	jump_sound.openFromFile("share/textures/jump.ogg");
-	//jumpBuffer.loadFromFile("share/textures/jump.wav");
-	//jumpSound.setBuffer(jumpBuffer);
-    menu_music.play();
-    menu_music.setLoop(true);
-	//bg_music.play();
+	if (!soundMap["menu"].openFromFile("share/soundEffects/menu_music.ogg")) {
+		throw(std::runtime_error("menu music file not found"));
+	}
+	if (!soundMap["jump1"].openFromFile("share/soundEffects/jump.ogg")) {
+        throw(std::runtime_error("jump sound file not found"));
+	}
+	soundMap["jump2"].openFromFile("share/soundEffects/jump.ogg");
+	soundMap["menu"].play();
+	soundMap["menu"].setLoop(true);
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -142,12 +149,16 @@ void fxx::directors::game::set_up_players() {
 	const unsigned int PLAYER_HEIGHT = 48;
 
 	textures.emplace_back();
-	textures.back().loadFromFile("share/textures/blues.png");
+	if (!textures.back().loadFromFile("share/textures/blues.png")) {
+        throw(std::runtime_error("first character image file not found"));
+	}
 	fxx::hands::animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
 
     textures.emplace_back();
-	textures.back().loadFromFile("share/textures/greens.png");
+	if (!textures.back().loadFromFile("share/textures/greens.png")) {
+        throw(std::runtime_error("second character image file not found"));
+	}
 	fxx::hands::animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
 
@@ -163,11 +174,20 @@ void fxx::directors::game::set_up_players() {
 
 void fxx::directors::game::direct() {
 	const float DRAW_INTERVAL = 1.0f / FRAME_RATE;
-	sf::Event event;
-
+    sf::Event event;
+    
+    // for time display
+    sf::Text time_text;
+    time_text.setCharacterSize(20);
+    time_text.setFillColor(sf::Color::White);
+    time_text.setPosition(80.0f, 20.0f);
+    
+    
+    
 	float   delta_draw_time = 0.0f;
 	float delta_direct_time = 0.0f;
 
+    
 	do {
 		delta_direct_time = clock.restart().asSeconds();
 		direct(delta_direct_time);
@@ -178,8 +198,13 @@ void fxx::directors::game::direct() {
 		handle_event(event);
 	}
 
-	std::cout << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
-	draw();
+    sf::Time elapsed = clock.getElapsedTime();
+    std::cout << "time " << elapsed.asSeconds() << std::endl;
+    time_text.setString(sf::String("Time: " + std::to_string(elapsed.asSeconds())));
+	
+    std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
+	draw(time_text);
+    //draw();
 }
 
 
@@ -206,11 +231,12 @@ void fxx::directors::game::direct(float delta_time) {
 	}
 }
 
-
-void fxx::directors::game::draw() {
+//void fxx::directors::game::draw()
+void fxx::directors::game::draw(sf::Text& text) {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
-          
+    
+    
     float yLock      = 230.0f,  // lock Y to hide void top & bottom
           xLeftLock  = 225.0f,  // keep  left-hand void out of view
           xRightLock = 4880.0f, // keep right-hand void out of view
@@ -266,12 +292,14 @@ void fxx::directors::game::draw() {
     view1.setViewport(sf::FloatRect(-0.5f, 0.5f, 2.0f, 0.5f));
     view2.setViewport(sf::FloatRect(-0.5f, 0.0f, 2.0f, 0.5f));
 
+    window.draw(text); /////////////
     for (auto & view : views) {
         window.setView(*view);
 	    for (auto drawable : drawables) {
 		    drawable->draw(window);
 	    }
     }
+    gameFinished = false; ////////
 	window.display();
 }
 
@@ -293,14 +321,14 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 		std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
-        if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+        if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
+			soundMap["jump1"].play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-		if (jump_sound.getStatus() != sf::Music::Playing) {
-			jump_sound.play();
+		if (soundMap["jump2"].getStatus() != sf::Music::Playing) {
+			soundMap["jump2"].play();
 		}
 		players[1].jump();
 	}
@@ -310,11 +338,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key released" << std::endl;
-		jump_sound.stop();
+		soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key released" << std::endl;
-		jump_sound.stop();
+		soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }
@@ -325,107 +353,87 @@ void fxx::directors::game::run_menu() {
 
     sf::Event evnt;
     while (window.pollEvent(evnt)) {
+        
         switch (evnt.type)
         {
             case sf::Event::TextEntered:
-                 if (flag) {
-                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
-                        if (evnt.text.unicode != 8 ) {
-                            p1name += static_cast<char>(evnt.text.unicode);
-                            //std::cout << "p1name: [" << p1name << "]" << std::endl;
-                            //std::cout << static_cast<char>(evnt.text.unicode);
-                        } else if (evnt.text.unicode == '\n') {
-                            flag = false;
-                            sf::Text textname;
-                            textname.setString(p1name);
-                            textname.setFillColor(sf::Color::White);
-                            textname.setPosition(0, 20);
-                            window.draw(textname);
-                            std::cout << "****************user entered name is " << p1name << std::endl;
-                        } else { // if they delete
-                            p1name = p1name.substr(0, p1name.length() - 1);
-                        }
-                    }
-                    
-                }
                 
-                if (flag2) {
-                    if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) {
-                        if (evnt.text.unicode != 8 ) {
-                            p2name += static_cast<char>(evnt.text.unicode);
-                            //std::cout << static_cast<char>(evnt.text.unicode);
-                        } else if (static_cast<char>(evnt.text.unicode) == '\n') {
-                            flag2 = false;
-                            sf::Text textname2;
-                            textname2.setString(p1name);
-                            textname2.setPosition(0, 40);
-                            textname2.setFillColor(sf::Color::White);
-                            window.draw(textname2);
-                            std::cout << "user entered name is " << p2name << std::endl;
-                        } else { // if they delete
+                if ((menu.getState() == Menu::GET_NAME) && flag ) {
+                     if (evnt.text.unicode == 8) { // delete
+                         if (p1name.length() > 0)
+                             p1name = p1name.substr(0, p1name.length() - 1);
+                     } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                         flag = false;
+                     } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
+                         p1name += static_cast<char>(evnt.text.unicode);
+                     }
+                } else if ((menu.getState() == Menu::GET_NAME) && flag2) {
+                    if (evnt.text.unicode == 8) { // delete
+                        if (p2name.length() > 0)
                             p2name = p2name.substr(0, p2name.length() - 1);
-                        }
+                    } else if ( evnt.text.unicode == static_cast<int>('\n') || evnt.text.unicode == static_cast<int>('\r')) {
+                        flag2 = false;
+                    } else if (evnt.text.unicode >= 33 && evnt.text.unicode <= 126) { // add to the name
+                        p2name += static_cast<char>(evnt.text.unicode);
                     }
-                    
                 }
-               
             case sf::Event::KeyReleased:
 
-            switch (evnt.key.code)
-            {
-                case sf::Keyboard::Up:
-                    menu.MoveUp();
-                    menu.playMenuTone();
-                    break;
-                case sf::Keyboard::Down:
-                    menu.MoveDown();
-                    menu.playMenuTone();
-                    break;
-                case sf::Keyboard::Return:
-                    switch (menu.getSelectedIdx())
-                    {
-                        case 0 :
-                            if (menu.getState() == Menu::MAIN_MENU) {
+                switch (evnt.key.code)
+                {
+                    case sf::Keyboard::Up:
+                        menu.MoveUp();
+                        menu.playMenuTone();
+                        break;
+                    case sf::Keyboard::Down:
+                        menu.MoveDown();
+                        menu.playMenuTone();
+                        break;
+                    case sf::Keyboard::Return:
+                        switch (menu.getSelectedIdx())
+                        {
+                            case 0 :
+                                if (menu.getState() == Menu::MAIN_MENU) {
+                                    menu.playMenuTone();
+                                    soundMap["menu"].stop();
+                                    soundMap["background"].play();
+                                    active_activity = activity::GAME;
+                                    clock.restart();
+                                } else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
+                                    menu.playMenuTone();
+                                    menu.makeMenu();
+                                }  else if (menu.getState() == Menu::GET_NAME) {
+                                    menu.playMenuTone();
+                                    active_activity = activity::GAME;
+                                    soundMap["menu"].stop();
+                                    soundMap["background"].play();
+                                    clock.restart();
+                                }
+                                break;
+                            case 1 :
+                                if (menu.getState() == Menu::MAIN_MENU) {
+                                    menu.playMenuTone();
+                                    menu.goToHowToPlay();
+                                }
+                                break;
+                            case 2:
                                 menu.playMenuTone();
-                                menu_music.stop();
-                                bg_music.play();
-                                active_activity = activity::GAME;
-                                clock.restart();
-                            }
-                            if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
+                                menu.displayScores();
+                                break;
+                            case 3:
+                                menu.askName(p1name, p2name);
+                                
+                                break;
+                            case 4 :
                                 menu.playMenuTone();
-                                menu.makeMenu();
-                            }
-                            break;
-                        case 1 :
-                            if (menu.getState() == Menu::MAIN_MENU) {
-                                menu.playMenuTone();
-                                menu.goToHowToPlay();
-                            }
-                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES)
-                            {    
-                                menu.playMenuTone();
-                                active_activity = activity::GAME;
-                                clock.restart();
-                            }
-                            break;
-                        case 2:
-                            menu.playMenuTone();
-                            menu.displayScores();
-                            break;
-                        case 3:
-                            menu.askName();
-                            break;
-                        case 4 :
-                            menu.playMenuTone();
-                            window.close();
-                            break;
-                    }
+                                window.close();
+                                break;
+                        }
+                    default:
+                        ;
+                }
                 default:
                     ;
-            }
-            default:
-                ;
 
         }
     }

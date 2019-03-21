@@ -1,6 +1,8 @@
 //menu.cpp
 
 #include "fxx/directors/Menu.h"
+#include <ctime>
+
 const char* const blockyFont = "share/resources/04b03.ttf";
 
 
@@ -35,19 +37,17 @@ void fxx::directors::Menu::draw(sf::RenderWindow &window) {
         for (int i = 0; i < NUMBER_OF_ITEMS ; ++i) {
             window.draw(menu[i]);
         }
-    } else if (state == HOW_TO_PLAY) {
-        for (int i = 0; i < 2 ; ++i) {
-            window.draw(text);
-            window.draw(menu[i]);
-        }
-    } else if (state == SHOW_SCORES) {
-        for (int i = 0; i < 2; ++i) {
-            window.draw(text);
-            window.draw(menu[i]);
-        }
+    } else if (state == HOW_TO_PLAY || state == SHOW_SCORES) {
+        window.draw(text);
+        window.draw(menu[0]);
+        
     } else if (state == GET_NAME) {
         window.draw(text);
+        window.draw(textname);
+        window.draw(textname2);
+        window.draw(menu[0]);
     }
+        
 }
 
 
@@ -67,7 +67,7 @@ void fxx::directors::Menu::MoveDown() {
     if (state == MAIN_MENU)
         selectedIdx = (selectedIdx + 1) % NUMBER_OF_ITEMS;
     else
-        selectedIdx = (selectedIdx + 1) % 2; 
+        selectedIdx = 0;
 
     menu[selectedIdx].setFillColor(sf::Color::Red);
 }
@@ -76,7 +76,11 @@ void fxx::directors::Menu::MoveDown() {
 int fxx::directors::Menu::getSelectedIdx() {
     return selectedIdx;
 }
-
+/*
+void fxx::directors::Menu::writeToFile() {
+    ofstream fout("share/resources/sample_instruction.txt");
+    
+}*/
 // make menu to display
 void fxx::directors::Menu::makeMenu() {
     state = MAIN_MENU;
@@ -108,14 +112,33 @@ void fxx::directors::Menu::makeMenu() {
 }
 
 //ask player name before game starts
-void fxx::directors::Menu::askName() {
+void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     state = GET_NAME;
-    
+    //text
     text.setFont(font);
-    text.setString("Please enter your name: ");
-    text.setCharacterSize(20);
+    text.setString("Enter your name: ");
+    text.setCharacterSize(30);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( 0.0f  , 0.0f));
+    text.setPosition(sf::Vector2f(0.0f  , 0.0f));
+    
+    textname.setFont(font);
+    textname.setString(p1name);
+    textname.setCharacterSize(30);
+    textname.setFillColor(sf::Color::Green);
+    textname.setPosition(20, 40);
+
+    textname2.setFont(font);
+    textname2.setString(p2name);
+    textname2.setCharacterSize(30);
+    textname2.setFillColor(sf::Color::Blue);
+    textname2.setPosition(20, 80);
+
+    
+    menu[0].setFont(font);
+    menu[0].setCharacterSize(40);
+    menu[0].setFillColor(sf::Color::White);
+    menu[0].setString("Game Start");
+    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
 }
 
 
@@ -128,21 +151,17 @@ void fxx::directors::Menu::goToHowToPlay() {
     instruction = getInstruction();
     text.setFont(font);
     text.setString(instruction.c_str());
-    text.setCharacterSize(16);
+    text.setCharacterSize(25);
     text.setFillColor(sf::Color::White);
     text.setPosition(0.0f, 0.0f);
     
     //menu
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
-    menu[0].setFillColor(sf::Color::Red);
-    menu[0].setString("go back to main");
-    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));//, height / (NUMBER_OF_ITEMS + 1) * 1));
-    menu[1].setFont(font);
-    menu[1].setCharacterSize(40);
-    menu[1].setFillColor(sf::Color::White);
-    menu[1].setString("start the game");
-    menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / 10 * 9 ));//, height / (NUMBER_OF_ITEMS + 1) * 1));)// height / (NUMBER_OF_ITEMS + 1) * 2));
+    menu[0].setFillColor(sf::Color::White);
+    menu[0].setString("Go Back To Main");
+    menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
+
 }
 
 // read a instruction to create one long string to display
@@ -154,6 +173,7 @@ std::string fxx::directors::Menu::getInstruction() {
         std::cout << "error opening instruction file in print instruction()\n";
         exit(101);
     }
+    
     while (getline(fin, line)) {
         text += line += '\n';
     }
@@ -172,19 +192,15 @@ void fxx::directors::Menu::displayScores() {
     text.setString(scores.c_str());
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( 0.0f  , 0.0f));
+    text.setPosition(sf::Vector2f(0.0f , 0.0f));
     
     // menu
     menu[0].setFont(font);
-    menu[0].setCharacterSize(30);
-    menu[0].setFillColor(sf::Color::Red);
-    menu[0].setString("go back to main");
+    menu[0].setCharacterSize(40);
+    menu[0].setFillColor(sf::Color::White);
+    menu[0].setString("Go Back To Main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
-    menu[1].setFont(font);
-    menu[1].setCharacterSize(30);
-    menu[1].setFillColor(sf::Color::White);
-    menu[1].setString("start the game");
-    menu[1].setPosition(sf::Vector2f((width/2) - (menu[1].getLocalBounds().width / 2) , height / 10 * 9 ));
+
 }
 
 std::string fxx::directors::Menu::getScores() {
@@ -205,6 +221,5 @@ std::string fxx::directors::Menu::getScores() {
 }
 
 void fxx::directors::Menu::playMenuTone() {
-    std::cout << "Playing menu tone\n";
     menuTone.play();
 }

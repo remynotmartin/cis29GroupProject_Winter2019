@@ -1,4 +1,11 @@
-How to Play
+
+
+********How to Play********
+
 It's a two player game.
-You can jump by pressing m(player1) or z(player2)
-Whoever reaches to the end first, wins the game. 
+
+You can jump by pressing 
+m(player1) or z(player2)
+
+Whoever reaches to the 
+end first, wins the game.
