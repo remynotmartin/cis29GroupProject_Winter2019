@@ -28,8 +28,6 @@ fxx::directors::game::game()
     debugFlag2 = false;
             
 
-    
-            
 	while (window.isOpen()) {
 		if (active_activity == activity::TITLE) {
 			run_menu();
@@ -52,20 +50,20 @@ void fxx::directors::game::set_up_level() {
         throw(std::runtime_error("background tile image file not found"));
 	}
 	// Background music
-	if (!bg_music.openFromFile("share/soundEffects/play_music.ogg")) {
+	if (!soundMap["background"].openFromFile("share/soundEffects/play_music.ogg")) {
         throw(std::runtime_error("background music file not found"));
 	}
-	bg_music.setLoop(true);
+	soundMap["background"].setLoop(true);
 	// Menu music
-	if (!menu_music.openFromFile("share/soundEffects/menu_music.ogg")) {
+	if (!soundMap["menu"].openFromFile("share/soundEffects/menu_music.ogg")) {
 		throw(std::runtime_error("menu music file not found"));
 	}
-	if (!jump_sound_player1.openFromFile("share/soundEffects/jump.ogg")) {
+	if (!soundMap["jump1"].openFromFile("share/soundEffects/jump.ogg")) {
         throw(std::runtime_error("jump sound file not found"));
 	}
-	jump_sound_player2.openFromFile("share/soundEffects/jump.ogg");
-    menu_music.play();
-    menu_music.setLoop(true);
+	soundMap["jump2"].openFromFile("share/soundEffects/jump.ogg");
+	soundMap["menu"].play();
+	soundMap["menu"].setLoop(true);
 
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite tile;
@@ -324,14 +322,14 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 		std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
-        if (jump_sound_player1.getStatus() != sf::Music::Playing) {
-			jump_sound_player1.play();
+        if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
+			soundMap["jump1"].play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key pressed" << std::endl;
-		if (jump_sound_player2.getStatus() != sf::Music::Playing) {
-			jump_sound_player2.play();
+		if (soundMap["jump2"].getStatus() != sf::Music::Playing) {
+			soundMap["jump2"].play();
 		}
 		players[1].jump();
 	}
@@ -341,11 +339,11 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		std::cout << "'Z' key released" << std::endl;
-		jump_sound_player1.stop();
+		soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
 		std::cout << "'M' key released" << std::endl;
-		jump_sound_player2.stop();
+		soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }
@@ -405,10 +403,10 @@ void fxx::directors::game::run_menu() {
                         case 0 :
                             if (menu.getState() == Menu::MAIN_MENU) {
                                 menu.playMenuTone();
-                                menu_music.stop();
-                                bg_music.play();
+                                soundMap["menu"].stop();
+                                soundMap["background"].play();
                                 active_activity = activity::GAME;
-                                clock.restart();////
+                                clock.restart();
                             }
                             if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
                                 menu.playMenuTone();

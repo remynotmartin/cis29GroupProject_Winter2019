@@ -9,6 +9,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
+#include <unordered_map>
+#include <string>
 
 namespace fxx {
 	namespace directors {
@@ -55,10 +57,7 @@ private:
 	std::vector<fxx::actors::player> players;
 
 	std::vector<sf::Texture> textures;
-	sf::Music bg_music;
-	sf::Music menu_music;
-	sf::Music jump_sound_player1;
-	sf::Music jump_sound_player2;
+	std::unordered_map<std::string, sf::Music> soundMap;
 
 	void set_up_level();
 	void set_up_players();
