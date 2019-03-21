@@ -1,0 +1,2 @@
+This file is meant to serve as a placeholder for the libsrc/actors/obj
+directory, so that the directory will be here when make does its job. =)
