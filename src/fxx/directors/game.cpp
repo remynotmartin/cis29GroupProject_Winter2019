@@ -357,8 +357,9 @@ void fxx::directors::game::run_menu() {
         switch (evnt.type)
         {
             case sf::Event::TextEntered:
-                
+
                 if ( flag && (menu.getState() == Menu::GET_NAME)) {
+
                      if (evnt.text.unicode == 8) { // delete
                          if (p1name.length() > 0)
                              p1name = p1name.substr(0, p1name.length() - 1);
@@ -384,8 +385,8 @@ void fxx::directors::game::run_menu() {
                     }
 
                 }
+                break;
             case sf::Event::KeyReleased:
-
                 switch (evnt.key.code)
                 {
                     case sf::Keyboard::Up:
@@ -444,7 +445,6 @@ void fxx::directors::game::run_menu() {
                 }
                 default:
                     ;
-
         }
     }
 }
