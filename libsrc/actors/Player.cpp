@@ -2,7 +2,8 @@
 #include <iostream>
 
 
-fxx::actors::Player::Player(float x, float y, float width, float height, const fxx::hands::Animation& run_animation) : Actor(x, y), Collidable(x, y, width, height), Drawable(x, y), Mobile(x, y), jump_time(0.0f), run_animation(run_animation) {
+fxx::actors::Player::Player(float x, float y, float width, float height, const fxx::hands::Animation& run_animation)
+	: Actor(x, y), Collidable(x, y, width, height), Drawable(x, y), Mobile(x, y), jump_time(0.0f), is_running(false), run_animation(run_animation) {
 
 }
 
@@ -17,6 +18,9 @@ void fxx::actors::Player::collide(fxx::actors::Collidable & that) {
 	if (clips(that)) {
 		if (clip_dir(that).y > 0.0f) {
 			jump_time = 0.0f;
+			is_running = true;
+		} else if (clip_dir(that).x < 0.0f) {
+			is_running = false;
 		}
 
 		unclip(that);
@@ -31,6 +35,7 @@ void fxx::actors::Player::draw(sf::RenderTarget & target) {
 		sprite.setOrigin({sprite.getLocalBounds().width, 0});
 		sprite.setScale({-1, 1});
 	}
+
 	Drawable::draw(target);
 }
 
@@ -49,5 +54,7 @@ void fxx::actors::Player::cut_jump() {
 
 
 void fxx::actors::Player::run() {
-	velocity.x = RUN_VELOCITY;
+	if (is_running) {
+		velocity.x = RUN_VELOCITY;
+	}
 }

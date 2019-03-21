@@ -158,14 +158,14 @@ void fxx::directors::Game::set_up_players() {
         throw(std::runtime_error("first character image file not found"));
 	}
 	fxx::hands::Animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
-	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
+	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
 
     textures.emplace_back();
 	if (!textures.back().loadFromFile("share/textures/greens.png")) {
         throw(std::runtime_error("second character image file not found"));
 	}
 	fxx::hands::Animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
-	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
+	players.emplace_back(2.0f * PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
 
     // Range-based For Loop
 	for (auto & player : players) {

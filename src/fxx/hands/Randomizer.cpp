@@ -11,7 +11,7 @@ std::ostream & operator<<(std::ostream & level_file, fxx::hands::Randomizer & ra
 	std::srand(std::time(0));
 
 	unsigned char y = randomizer.height - 1;
-	unsigned char next = std::rand() % 15;
+	unsigned char next = std::rand() % 15 + 1;
 	int sign = 1;
 
 	for (int i = 0; i < randomizer.height; i++) {

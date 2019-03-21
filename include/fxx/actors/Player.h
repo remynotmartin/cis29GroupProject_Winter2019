@@ -38,6 +38,7 @@ private:
     //string name;
 
 	float jump_time;
+	bool is_running;
 
 	fxx::hands::Animation run_animation;
 };
