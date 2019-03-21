@@ -1,6 +1,8 @@
 //menu.cpp
 
 #include "fxx/directors/Menu.h"
+#include <ctime>
+
 const char* const blockyFont = "share/resources/04b03.ttf";
 
 
@@ -74,7 +76,11 @@ void fxx::directors::Menu::MoveDown() {
 int fxx::directors::Menu::getSelectedIdx() {
     return selectedIdx;
 }
-
+/*
+void fxx::directors::Menu::writeToFile() {
+    ofstream fout("share/resources/sample_instruction.txt");
+    
+}*/
 // make menu to display
 void fxx::directors::Menu::makeMenu() {
     state = MAIN_MENU;

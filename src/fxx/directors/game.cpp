@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <ctime>
 
 fxx::directors::game::game()
 		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
@@ -376,7 +377,6 @@ void fxx::directors::game::run_menu() {
                         p2name += static_cast<char>(evnt.text.unicode);
                     }
                 }
-                std::cout << p2name << std::endl;
             case sf::Event::KeyReleased:
 
                 switch (evnt.key.code)
@@ -405,6 +405,8 @@ void fxx::directors::game::run_menu() {
                                 }  else if (menu.getState() == Menu::GET_NAME) {
                                     menu.playMenuTone();
                                     active_activity = activity::GAME;
+                                    soundMap["menu"].stop();
+                                    soundMap["background"].play();
                                     clock.restart();
                                 }
                                 break;
@@ -420,6 +422,7 @@ void fxx::directors::game::run_menu() {
                                 break;
                             case 3:
                                 menu.askName(p1name, p2name);
+                                
                                 break;
                             case 4 :
                                 menu.playMenuTone();
