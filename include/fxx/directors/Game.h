@@ -4,6 +4,7 @@
 #include "fxx/actors/Brick.h"
 #include "fxx/actors/Player.h"
 #include "fxx/directors/Menu.h"
+#include "fxx/hands/Randomizer.h"
 #include "fxx/props/Tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -45,6 +46,7 @@ private:
 	sf::RenderWindow window;
 
 	Menu menu;
+	fxx::hands::Randomizer randomizer;
 
 	activity active_activity;
 

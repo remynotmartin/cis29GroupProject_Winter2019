@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <ctime>
 
-fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
+fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT), randomizer(170, 13) {
 	active_activity = activity::TITLE;
 
 	textures.resize(6);
@@ -41,6 +41,10 @@ fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu
 
 
 void fxx::directors::Game::set_up_level() {
+	std::ofstream new_level_file("share/levels/guts", std::ios::trunc | std::ios::binary);
+	new_level_file << randomizer;
+	new_level_file.close();
+
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
     // Load tileset from sprite map

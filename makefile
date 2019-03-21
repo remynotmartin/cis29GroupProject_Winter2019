@@ -28,7 +28,7 @@ HNDOBJ	 = $(DSRC)hands/obj/
 PRPOBJ	 = $(DSRC)props/obj/
 SRCOBJ   = ./src/obj/
 
-EXEDEPS	 = $(SRCOBJ)main.o $(DRCOBJ)Game.o $(DRCOBJ)Menu.o $(HNDOBJ)Animation.o $(PRPOBJ)Tile.o
+EXEDEPS	 = $(SRCOBJ)main.o $(DRCOBJ)Game.o $(DRCOBJ)Menu.o $(HNDOBJ)Randomizer.o $(HNDOBJ)Animation.o $(PRPOBJ)Tile.o
 LIBDEP   = $(LIBOBJ)Actor.o $(LIBOBJ)Brick.o $(LIBOBJ)Collidable.o $(LIBOBJ)Drawable.o $(LIBOBJ)Mobile.o $(LIBOBJ)Player.o
 
 .PHONY : clean all run
@@ -71,6 +71,9 @@ $(DRCOBJ)Game.o : $(DRCSRC)Game.cpp $(DRCINC)Game.h
 
 $(HNDOBJ)Animation.o : $(HNDSRC)Animation.cpp $(HNDINC)Animation.h
 	$(COMPILE) $(HNDSRC)Animation.cpp -o $(HNDOBJ)Animation.o
+
+$(HNDOBJ)Randomizer.o : $(HNDSRC)Randomizer.cpp $(HNDINC)Randomizer.h
+	$(COMPILE) $(HNDSRC)Randomizer.cpp -o $(HNDOBJ)Randomizer.o
 
 $(PRPOBJ)Tile.o : $(PRPSRC)Tile.cpp $(PRPINC)Tile.h
 	$(COMPILE) $(PRPSRC)Tile.cpp -o $(PRPOBJ)Tile.o
