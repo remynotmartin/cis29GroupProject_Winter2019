@@ -420,7 +420,7 @@ void fxx::directors::game::run_menu() {
                                 menu.playMenuTone();
                                 menu.goToHowToPlay();
                             }
-                            else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES || menu.getState() == Menu::GET_NAME)
+                            else if (menu.getState() == Menu::GET_NAME)
                             {    
                                 menu.playMenuTone();
                                 active_activity = activity::GAME;
