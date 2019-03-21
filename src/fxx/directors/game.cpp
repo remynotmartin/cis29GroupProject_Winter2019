@@ -70,8 +70,7 @@ void fxx::directors::game::set_up_level() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 5; j++) {
 			tile.setTexture(textures.back());
-			tile.setTextureRect(sf::IntRect(j * (TILE_WIDTH + 2) + 2,
-								   	i * (TILE_WIDTH + 2) + 2, TILE_WIDTH, TILE_WIDTH));
+			tile.setTextureRect(sf::IntRect(j * (TILE_WIDTH + 2) + 2, i * (TILE_WIDTH + 2) + 2, TILE_WIDTH, TILE_WIDTH));
 			tileset.push_back(tile);
 		}
 	}
@@ -183,7 +182,6 @@ void fxx::directors::game::direct() {
     time_text.setPosition(80.0f, 20.0f);
     
     
-    
 	float   delta_draw_time = 0.0f;
 	float delta_direct_time = 0.0f;
 
@@ -237,11 +235,11 @@ void fxx::directors::game::draw(sf::Text& text) {
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     
     
-    float yLock      = 230.0f,  // lock Y to hide void top & bottom
-          xLeftLock  = 225.0f,  // keep  left-hand void out of view
-          xRightLock = 4880.0f, // keep right-hand void out of view
-          x1, x2,
-          y1, y2;
+    float yLock      = 230.0f;  // lock Y to hide void top & bottom
+    float xLeftLock  = 225.0f;  // keep  left-hand void out of view
+    float xRightLock = 4880.0f; // keep right-hand void out of view
+    float x1, x2;
+    float y1, y2;
 
     // Start of game, prevents left-hand void from entering view
     if      (players[0].where().x < xLeftLock) {
@@ -318,11 +316,10 @@ void fxx::directors::game::handle_event(sf::Event event) {
 
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-
 		//std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
-			soundMap["jump1"].play();
+		soundMap["jump1"].play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
