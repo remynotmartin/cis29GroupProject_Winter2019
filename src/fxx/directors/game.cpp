@@ -199,10 +199,10 @@ void fxx::directors::game::direct() {
 	}
 
     sf::Time elapsed = clock.getElapsedTime();
-    std::cout << "time " << elapsed.asSeconds() << std::endl;
+    //std::cout << "time " << elapsed.asSeconds() << std::endl;
     time_text.setString(sf::String("Time: " + std::to_string(elapsed.asSeconds())));
 	
-    std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
+    //std::cout << "debug" << delta_draw_time * FRAME_RATE * FRAME_RATE << std::endl;
 	draw(time_text);
     //draw();
 }
@@ -228,6 +228,12 @@ void fxx::directors::game::direct(float delta_time) {
 				a->collide(*b);
 			}
 		}
+	}
+    std::cout << "where is player1" << players[0].where().x << std::endl;
+    std::cout << "where is player2" << players[1].where().x << std::endl;
+
+    if (players[0].where().x == 5010.0f || players[1].where().x == 5010.0f) {
+	    std::cout << "game over" << std::endl;
 	}
 }
 
