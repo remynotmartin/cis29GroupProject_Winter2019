@@ -1,9 +1,9 @@
-CC	 = g++
+CC		 = g++
 CFLAGS	 = -std=c++14 -Wall -Wextra -pedantic
 INCLUDE	 = ./include/
 COMPILE	 = $(CC) $(CFLAGS) -I$(INCLUDE) -c # Included this macro to shorten some lines
 BUILD	 = $(CC) $(CFLAGS) -I$(INCLUDE)    # Included this macro to shorten some lines
-EXE	 = ./bin/megaDan.out
+EXE		 = ./bin/megaDan.out
 LINKSFML = -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio
 LINKSTT  = -L$(LIBDIR) -lactors
 DSRC	 = ./src/fxx/

@@ -309,21 +309,22 @@ void fxx::directors::game::handle_event(sf::Event event) {
 		handle_key_press(event.key.code);
 	} else if (event.type == sf::Event::KeyReleased) {
 		handle_key_release(event.key.code);
+	} else if (event.type == sf::Event::MouseButtonPressed) {
+		handle_mouse_click(event.mouseButton.button);
+	} else if (event.type == sf::Event::MouseButtonReleased) {
+		handle_mouse_release(event.mouseButton.button);
     }
-
 }
 
 
 void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-		//std::cout << "'Z' key pressed" << std::endl;
         std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
-		soundMap["jump1"].play();
+		    soundMap["jump1"].play();
         }
 		players[0].jump();
 	} else if (key == sf::Keyboard::M) {
-		//std::cout << "'M' key pressed" << std::endl;
 		if (soundMap["jump2"].getStatus() != sf::Music::Playing) {
 			soundMap["jump2"].play();
 		}
@@ -332,14 +333,37 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 }
 
 
+
 void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-		//std::cout << "'Z' key released" << std::endl;
-		soundMap["jump1"].stop();
+		//soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
-		//std::cout << "'M' key released" << std::endl;
-		soundMap["jump2"].stop();
+		//soundMap["jump2"].stop();
+		players[1].cut_jump();
+	}
+}
+
+void fxx::directors::game::handle_mouse_click(sf::Mouse::Button button) {
+	if (button == sf::Mouse::Left) {
+        std::cout << sf::Music::Playing << std::endl;
+        if (soundMap["jump1"].getStatus() != sf::Music::Playing)
+		    soundMap["jump1"].play();
+		players[0].jump();
+	} else if (button == sf::Mouse::Right) {
+		if (soundMap["jump2"].getStatus() != sf::Music::Playing) {
+			soundMap["jump2"].play();
+		}
+		players[1].jump();
+	}
+}
+
+void fxx::directors::game::handle_mouse_release(sf::Mouse::Button button) {
+	if (button == sf::Mouse::Left) {
+		//soundMap["jump1"].stop();
+		players[0].cut_jump();
+	} else if (button == sf::Mouse::Right) {
+		//soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }

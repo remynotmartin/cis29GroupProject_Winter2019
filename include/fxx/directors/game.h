@@ -68,6 +68,8 @@ private:
 	void handle_event(sf::Event event);
 	void handle_key_press(sf::Keyboard::Key key);
 	void handle_key_release(sf::Keyboard::Key key);
+	void handle_mouse_click(sf::Mouse::Button button);
+	void handle_mouse_release(sf::Mouse::Button button);
 	//void draw();
     void draw(sf::Text& text);
     bool flag;
