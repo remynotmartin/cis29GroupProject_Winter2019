@@ -1,19 +1,19 @@
-#include "fxx/actors/collidable.h"
+#include "fxx/actors/Collidable.h"
 #include <cmath>
 
 
-fxx::actors::collidable::collidable(float x, float y, float width, float height) :
-	   	actor(x, y), size(width, height) {
+fxx::actors::Collidable::Collidable(float x, float y, float width, float height) :
+	   	Actor(x, y), size(width, height) {
 
 }
 
 
-bool fxx::actors::collidable::clips(const fxx::actors::collidable & that) const {
+bool fxx::actors::Collidable::clips(const fxx::actors::Collidable & that) const {
 	return sf::FloatRect(position, size).intersects(sf::FloatRect(that.position, that.size));
 }
 
 
-void fxx::actors::collidable::unclip(const fxx::actors::collidable & that) {
+void fxx::actors::Collidable::unclip(const fxx::actors::Collidable & that) {
 	auto isect  = clip_rect(that);
 	auto center = that.position + that.size / 2.0f;
 
@@ -37,7 +37,7 @@ void fxx::actors::collidable::unclip(const fxx::actors::collidable & that) {
 }
 
 
-sf::Vector2f fxx::actors::collidable::clip_dir(const fxx::actors::collidable & that) const {
+sf::Vector2f fxx::actors::Collidable::clip_dir(const fxx::actors::Collidable & that) const {
 	auto isect = clip_rect(that);
 	auto center = that.position + that.size / 2.0f;
 
@@ -61,7 +61,7 @@ sf::Vector2f fxx::actors::collidable::clip_dir(const fxx::actors::collidable & t
 }
 
 
-inline sf::FloatRect fxx::actors::collidable::clip_rect(const fxx::actors::collidable & that) const {
+inline sf::FloatRect fxx::actors::Collidable::clip_rect(const fxx::actors::Collidable & that) const {
 	sf::FloatRect isect;
 	sf::FloatRect(position, size).intersects(sf::FloatRect(that.position, that.size), isect);
 	return isect;

@@ -5,14 +5,14 @@
 
 namespace fxx {
 	namespace actors {
-		class actor;
+		class Actor;
 	}
 }
 
 
-class fxx::actors::actor {
+class fxx::actors::Actor {
 public:
-	actor(float x, float y);
+	Actor(float x, float y);
 	virtual void act(float delta_time) = 0;
 	sf::Vector2f where() const;
 

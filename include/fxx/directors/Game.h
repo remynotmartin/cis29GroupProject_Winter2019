@@ -1,10 +1,10 @@
 #ifndef FXX_DIRECTORS_GAME_H
 #define FXX_DIRECTORS_GAME_H
 
-#include "fxx/actors/brick.h"
-#include "fxx/actors/player.h"
+#include "fxx/actors/Brick.h"
+#include "fxx/actors/Player.h"
 #include "fxx/directors/Menu.h"
-#include "fxx/props/tile.h"
+#include "fxx/props/Tile.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -15,14 +15,14 @@
 
 namespace fxx {
 	namespace directors {
-		class game;
+		class Game;
 	}
 }
 
 
-class fxx::directors::game {
+class fxx::directors::Game {
 public:
-	game();
+	Game();
 
 private:
 	enum class activity {
@@ -48,14 +48,14 @@ private:
 
 	activity active_activity;
 
-	std::vector<fxx::actors::actor *> actors;
-	std::vector<fxx::actors::collidable *> collidables;
-	std::vector<fxx::actors::drawable *> drawables;
-	std::vector<fxx::actors::mobile *> mobiles;
+	std::vector<fxx::actors::Actor *> actors;
+	std::vector<fxx::actors::Collidable *> collidables;
+	std::vector<fxx::actors::Drawable *> drawables;
+	std::vector<fxx::actors::Mobile *> mobiles;
 
-	std::vector<fxx::props::tile> tiles;
-	std::vector<fxx::actors::brick> bricks;
-	std::vector<fxx::actors::player> players;
+	std::vector<fxx::props::Tile> tiles;
+	std::vector<fxx::actors::Brick> bricks;
+	std::vector<fxx::actors::Player> players;
 
 	std::vector<sf::Texture> textures;
 	std::unordered_map<std::string, sf::Music> soundMap;
@@ -75,7 +75,7 @@ private:
     bool flag;
     bool flag2;
     void run_menu();
-    bool gameFinished;
+    bool GameFinished;
     
 public:
     std::string getP1Name() {return p1name;}

@@ -1,18 +1,18 @@
 #ifndef FXX_ACTORS_MOBILE_H
 #define FXX_ACTORS_MOBILE_H
 
-#include "fxx/actors/actor.h"
+#include "fxx/actors/Actor.h"
 
 namespace fxx {
 	namespace actors {
-		class mobile;
+		class Mobile;
 	}
 }
 
-class fxx::actors::mobile : virtual public fxx::actors::actor {
+class fxx::actors::Mobile : virtual public fxx::actors::Actor {
 public:
-	mobile(float x, float y);
-	virtual ~mobile() = 0;
+	Mobile(float x, float y);
+	virtual ~Mobile() = 0;
 
 	virtual void act(float delta_time) override;
 	virtual void accelerate(float a_x, float a_y);

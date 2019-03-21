@@ -1,5 +1,5 @@
-#include "fxx/directors/game.h"
-#include "fxx/hands/animation.h"
+#include "fxx/directors/Game.h"
+#include "fxx/hands/Animation.h"
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
@@ -11,8 +11,7 @@
 #include <stdexcept>
 #include <ctime>
 
-fxx::directors::game::game()
-		: window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
+fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT) {
 	active_activity = activity::TITLE;
 
 	textures.resize(6);
@@ -41,7 +40,7 @@ fxx::directors::game::game()
 }
 
 
-void fxx::directors::game::set_up_level( {
+void fxx::directors::Game::set_up_level() {
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
     // Load tileset from sprite map
@@ -146,7 +145,7 @@ void fxx::directors::game::set_up_level( {
 }
 
 
-void fxx::directors::game::set_up_players() {
+void fxx::directors::Game::set_up_players() {
 	const unsigned int PLAYER_WIDTH  = 46;
 	const unsigned int PLAYER_HEIGHT = 48;
 
@@ -154,14 +153,14 @@ void fxx::directors::game::set_up_players() {
 	if (!textures.back().loadFromFile("share/textures/blues.png")) {
         throw(std::runtime_error("first character image file not found"));
 	}
-	fxx::hands::animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
+	fxx::hands::Animation run_animation1(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(0.0f, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation1);
 
     textures.emplace_back();
 	if (!textures.back().loadFromFile("share/textures/greens.png")) {
         throw(std::runtime_error("second character image file not found"));
 	}
-	fxx::hands::animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
+	fxx::hands::Animation run_animation2(&textures.back(), 6, 1.0f / 10.0f);
 	players.emplace_back(PLAYER_WIDTH, 0.0f, PLAYER_WIDTH, PLAYER_HEIGHT, run_animation2);
 
     // Range-based For Loop
@@ -174,7 +173,7 @@ void fxx::directors::game::set_up_players() {
 }
 
 
-void fxx::directors::game::direct() {
+void fxx::directors::Game::direct() {
 	const float DRAW_INTERVAL = 1.0f / FRAME_RATE;
     sf::Event event;
     
@@ -209,7 +208,7 @@ void fxx::directors::game::direct() {
 }
 
 
-void fxx::directors::game::direct(float delta_time) {
+void fxx::directors::Game::direct(float delta_time) {
 	for (auto & player : players) {
 		player.run();
 	}
@@ -231,8 +230,8 @@ void fxx::directors::game::direct(float delta_time) {
 	}
 }
 
-//void fxx::directors::game::draw()
-void fxx::directors::game::draw(sf::Text& text) {
+//void fxx::directors::Game::draw()
+void fxx::directors::Game::draw(sf::Text& text) {
 	window.clear(sf::Color::White);
 	sf::Vector2f viewSize(static_cast<float>(HEIGHT * 1.0), static_cast<float>(WIDTH * 1.0));
     
@@ -242,7 +241,7 @@ void fxx::directors::game::draw(sf::Text& text) {
     float x1, x2;
     float y1, y2;
 
-    // Start of game, prevents left-hand void from entering view
+    // Start of Game, prevents left-hand void from entering view
     if      (players[0].where().x < xLeftLock) {
         x1 = xLeftLock;
         y1 = yLock;
@@ -252,7 +251,7 @@ void fxx::directors::game::draw(sf::Text& text) {
         x1 = xRightLock;
         y1 = yLock;
     }
-    // While the game is running
+    // While the Game is running
     else {
         x1 = players[0].where().x;
         y1 = yLock;
@@ -298,12 +297,12 @@ void fxx::directors::game::draw(sf::Text& text) {
 		    drawable->draw(window);
 	    }
     }
-    gameFinished = false; ////////
+    GameFinished = false; ////////
 	window.display();
 }
 
 
-void fxx::directors::game::handle_event(sf::Event event) {
+void fxx::directors::Game::handle_event(sf::Event event) {
 	if (event.type == sf::Event::Closed) {
 		window.close();
 	} else if (event.type == sf::Event::KeyPressed) {
@@ -318,7 +317,7 @@ void fxx::directors::game::handle_event(sf::Event event) {
 }
 
 
-void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
+void fxx::directors::Game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
         std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
@@ -335,7 +334,7 @@ void fxx::directors::game::handle_key_press(sf::Keyboard::Key key) {
 
 
 
-void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
+void fxx::directors::Game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
@@ -343,7 +342,7 @@ void fxx::directors::game::handle_key_release(sf::Keyboard::Key key) {
 	}
 }
 
-void fxx::directors::game::handle_mouse_click(sf::Mouse::Button button) {
+void fxx::directors::Game::handle_mouse_click(sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
         std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing)
@@ -357,7 +356,7 @@ void fxx::directors::game::handle_mouse_click(sf::Mouse::Button button) {
 	}
 }
 
-void fxx::directors::game::handle_mouse_release(sf::Mouse::Button button) {
+void fxx::directors::Game::handle_mouse_release(sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
 		players[0].cut_jump();
 	} else if (button == sf::Mouse::Right) {
@@ -365,7 +364,7 @@ void fxx::directors::game::handle_mouse_release(sf::Mouse::Button button) {
 	}
 }
 
-void fxx::directors::game::run_menu() {
+void fxx::directors::Game::run_menu() {
 	menu.draw(window);
 	window.display();
 

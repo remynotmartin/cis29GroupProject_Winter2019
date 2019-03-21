@@ -1,27 +1,25 @@
 #ifndef FXX_ACTORS_PLAYER_H
 #define FXX_ACTORS_PLAYER_H
 
-#include "fxx/actors/collidable.h"
-#include "fxx/actors/drawable.h"
-#include "fxx/actors/mobile.h"
-#include "fxx/hands/animation.h"
+#include "fxx/actors/Collidable.h"
+#include "fxx/actors/Drawable.h"
+#include "fxx/actors/Mobile.h"
+#include "fxx/hands/Animation.h"
 #include <SFML/Graphics/Texture.hpp>
 
 
 namespace fxx {
 	namespace actors {
-		class player;
+		class Player;
 	}
 }
 
-class fxx::actors::player : public fxx::actors::collidable,
-	   	public fxx::actors::drawable, public fxx::actors::mobile {
+class fxx::actors::Player : public fxx::actors::Collidable, public fxx::actors::Drawable, public fxx::actors::Mobile {
 public:
-	player(float x, float y, float width, float height,
-					const fxx::hands::animation & run_animation);
+	Player(float x, float y, float width, float height, const fxx::hands::Animation & run_animation);
 
 	virtual void act(float delta_time) override;
-	virtual void collide(fxx::actors::collidable & that) override;
+	virtual void collide(fxx::actors::Collidable & that) override;
 	virtual void draw(sf::RenderTarget & target) override;
     //int getScore() const {return score;}
     //string getName() const {return name;}
@@ -41,7 +39,7 @@ private:
 
 	float jump_time;
 
-	fxx::hands::animation run_animation;
+	fxx::hands::Animation run_animation;
 };
 
 #endif

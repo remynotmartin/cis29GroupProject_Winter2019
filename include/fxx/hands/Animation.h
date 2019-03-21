@@ -7,14 +7,14 @@
 
 namespace fxx {
 	namespace hands {
-		class animation;
+		class Animation;
 	}
 }
 
 
-class fxx::hands::animation {
+class fxx::hands::Animation {
 public:
-	animation(sf::Texture * texture, std::size_t images_count, float switch_interval);
+	Animation(sf::Texture * texture, std::size_t images_count, float switch_interval);
 
 	void play(float delta_time);
 	sf::Sprite get_active_frame() const;

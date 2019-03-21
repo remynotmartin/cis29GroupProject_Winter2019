@@ -28,8 +28,8 @@ HNDOBJ	 = $(DSRC)hands/obj/
 PRPOBJ	 = $(DSRC)props/obj/
 SRCOBJ   = ./src/obj/
 
-EXEDEPS	 = $(SRCOBJ)main.o $(DRCOBJ)game.o $(DRCOBJ)menu.o $(HNDOBJ)animation.o $(PRPOBJ)tile.o
-LIBDEP   = $(LIBOBJ)actor.o $(LIBOBJ)brick.o $(LIBOBJ)collidable.o $(LIBOBJ)drawable.o $(LIBOBJ)mobile.o $(LIBOBJ)player.o
+EXEDEPS	 = $(SRCOBJ)main.o $(DRCOBJ)Game.o $(DRCOBJ)Menu.o $(HNDOBJ)Animation.o $(PRPOBJ)Tile.o
+LIBDEP   = $(LIBOBJ)Actor.o $(LIBOBJ)Brick.o $(LIBOBJ)Collidable.o $(LIBOBJ)Drawable.o $(LIBOBJ)Mobile.o $(LIBOBJ)Player.o
 
 .PHONY : clean all run
 
@@ -42,38 +42,38 @@ $(EXE) : $(EXEDEPS) $(STTLIB)
 $(STTLIB) : $(LIBDEP)
 	ar r $(STTLIB) $(LIBDEP)
 
-$(LIBOBJ)actor.o : $(ACTSRC)actor.cpp
-	$(COMPILE) $(ACTSRC)actor.cpp -o $(LIBOBJ)actor.o
+$(LIBOBJ)Actor.o : $(ACTSRC)Actor.cpp
+	$(COMPILE) $(ACTSRC)Actor.cpp -o $(LIBOBJ)Actor.o
 
-$(LIBOBJ)brick.o : $(ACTSRC)brick.cpp
-	$(COMPILE) $(ACTSRC)brick.cpp -o $(LIBOBJ)brick.o
+$(LIBOBJ)Brick.o : $(ACTSRC)Brick.cpp
+	$(COMPILE) $(ACTSRC)Brick.cpp -o $(LIBOBJ)Brick.o
 
-$(LIBOBJ)collidable.o : $(ACTSRC)collidable.cpp
-	$(COMPILE) $(ACTSRC)collidable.cpp -o $(LIBOBJ)collidable.o
+$(LIBOBJ)Collidable.o : $(ACTSRC)Collidable.cpp
+	$(COMPILE) $(ACTSRC)Collidable.cpp -o $(LIBOBJ)Collidable.o
 
-$(LIBOBJ)drawable.o : $(ACTSRC)drawable.cpp
-	$(COMPILE) $(ACTSRC)drawable.cpp -o $(LIBOBJ)drawable.o
+$(LIBOBJ)Drawable.o : $(ACTSRC)Drawable.cpp
+	$(COMPILE) $(ACTSRC)Drawable.cpp -o $(LIBOBJ)Drawable.o
 
-$(LIBOBJ)mobile.o : $(ACTSRC)mobile.cpp
-	$(COMPILE) $(ACTSRC)mobile.cpp -o $(LIBOBJ)mobile.o
+$(LIBOBJ)Mobile.o : $(ACTSRC)Mobile.cpp
+	$(COMPILE) $(ACTSRC)Mobile.cpp -o $(LIBOBJ)Mobile.o
 
-$(LIBOBJ)player.o : $(ACTSRC)player.cpp
-	$(COMPILE) $(ACTSRC)player.cpp -o $(LIBOBJ)player.o
+$(LIBOBJ)Player.o : $(ACTSRC)Player.cpp
+	$(COMPILE) $(ACTSRC)Player.cpp -o $(LIBOBJ)Player.o
 
 $(SRCOBJ)main.o : ./src/main.cpp
 	$(COMPILE) ./src/main.cpp -o $(SRCOBJ)main.o
 
-$(DRCOBJ)menu.o : $(DRCSRC)Menu.cpp $(DRCINC)Menu.h
-	$(COMPILE) $(DRCSRC)Menu.cpp -o $(DRCOBJ)menu.o
+$(DRCOBJ)Menu.o : $(DRCSRC)Menu.cpp $(DRCINC)Menu.h
+	$(COMPILE) $(DRCSRC)Menu.cpp -o $(DRCOBJ)Menu.o
 
-$(DRCOBJ)game.o : $(DRCSRC)game.cpp $(DRCINC)game.h
-	$(COMPILE) $(DRCSRC)game.cpp -o $(DRCOBJ)game.o
+$(DRCOBJ)Game.o : $(DRCSRC)Game.cpp $(DRCINC)Game.h
+	$(COMPILE) $(DRCSRC)Game.cpp -o $(DRCOBJ)Game.o
 
-$(HNDOBJ)animation.o : $(HNDSRC)animation.cpp $(HNDINC)animation.h
-	$(COMPILE) $(HNDSRC)animation.cpp -o $(HNDOBJ)animation.o
+$(HNDOBJ)Animation.o : $(HNDSRC)Animation.cpp $(HNDINC)Animation.h
+	$(COMPILE) $(HNDSRC)Animation.cpp -o $(HNDOBJ)Animation.o
 
-$(PRPOBJ)tile.o : $(PRPSRC)tile.cpp $(PRPINC)tile.h
-	$(COMPILE) $(PRPSRC)tile.cpp -o $(PRPOBJ)tile.o
+$(PRPOBJ)Tile.o : $(PRPSRC)Tile.cpp $(PRPINC)Tile.h
+	$(COMPILE) $(PRPSRC)Tile.cpp -o $(PRPOBJ)Tile.o
 
 clean :
 	@rm -f $(SRCOBJ)main.o
