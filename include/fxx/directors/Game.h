@@ -42,24 +42,21 @@ private:
 
 	const float FALL_ACCELERATION = 200.0f; // Dan OG-spec: 128.0f
 
-	sf::Clock clock;
-	sf::RenderWindow window;
-
-	Menu menu;
+	sf::Clock              clock;
+	sf::RenderWindow       window;
+	Menu                   menu;
 	fxx::hands::Randomizer randomizer;
+	activity               active_activity;
 
-	activity active_activity;
-
-	std::vector<fxx::actors::Actor *> actors;
+	std::vector<fxx::actors::Actor *>      actors;
 	std::vector<fxx::actors::Collidable *> collidables;
-	std::vector<fxx::actors::Drawable *> drawables;
-	std::vector<fxx::actors::Mobile *> mobiles;
+	std::vector<fxx::actors::Drawable *>   drawables;
+	std::vector<fxx::actors::Mobile *>     mobiles;
 
-	std::vector<fxx::props::Tile> tiles;
-	std::vector<fxx::actors::Brick> bricks;
-	std::vector<fxx::actors::Player> players;
-
-	std::vector<sf::Texture> textures;
+	std::vector<fxx::props::Tile>              tiles;
+	std::vector<fxx::actors::Brick>            bricks;
+	std::vector<fxx::actors::Player>           players;
+	std::vector<sf::Texture>                   textures;
 	std::unordered_map<std::string, sf::Music> soundMap;
 
 	void set_up_level(bool randomize);

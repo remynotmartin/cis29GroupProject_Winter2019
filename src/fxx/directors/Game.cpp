@@ -55,12 +55,17 @@ void fxx::directors::Game::set_up_level(bool randomize) {
 	}
 	// Background music
 	if (!soundMap["background"].openFromFile("share/soundEffects/play_music.ogg")) {
-        throw(std::runtime_error("background music file not found"));
+        throw(std::runtime_error("play_music.ogg file not found"));
 	}
 	soundMap["background"].setLoop(true);
+    // Remy's Background Music
+	if (!soundMap["background2"].openFromFile("share/soundEffects/play_music2.ogg")) {
+        throw(std::runtime_error("play_music2.ogg file not found"));
+	}
+    soundMap["background2"].setLoop(true);
 	// Menu music
 	if (!soundMap["menu"].openFromFile("share/soundEffects/menu_music.ogg")) {
-		throw(std::runtime_error("menu music file not found"));
+		throw(std::runtime_error("menu_music.ogg file not found"));
 	}
 	if (!soundMap["jump1"].openFromFile("share/soundEffects/jumpA.ogg")) {
         throw(std::runtime_error("jumpA.ogg sound file not found"));
@@ -71,9 +76,11 @@ void fxx::directors::Game::set_up_level(bool randomize) {
 	
 	soundMap["menu"].play();
 	soundMap["menu"].setLoop(true);
+    soundMap["jump1"].setVolume(30.f);
+    soundMap["jump2"].setVolume(30.f);
 
 	std::vector<sf::Sprite> tileset;
-	sf::Sprite tile;
+	sf::Sprite              tile;
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 5; j++) {
@@ -325,7 +332,6 @@ void fxx::directors::Game::handle_event(sf::Event event) {
 
 void fxx::directors::Game::handle_key_press(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
-        std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing) {
 		    soundMap["jump1"].play();
         }
@@ -350,7 +356,6 @@ void fxx::directors::Game::handle_key_release(sf::Keyboard::Key key) {
 
 void fxx::directors::Game::handle_mouse_click(sf::Mouse::Button button) {
 	if (button == sf::Mouse::Left) {
-        std::cout << sf::Music::Playing << std::endl;
         if (soundMap["jump1"].getStatus() != sf::Music::Playing)
 		    soundMap["jump1"].play();
 		players[0].jump();
@@ -429,7 +434,8 @@ void fxx::directors::Game::run_menu() {
                                 if (menu.getState() == Menu::MAIN_MENU) {
                                     menu.playMenuTone();
                                     soundMap["menu"].stop();
-                                    soundMap["background"].play();
+                                    //soundMap["background"].play();
+                                    soundMap["background2"].play();
                                     active_activity = activity::GAME;
                                     clock.restart();
                                 } else if (menu.getState() == Menu::HOW_TO_PLAY || menu.getState() == Menu::SHOW_SCORES) {
