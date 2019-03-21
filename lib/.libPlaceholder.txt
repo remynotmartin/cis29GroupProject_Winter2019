@@ -1,0 +1,4 @@
+This file is meant to be a placeholder for the lib folder,
+so that when this repository is freshly cloned somewhere,
+this folder will exist for make to store the static library
+libactors.a.
