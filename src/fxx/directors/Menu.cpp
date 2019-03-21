@@ -64,10 +64,8 @@ void fxx::directors::Menu::MoveDown() {
     menu[selectedIdx].setFillColor(sf::Color::White);
     if (state == MAIN_MENU)
         selectedIdx = (selectedIdx + 1) % NUMBER_OF_ITEMS;
-    else if (state == HOW_TO_PLAY || state == SHOW_SCORES)
-        selectedIdx = 0;
     else
-        selectedIdx = 1;
+        selectedIdx = 0;
 
     menu[selectedIdx].setFillColor(sf::Color::Red);
 }
@@ -108,13 +106,12 @@ void fxx::directors::Menu::makeMenu() {
 }
 
 //ask player name before game starts
-//void fxx::directors::Menu::askName() {
 void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     state = GET_NAME;
     //text
     text.setFont(font);
-    text.setString("Please enter your name: ");
-    text.setCharacterSize(20);
+    text.setString("Enter your name: ");
+    text.setCharacterSize(30);
     text.setFillColor(sf::Color::White);
     text.setPosition(sf::Vector2f(0.0f  , 0.0f));
     
@@ -134,7 +131,7 @@ void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
     menu[0].setFillColor(sf::Color::White);
-    menu[0].setString("Start the Game");
+    menu[0].setString("Game Start");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
 }
 
@@ -156,7 +153,7 @@ void fxx::directors::Menu::goToHowToPlay() {
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
     menu[0].setFillColor(sf::Color::White);
-    menu[0].setString("go back to main");
+    menu[0].setString("Go Back To Main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
 
 }
@@ -195,7 +192,7 @@ void fxx::directors::Menu::displayScores() {
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
     menu[0].setFillColor(sf::Color::White);
-    menu[0].setString("go back to main");
+    menu[0].setString("Go Back To Main");
     menu[0].setPosition(sf::Vector2f((width/2) - (menu[0].getLocalBounds().width / 2) , height / 10 * 8 ));
 
 }
@@ -218,6 +215,5 @@ std::string fxx::directors::Menu::getScores() {
 }
 
 void fxx::directors::Menu::playMenuTone() {
-    std::cout << "Playing menu tone\n";
     menuTone.play();
 }
