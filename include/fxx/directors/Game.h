@@ -23,7 +23,7 @@ namespace fxx {
 
 class fxx::directors::Game {
 public:
-	Game();
+	Game(bool randomize);
 
 private:
 	enum class activity {
@@ -62,7 +62,7 @@ private:
 	std::vector<sf::Texture> textures;
 	std::unordered_map<std::string, sf::Music> soundMap;
 
-	void set_up_level();
+	void set_up_level(bool randomize);
 	void set_up_players();
 
 	void direct();

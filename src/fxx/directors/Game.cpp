@@ -11,12 +11,12 @@
 #include <stdexcept>
 #include <ctime>
 
-fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT), randomizer(170, 13) {
+fxx::directors::Game::Game(bool randomize) : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu(WIDTH, HEIGHT), randomizer(170, 13) {
 	active_activity = activity::TITLE;
 
 	textures.resize(6);
 
-	set_up_level();
+	set_up_level(randomize);
 	set_up_players();
 
 	menu.makeMenu();
@@ -40,10 +40,12 @@ fxx::directors::Game::Game() : window(sf::VideoMode(WIDTH, HEIGHT), TITLE), menu
 }
 
 
-void fxx::directors::Game::set_up_level() {
-	std::ofstream new_level_file("share/levels/guts", std::ios::trunc | std::ios::binary);
-	new_level_file << randomizer;
-	new_level_file.close();
+void fxx::directors::Game::set_up_level(bool randomize) {
+	if (randomize) {
+		std::ofstream new_level_file("share/levels/guts", std::ios::trunc | std::ios::binary);
+		new_level_file << randomizer;
+		new_level_file.close();
+	}
 
 	const unsigned int TILE_WIDTH = 32;
 	textures.emplace_back();
