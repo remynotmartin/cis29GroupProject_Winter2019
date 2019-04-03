@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jump, jump! level editor</title>
+	<style>
+@font-face {
+	font-family: '04b03';
+	src: url('share/fonts/04b03.ttf');
+}
+
+* {
+	font: 16px '04b03';
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin: 1em;
+}
+
+td {
+	border: 1px solid;
+	line-height: 0px;
+	padding: 0px;
+}
+
+img {
+	width: 40px;
+	height: 40px;
+}
+
+textarea {
+	width: 80em;
+	height: 24em;
+}
+	</style>
+</head>
+<body>
+	<div><table id="map"></table></div>
+	<div><table id="tiles"></table></div>
+	<p>width: <input name="width" type="number" value="200" /></p>
+	<p>height: <input name="height" type="number" value="13" /></p>
+	<p><input type="button" value="new" onclick="newLevel();" /></p>
+	<p><input type="button" value="randomize" onclick="randomLevel();" /></p>
+	<p><input type="button" value="dump" onclick="dumpLevel();" /></p>
+	<textarea id="dump"></textarea>
+	<script>
+let dump = document.getElementById("dump");
+let table = document.getElementById("map");
+let easel = table.parentNode;
+let t_2 = document.getElementById("tiles");
+let palette = t_2.parentNode;
+let map = [];
+let tile = [0];
+let tiles = [];
+let images = [];
+
+let toggle = 0;
+
+function newLevel() {
+	let width = document.getElementsByName("width")[0].value;
+	let height = document.getElementsByName("height")[0].value;
+	easel.removeChild(table);
+	table = document.createElement("table");
+	easel.appendChild(table);
+	palette.removeChild(t_2);
+	t_2 = document.createElement("table");
+	palette.appendChild(t_2);
+	map = [];
+	tile = [5];
+	tiles = [];
+
+
+	let row = document.createElement("tr");
+	t_2.appendChild(row);
+
+	for (let i = 0; i < 40; i++) {
+		let cell = document.createElement("td");
+		row.appendChild(cell);
+
+		let image = document.createElement("img");
+
+		image.src = i + ".png";
+
+		cell.appendChild(image);
+
+		image.onmousedown = () => {
+			tile = [i];
+		};
+	}
+
+	for (let i = 0; i < height; i++) {
+		let row = document.createElement("tr");
+		table.appendChild(row);
+		images.push([]);
+		map.push([]);
+
+		for (let j = 0; j < width; j++) {
+			let cell = document.createElement("td");
+			row.appendChild(cell);
+
+			let image = document.createElement("img");
+			cell.appendChild(image);
+			image.src = tile[0] + ".png";
+
+			map[i].push(tile[0]);
+			images[i].push(image);
+
+			image.onmousedown = () => {
+				image.src = tile[0] + ".png";
+				map[i][j] = tile[0];
+				toggle = (toggle + 1) % 2;
+			};
+
+			image.onmouseover = () => {
+				if (toggle) {
+					image.src = tile[0] + ".png";
+					map[i][j] = tile[0];
+				}
+			};
+		}
+
+		table.appendChild(row);
+	}
+}
+
+function randomLevel() {
+	let width = document.getElementsByName("width")[0].value;
+	let height = document.getElementsByName("height")[0].value;
+	let y = height - 1;
+	let next = Math.floor((Math.random() * 15));
+	let sign = 1;
+
+	for (let j = 0; j < width; j++) {
+		if (j % next == 0) {
+			y += sign * Math.floor(Math.random() * 5);
+
+			if (y > height - 1 || y < 0) {
+				y = height - 1;
+			}
+
+			sign *= -1;
+			next = Math.floor((Math.random() * 15) + 5);
+		}
+
+		for (let i = 0; i < height; i++) {
+			if (i < y) {
+				images[i][j].src = "5.png";
+				map[i][j] = 5;
+			} else {
+				images[i][j].src = "9.png";
+				map[i][j] = 9;
+			}
+		}
+	}
+}
+
+function dumpLevel() {
+	let width = document.getElementsByName("width")[0].value;
+	width = parseInt(width).toString(16);
+	width = "\\x" + "00".substr(width.length) + width;
+	let height = document.getElementsByName("height")[0].value;
+	height = parseInt(height).toString(16);
+	height = "\\x" + "00".substr(height.length) + height;
+
+	dump.value = "\\x00" + width + height;
+
+	let i = 0;
+	let j = 0;
+	let k = 0;
+	let previous = -1;
+	let cell = 0;
+
+	while (i < map.length) {
+		let cell = map[i][j];
+		k++;
+
+		if (i == 0 && j == 0) {
+			previous = cell;
+		}
+
+		if (cell != previous || ((i == map.length - 1) && (j == map[0].length - 1))) {
+			if (!((i == map.length - 1) && (j == map[0].length - 1))) {
+				k--;
+			}
+
+			previous = previous.toString(16);
+			previous = "\\x" + "00".substr(previous.length) + previous;
+			k = k.toString(16);
+			k = "\\x" + "00".substr(k.length) + k;
+			dump.value += k + previous;
+			previous = cell;
+			k = 0;
+
+			if (!((i == map.length - 1) && (j == map[0].length - 1))) {
+				continue;
+			}
+		}
+
+		j++;
+
+		if (j >= map[0].length) {
+			i++;
+			j = 0;
+		}
+	}
+}
+	</script>
+</body>
