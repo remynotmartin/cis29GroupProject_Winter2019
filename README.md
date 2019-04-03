@@ -4,7 +4,7 @@ A very incomplete game project. It is a two-player runner with randomly generate
 
 ## Requirements
 
-Requires [SFML](https://www.sfml-dev.org/). Optionally, the project can be built using make.
+Requires [SFML](https://www.sfml-dev.org/). Optionally requires make (for building), and a web browser and Python (for level editing).
 
 ## Build instructions
 
@@ -42,4 +42,4 @@ Build.
 
 To use custom levels, pass 0 as a command-line argument.
 
-To use save a level from the level editor, press the dump button and paste the string in the dump.py utility. Python required.
+To use save a level from the level editor, press the dump button and paste the string in the dump.py utility.
