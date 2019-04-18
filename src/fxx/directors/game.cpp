@@ -229,8 +229,8 @@ void fxx::directors::game::direct(float delta_time) {
 			}
 		}
 	}
-    std::cout << "where is player1" << players[0].where().x << std::endl;
-    std::cout << "where is player2" << players[1].where().x << std::endl;
+    std::cout << "where is player1 " << players[0].where().x << std::endl;
+    std::cout << "where is player2 " << players[1].where().x << std::endl;
 
     if (players[0].where().x == 5010.0f || players[1].where().x == 5010.0f) {
 	    std::cout << "game over" << std::endl;
