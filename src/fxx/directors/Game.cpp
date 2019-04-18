@@ -79,6 +79,7 @@ void fxx::directors::Game::set_up_level(bool randomize) {
     soundMap["jump1"].setVolume(30.f);
     soundMap["jump2"].setVolume(30.f);
 
+
 	std::vector<sf::Sprite> tileset;
 	sf::Sprite              tile;
 
@@ -354,8 +355,10 @@ void fxx::directors::Game::handle_key_press(sf::Keyboard::Key key) {
 
 void fxx::directors::Game::handle_key_release(sf::Keyboard::Key key) {
 	if (key == sf::Keyboard::Z) {
+		soundMap["jump1"].stop();
 		players[0].cut_jump();
 	} else if (key == sf::Keyboard::M) {
+		soundMap["jump2"].stop();
 		players[1].cut_jump();
 	}
 }
