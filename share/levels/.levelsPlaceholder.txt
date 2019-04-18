@@ -1,0 +1,3 @@
+Howdy, this file is simply a placeholder for this directory, so that the 
+program has a place to put the randomly-generated level file when the
+repository is freshly cloned. Please don't delete this! 

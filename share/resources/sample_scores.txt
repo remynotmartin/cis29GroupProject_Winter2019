@@ -1,5 +1,27 @@
-1. Elder Price    89
-2. Simon Rich     70
-3. Michael Lewis  40
-4. Kenji Lopez    30
-5. Kyuji Graham   20
+Time: Wed Mar 20 23:27:41 2019
+Player1: Anana Player2: mike
+
+Time: Wed Mar 20 23:28:09 2019
+Player1: sam Player2: peter
+
+Time: Thu Mar 21 00:05:16 2019
+Player1: hi Player2: no name
+
+Time: Thu Mar 21 00:05:19 2019
+Player1: hi Player2: no name
+
+Time: Thu Mar 21 00:06:43 2019
+Player1: hel Player2: no name
+
+Time: Thu Mar 21 00:06:43 2019
+Player1: hel Player2: no name
+
+Time: Thu Mar 21 09:40:51 2019
+Player1: dan Player2: re,y
+
+Time: Thu Mar 21 11:06:14 2019
+Player1: Remy Player2: Habin
+
+Time: Thu Mar 21 11:06:15 2019
+Player1: Remy Player2: Habin
+

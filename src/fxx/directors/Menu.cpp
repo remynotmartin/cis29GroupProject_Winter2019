@@ -76,11 +76,23 @@ void fxx::directors::Menu::MoveDown() {
 int fxx::directors::Menu::getSelectedIdx() {
     return selectedIdx;
 }
-/*
-void fxx::directors::Menu::writeToFile() {
-    ofstream fout("share/resources/sample_instruction.txt");
+
+//write player data to file
+void fxx::directors::Menu::writeToFile(std::string p1name, std::string p2name) {
     
-}*/
+    std::ofstream fout("share/resources/sample_scores.txt", std::ios_base::app);
+    if(!fout) {
+        std::cerr << "Unable to sample_scores.txt file " << std::endl;
+        exit(1);
+    }
+    
+    time_t ltime;
+    ltime = time(NULL);
+    fout << "Time: " << asctime(localtime(&ltime));
+    fout << "Player1: " << p1name << " Player2: " << p2name << std::endl << std::endl;
+    fout.close();
+    
+}
 // make menu to display
 void fxx::directors::Menu::makeMenu() {
     state = MAIN_MENU;
@@ -97,7 +109,7 @@ void fxx::directors::Menu::makeMenu() {
     menu[2].setFont(font);
     menu[2].setCharacterSize(40);
     menu[2].setFillColor(sf::Color::White);
-    menu[2].setString("Scores");
+    menu[2].setString("Player Time Log");
     menu[2].setPosition(sf::Vector2f((width/2) - (menu[2].getLocalBounds().width / 2), height / (NUMBER_OF_ITEMS + 1) * 3));
     menu[3].setFont(font);
     menu[3].setCharacterSize(40);
@@ -133,6 +145,9 @@ void fxx::directors::Menu::askName(std::string p1name, std::string p2name) {
     textname2.setFillColor(sf::Color::Blue);
     textname2.setPosition(20, 80);
 
+    if (p2name.length() > 0 && p1name.length() > 0) {
+        writeToFile(p1name, p2name); 
+    }
     
     menu[0].setFont(font);
     menu[0].setCharacterSize(40);
@@ -182,6 +197,7 @@ std::string fxx::directors::Menu::getInstruction() {
     return text;
 }
 
+// Display play log history to the screen
 void fxx::directors::Menu::displayScores() {
     
     state = SHOW_SCORES;
@@ -192,7 +208,7 @@ void fxx::directors::Menu::displayScores() {
     text.setString(scores.c_str());
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f(0.0f , 0.0f));
+    text.setPosition(sf::Vector2f(0.0f , 10.0f));
     
     // menu
     menu[0].setFont(font);
@@ -203,6 +219,7 @@ void fxx::directors::Menu::displayScores() {
 
 }
 
+// read a file to create a long string of player log history
 std::string fxx::directors::Menu::getScores() {
     
     std::ifstream fin("share/resources/sample_scores.txt");
@@ -220,6 +237,7 @@ std::string fxx::directors::Menu::getScores() {
     
 }
 
+// paly menu tone
 void fxx::directors::Menu::playMenuTone() {
     menuTone.play();
 }

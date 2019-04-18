@@ -47,3 +47,6 @@ CMakeLists.txt
 cmake-build-debug/*
 
 *.DS_Store
+
+# This binary file is created by the program every time it runs.
+./share/levels/guts
